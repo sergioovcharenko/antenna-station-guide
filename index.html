@@ -95,7 +95,7 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
 
         <div class="subpage active" id="overview">
           <div class="overview-grid">
-            <div class="overview-card">
+            <div class="overview-card" id="stationModelCard">
               <div class="muted-title">Модель антенної станції</div>
               <div class="big-value">GS30</div>
               <div class="line">Серійний: 032-109</div>
@@ -176,6 +176,7 @@ const badText='Використовуються ненадійні частот�
 const normalText='Загалом доступно 47 відеоканалів автоматичного пошуку вільної частоти.';
 const keyText='Після цього усі борти, які були прив’язані до АС — <strong>відв’яжуться</strong>, тому їх потрібно буде <strong>прив’язати (забіндити) наново</strong>.';
 const txWarning='<strong>ПЕРЕДАВАЧ ЗАВЖДИ ПОВИНЕН БУТИ НА 100%</strong>';
+const stationModelText='<strong>Модель антенної станції:</strong> GS30<br><strong>Серійний номер:</strong> 032-109';
 
 function showTip(html,x,y){
   tooltip.innerHTML=html; tooltip.classList.add('show');
@@ -278,6 +279,11 @@ lowRange.addEventListener('input',e=>sliderChanged(lowRange,lowValue,e));
 highRange.addEventListener('input',e=>sliderChanged(highRange,highValue,e));
 lowRange.addEventListener('change',hideTip);
 highRange.addEventListener('change',hideTip);
+
+const stationModelCard=document.getElementById('stationModelCard');
+stationModelCard.addEventListener('mouseenter',e=>showTip(stationModelText,e.clientX,e.clientY));
+stationModelCard.addEventListener('mousemove',e=>showTip(stationModelText,e.clientX,e.clientY));
+stationModelCard.addEventListener('mouseleave',hideTip);
 
 document.getElementById('applyTx').addEventListener('click',()=>{
   savedLow=Number(lowRange.value); savedHigh=Number(highRange.value);
