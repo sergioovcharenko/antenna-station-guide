@@ -137,7 +137,8 @@
 }
 .q-menu-backdrop.show{display:flex}
 .q-menu-panel{
-  width:min(420px,calc(100vw - 32px));
+  width:300px;
+  max-width:calc(100vw - 28px);
   background:#fff;
   color:#111;
   border:1px solid #111;
@@ -149,8 +150,8 @@
 @keyframes qMenuIn{to{transform:translateY(0)}}
 .q-menu-head{
   display:grid;
-  grid-template-columns:1fr 130px;
-  min-height:70px;
+  grid-template-columns:1fr 96px;
+  min-height:54px;
   border-bottom:1px solid #111;
   background:#d8d8d8;
 }
@@ -158,61 +159,61 @@
   display:flex;
   align-items:center;
   padding:0 16px;
-  font-size:30px;
+  font-size:22px;
   font-weight:400;
 }
 .q-menu-close{
   border:0;
   border-left:1px solid #111;
   background:#fff;
-  font-size:25px;
+  font-size:19px;
   cursor:pointer;
 }
 .q-menu-close:hover{background:#f4f4f4}
-.q-menu-body{padding:34px 34px 24px}
+.q-menu-body{padding:22px 22px 16px}
 .q-menu-item{
-  min-height:90px;
+  min-height:66px;
   display:grid;
-  grid-template-columns:76px 1fr;
+  grid-template-columns:56px 1fr;
   align-items:center;
-  margin-bottom:16px;
+  margin-bottom:11px;
   background:#dcdcdc;
-  padding:10px 14px;
-  font-size:27px;
+  padding:8px 10px;
+  font-size:20px;
 }
 .q-menu-item:last-of-type{margin-bottom:0}
 .q-menu-icon{
-  width:62px;
-  height:62px;
+  width:46px;
+  height:46px;
   display:grid;
   place-items:center;
 }
-.q-menu-icon svg{width:58px;height:58px;display:block}
+.q-menu-icon svg{width:44px;height:44px;display:block}
 .q-menu-app-icon{
-  width:62px;
-  height:62px;
-  border-radius:16px;
+  width:46px;
+  height:46px;
+  border-radius:12px;
   background:#552979;
   border:3px solid #fff;
   box-shadow:0 0 0 1px rgba(0,0,0,.18);
   display:grid;
   place-items:center;
 }
-.q-menu-app-icon svg{width:46px;height:46px}
+.q-menu-app-icon svg{width:34px;height:34px}
 .q-menu-version{
-  padding:18px 12px 24px;
+  padding:13px 10px 17px;
   text-align:center;
-  font-size:20px;
+  font-size:15px;
   line-height:1.35;
 }
 @media(max-width:700px){
-  .q-menu-panel{width:min(390px,calc(100vw - 20px))}
-  .q-menu-head{grid-template-columns:1fr 110px;min-height:62px}
-  .q-menu-title{font-size:24px}
-  .q-menu-close{font-size:22px}
-  .q-menu-body{padding:24px 24px 18px}
-  .q-menu-item{font-size:22px;min-height:78px;grid-template-columns:66px 1fr}
-  .q-menu-version{font-size:17px}
+  .q-menu-panel{width:min(300px,calc(100vw - 20px))}
+  .q-menu-head{grid-template-columns:1fr 88px;min-height:50px}
+  .q-menu-title{font-size:20px}
+  .q-menu-close{font-size:18px}
+  .q-menu-body{padding:18px 18px 13px}
+  .q-menu-item{font-size:18px;min-height:60px;grid-template-columns:50px 1fr}
+  .q-menu-version{font-size:14px}
 }
 
 
@@ -458,9 +459,19 @@ Large</span>
   const hotspot=document.getElementById('qMenuHotspot');
   const backdrop=document.getElementById('qMenuBackdrop');
   const close=document.getElementById('qMenuClose');
-  if(!hotspot || !backdrop || !close) return;
+  const panel=backdrop ? backdrop.querySelector('.q-menu-panel') : null;
+  const image=document.getElementById('qgImage');
+  if(!hotspot || !backdrop || !close || !panel) return;
+
+  function scaleQMenuToImage(){
+    if(!image) return;
+    const imageWidth=image.getBoundingClientRect().width;
+    const panelWidth=Math.max(240,Math.min(340,imageWidth*0.22));
+    panel.style.width=panelWidth+'px';
+  }
 
   function openQMenu(){
+    scaleQMenuToImage();
     backdrop.classList.add('show');
     backdrop.setAttribute('aria-hidden','false');
     close.focus();
@@ -484,6 +495,9 @@ Large</span>
   });
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&backdrop.classList.contains('show')) closeQMenu();
+  });
+  window.addEventListener('resize',()=>{
+    if(backdrop.classList.contains('show')) scaleQMenuToImage();
   });
 })();
 </script>
