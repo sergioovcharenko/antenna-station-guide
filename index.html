@@ -10,7 +10,7 @@
 .brand{width:216px;height:100%;display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid #eceff2;font-size:16px;font-weight:700;color:#20252b}
 .wifi{font-size:28px;color:#ff5d2a}.status{display:flex;gap:12px;align-items:center;padding-left:38px;font-size:16px;color:#7b838c}.status-item{display:flex;align-items:center;gap:7px;padding:9px 10px;border-radius:10px;transition:.16s;cursor:default}.status-item.hovered.connected{background:#eefbf4;box-shadow:0 0 0 3px rgba(37,184,125,.13),0 0 18px rgba(37,184,125,.16)}.status-item.hovered.disconnected{background:#f4f6f8;box-shadow:0 0 0 3px rgba(150,160,170,.10),0 0 18px rgba(150,160,170,.12)}.status-item.hovered.searching{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.16),0 0 18px rgba(243,163,26,.18)}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#dfe4ea}.dot.green,.dot--green{background:#25b87d}.dot--gray{background:#dfe4ea}.dot--orange{background:#f3a31a}
 .warn{display:flex;align-items:center;gap:6px;padding:10px 12px;border-radius:10px;color:#f3a31a;transition:.18s}.warn.active{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.18),0 0 24px rgba(243,163,26,.28)}
-.lang{margin-left:auto;display:flex;align-items:center;gap:14px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}
+.lang{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}.lang-btn{border:0;background:transparent;color:#7b838c;padding:14px 16px;border-radius:10px;cursor:pointer;font-weight:600}.lang-btn.active{background:#fff4ef;color:#ef6035}.lang-btn:hover{background:#f7f8fa}
 .body{display:flex}.side{width:216px;background:#fff;min-height:calc(100vh - 76px);padding:14px 10px}
 .nav{padding:18px 18px;font-size:14px;color:#6f7782;font-weight:600;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.16s}.nav.active{background:#fff1ec;color:#ef6035}.nav.dim{color:#a9b0b8;cursor:default;font-weight:500}
 .content{flex:1;padding:22px 34px 70px}.page{display:none}.page.active{display:block}
@@ -143,7 +143,10 @@ h1{font-size:32px;margin:18px 0 10px}
       <div class="status-item disconnected" id="statusSearch"><i class="dot dot--gray"></i><span>Пошук</span></div>
       <span class="warn" id="warnTop">⚠ Попередження</span>
     </div>
-    <div class="lang"><b>UA</b><span>EN</span></div>
+    <div class="lang" aria-label="Language">
+      <button class="lang-btn active" id="langUA" type="button">UA</button>
+      <button class="lang-btn" id="langEN" type="button">EN</button>
+    </div>
   </div>
 
   <div class="body">
@@ -351,8 +354,158 @@ const droneDisconnectedText='<strong>Дрон:</strong> не підключен�
 const searchEnabledText='<strong>Пошук:</strong> увімкнений.<br>Пошук вмикається тільки тоді, коли АС переведена в режим пошуку.';
 const searchDisabledText='<strong>Пошук:</strong> вимкнений';
 
+
+let currentLang='uk';
+const langUA=document.getElementById('langUA');
+const langEN=document.getElementById('langEN');
+
+const translationPairs=[
+  ['Панель керування','Control Panel'],
+  ['Антенна станція — інтерактивна інструкція','Ground Station — Interactive Guide'],
+  ['Антенна станція','Ground Station'],
+  ['Попередження','Warning'],
+  ['Підключіться до дрона','Connect to drone'],
+  ["Зв'язок",'Connection'],
+  ['Пошук, підключення та налаштування діапазонів','Search, connection and band settings'],
+  ["З'єднання",'Connection'],
+  ['Режим пошуку вимкнено','Search mode is off'],
+  ['Режим пошуку увімкнено','Search mode is on'],
+  ['Увімкніть режим пошуку, щоб знайти доступні борти.','Enable search mode to find available drones.'],
+  ['Діапазони керування (MHz)','Control bands (MHz)'],
+  ['Відео діапазони (MHz)','Video bands (MHz)'],
+  ['Нижній діапазон','Lower band'],
+  ['Верхній діапазон','Upper band'],
+  ['Режим вибору частот','Frequency selection mode'],
+  ['Напівавтоматичний','Semi-automatic'],
+  ['Ручний','Manual'],
+  ['Ручні частоти (3)','Manual frequencies (3)'],
+  ['Заборонені частоти','Excluded frequencies'],
+  ['Ширина каналу','Channel width'],
+  ['Ключі','Keys'],
+  ['Згенерувати нові ключі','Generate new keys'],
+  ['Огляд','Overview'],
+  ['Передавач керування','Control transmitter'],
+  ['Модель антенної станції','Ground station model'],
+  ['Серійний номер:','Serial number:'],
+  ['Серійний:','Serial:'],
+  ['Апаратна версія','Hardware version'],
+  ['Програмна версія','Software version'],
+  ['Версії','Versions'],
+  ['TX потужність (%)','TX power (%)'],
+  ['ЗБЕРЕГТИ','SAVE'],
+  ['Застосувати','Apply'],
+  ['Дрон','Drone'],
+  ['Налаштування підключеного борту','Connected drone settings'],
+  ['Поточний борт','Current drone'],
+  ['Назва борту','Drone name'],
+  ['Статус','Status'],
+  ["Прив'язка",'Binding'],
+  ['Підключити','Connect'],
+  ['Прив’язати дрон','Bind drone'],
+  ['Відключити','Disconnect'],
+  ['Не підключено','Not connected'],
+  ['Підключено','Connected'],
+  ['Не виконано','Not completed'],
+  ['Виконано','Completed'],
+  ['Успішно','Success'],
+  ['Налаштування успішно збережено.','Settings saved successfully.'],
+  ['Параметри uplink успішно збережено.','Uplink parameters saved successfully.'],
+  ['Діапазони збережено. Для застосування на АС згенеруйте нові ключі.','Bands saved. Generate new keys to apply them to the ground station.'],
+  ['Прив’язку дрона виконано успішно. Перезавантажте дрон, щоб застосувати зміни.','Drone binding completed successfully. Restart the drone to apply the changes.'],
+  ['Виберіть борт, який потрібно підключити.','Select the drone you want to connect.'],
+  ['Прив’язати вибраний борт до антенної станції.','Bind the selected drone to the ground station.'],
+  ['Від’єднати поточний борт.','Disconnect the current drone.'],
+  ['Відкрити вкладку налаштувань дрона.','Open the drone settings tab.'],
+  ['Антенна станція:','Ground Station:'],
+  ['підключена','connected'],
+  ['від’єднана','disconnected'],
+  ['Дрон:','Drone:'],
+  ['підключений','connected'],
+  ['не підключений','not connected'],
+  ['Пошук:','Search:'],
+  ['увімкнений.','enabled.'],
+  ['вимкнений','disabled'],
+  ['Пошук вмикається тільки тоді, коли АС переведена в режим пошуку.','Search is enabled only when the ground station is switched to search mode.'],
+  ['Використовуються ненадійні частоти. При їх використанні на землі відеопередавач може грітись. По дефолту вони прибрані.','Unreliable frequencies are in use. When used on the ground, the video transmitter may heat up. They are excluded by default.'],
+  ['Загалом доступно 47 відеоканалів автоматичного пошуку вільної частоти.','A total of 47 video channels are available for automatic free-frequency search.'],
+  ['Ця ненадійна частота вимкнена.','This unreliable frequency is disabled.'],
+  ['Вона знаходиться в нижньому списку і зараз не використовується.','It is in the lower list and is not currently in use.'],
+  ['Ці канали можна вибирати з нашого списку доступних відеоканалів.','These channels can be selected from the available video channel list.'],
+  ['Режим вибору частот:','Frequency selection mode:'],
+  ['Напівавтоматичний — по дефолту. Другий режим — Ручний.','Semi-automatic is the default. The second mode is Manual.'],
+  ['Можна звужувати або розширювати діапазон.','The band can be narrowed or widened.'],
+  ['Доступні межі:','Available limits:'],
+  ['Поточна ширина:','Current width:'],
+  ['Після зміни обов’язково натисніть «ЗБЕРЕГТИ».','After making changes, you must press “SAVE”.'],
+  ['Щоб нові налаштування вступили в силу на АС, після збереження потрібно','To apply the new settings to the ground station, after saving you need to'],
+  ['згенерувати нові ключі','generate new keys'],
+  ['ПЕРЕДАВАЧ ЗАВЖДИ ПОВИНЕН БУТИ НА 100%','THE TRANSMITTER MUST ALWAYS BE SET TO 100%'],
+  ['ПОТРІБНО РАЗ ПЕРЕВІРЯТИ ЗНАЧЕННЯ ПЕРЕДАВАЧА! ЩОБ БУЛО 100%','ALWAYS CHECK THE TRANSMITTER VALUE! IT MUST BE 100%'],
+  ['Модель антенної станції:','Ground station model:'],
+  ['Після цього усі борти, які були прив’язані до АС —','After this, all drones that were bound to the ground station will be'],
+  ['відв’яжуться','unbound'],
+  [', тому їх потрібно буде',', so they will need to be'],
+  ['прив’язати (забіндити) наново','bound again'],
+  ['дає більш стійку відеопередачу до 15 км.','provides more stable video transmission up to 15 km.'],
+  ['можна використовувати, якщо потрібно більше 15+ км, але відеопередача може трішки фрізитися.','can be used for distances over 15 km, but the video feed may freeze slightly.'],
+  ['Частота прибрана зі списку доступних','Frequency removed from the available list'],
+  ['Частота доступна','Frequency available']
+];
+
+function translateString(value,target=currentLang){
+  if(!value) return value;
+  const pairs=target==='en'
+    ? [...translationPairs].sort((a,b)=>b[0].length-a[0].length)
+    : [...translationPairs].sort((a,b)=>b[1].length-a[1].length).map(([ua,en])=>[en,ua]);
+  let out=value;
+  for(const [from,to] of pairs) out=out.split(from).join(to);
+  return out;
+}
+
+function translateDom(root=document.body){
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    if(node.parentElement && ['SCRIPT','STYLE'].includes(node.parentElement.tagName)) return;
+    node.nodeValue=translateString(node.nodeValue,currentLang);
+  });
+  document.documentElement.lang=currentLang==='en'?'en':'uk';
+  document.title=currentLang==='en'?'Ground Station — Interactive Guide':'Антенна станція — інтерактивна інструкція';
+  langUA.classList.toggle('active',currentLang==='uk');
+  langEN.classList.toggle('active',currentLang==='en');
+}
+
+function setLanguage(lang){
+  currentLang=lang;
+  translateDom(document.body);
+  try{ localStorage.setItem('antenna-guide-lang',lang); }catch(e){}
+}
+
+langUA.addEventListener('click',()=>setLanguage('uk'));
+langEN.addEventListener('click',()=>setLanguage('en'));
+
+const languageObserver=new MutationObserver(mutations=>{
+  if(currentLang!=='en') return;
+  for(const m of mutations){
+    if(m.type==='characterData'){
+      m.target.nodeValue=translateString(m.target.nodeValue,'en');
+    }else{
+      m.addedNodes.forEach(n=>{
+        if(n.nodeType===Node.TEXT_NODE) n.nodeValue=translateString(n.nodeValue,'en');
+        else if(n.nodeType===Node.ELEMENT_NODE) translateDom(n);
+      });
+    }
+  }
+});
+languageObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
+try{
+  const savedLang=localStorage.getItem('antenna-guide-lang');
+  if(savedLang==='en') currentLang='en';
+}catch(e){}
+
 function showTip(html,x,y){
-  tooltip.innerHTML=html; tooltip.classList.add('show');
+  tooltip.innerHTML=translateString(html,currentLang); tooltip.classList.add('show');
   requestAnimationFrame(()=>{
     const r=tooltip.getBoundingClientRect();
     let left=x+16, top=y+18;
@@ -365,7 +518,7 @@ function showTip(html,x,y){
 function hideTip(){tooltip.classList.remove('show')}
 function setWarning(on){warnTop.classList.toggle('active',on)}
 function showToast(msg){
-  toastMsg.textContent=msg;
+  toastMsg.textContent=translateString(msg,currentLang);
   toast.classList.add('show');
   clearTimeout(showToast.timer);
   showToast.timer=setTimeout(()=>toast.classList.remove('show'),3500);
@@ -735,6 +888,7 @@ window.addEventListener('resize',hideTip);
 renderTopStatuses();
 renderDroneSearch();
 render();
+translateDom(document.body);
 </script>
 </body>
 </html>
