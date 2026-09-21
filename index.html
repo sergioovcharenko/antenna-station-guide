@@ -3,58 +3,91 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Навчальна панель</title>
+<title>Навчальні матеріали</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif}
-body{
-  min-height:100vh;display:grid;place-items:center;padding:28px;
-  background:radial-gradient(circle at 50% 0,#343941 0,#20242a 46%,#14171b 100%);
-  color:#fff
+:root{
+  --bg:#f3f5f7;
+  --card:#ffffff;
+  --text:#252a30;
+  --muted:#7b858f;
+  --border:#e1e6ea;
+  --accent:#ef5b25;
 }
-.wrap{width:min(980px,100%);text-align:center}
-h1{font-size:clamp(30px,5vw,54px);margin:0 0 12px;letter-spacing:.02em}
-.sub{font-size:clamp(16px,2vw,21px);color:#aeb5bd;margin-bottom:42px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
-.card{
-  min-height:330px;border-radius:30px;text-decoration:none;color:#fff;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.055);
-  box-shadow:0 22px 60px rgba(0,0,0,.28);
-  transition:.2s ease;overflow:hidden;position:relative
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+.wrap{width:min(930px,100%);text-align:center}
+h1{font-size:38px;margin:0 0 10px;font-weight:800}
+.subtitle{font-size:19px;color:var(--muted);margin-bottom:38px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.tile{
+  aspect-ratio:1/1;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:28px;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:34px;
+  box-shadow:0 10px 30px rgba(26,32,40,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  position:relative;
+  overflow:hidden;
 }
-.card:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.09),transparent 55%);pointer-events:none}
-.card:hover,.card:focus-visible{transform:translateY(-7px);border-color:rgba(255,255,255,.3);box-shadow:0 30px 70px rgba(0,0,0,.36)}
+.tile::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 22%,rgba(239,91,37,.12),transparent 52%);
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.tile:hover,.tile:focus-visible{
+  transform:translateY(-5px);
+  border-color:#efb49f;
+  box-shadow:0 18px 42px rgba(26,32,40,.13),0 0 0 4px rgba(239,91,37,.08);
+  outline:none;
+}
+.tile:hover::before,.tile:focus-visible::before{opacity:1}
 .icon{
-  width:150px;height:150px;border-radius:34px;display:grid;place-items:center;
-  font-weight:900;font-size:66px;letter-spacing:-.04em;margin-bottom:26px
+  width:112px;height:112px;border-radius:27px;
+  display:grid;place-items:center;
+  background:#fff2ed;color:var(--accent);
+  font-size:54px;font-weight:900;
+  margin-bottom:28px;
+  position:relative;z-index:1;
 }
-.as .icon{background:#ef6035;box-shadow:0 18px 45px rgba(239,96,53,.27)}
-.q .icon{background:#3478f6;box-shadow:0 18px 45px rgba(52,120,246,.27)}
-.name{font-size:28px;font-weight:800}
-.desc{font-size:17px;color:#adb5be;margin-top:9px}
+.title{font-size:28px;font-weight:800;position:relative;z-index:1}
+.desc{margin-top:10px;font-size:16px;color:var(--muted);line-height:1.4;position:relative;z-index:1;max-width:310px}
+.arrow{position:absolute;right:25px;bottom:22px;color:var(--accent);font-size:29px;font-weight:800}
 @media(max-width:700px){
-  body{padding:18px}.grid{grid-template-columns:1fr;gap:16px}.card{min-height:230px;border-radius:24px}
-  .icon{width:112px;height:112px;border-radius:27px;font-size:50px;margin-bottom:18px}
-  h1{margin-top:8px}.sub{margin-bottom:24px}
+  body{padding:20px}
+  .grid{grid-template-columns:1fr;max-width:430px;margin:0 auto}
+  h1{font-size:30px}
+  .subtitle{font-size:17px;margin-bottom:26px}
+  .tile{aspect-ratio:auto;min-height:290px}
 }
 </style>
 </head>
 <body>
 <main class="wrap">
   <h1>Оберіть розділ</h1>
-  <div class="sub">Що потрібно відкрити?</div>
+  <div class="subtitle">Що потрібно переглянути?</div>
   <div class="grid">
-    <a class="card as" href="antenna.html">
-      <div class="icon">АС</div>
-      <div class="name">Антенна станція</div>
-      <div class="desc">Інтерактивна панель та налаштування</div>
+    <a class="tile" href="antenna.html">
+      <div class="icon">⌁</div>
+      <div class="title">Антенна станція</div>
+      <div class="desc">Інтерактивна інструкція та налаштування антенної станції</div>
+      <div class="arrow">→</div>
     </a>
-    <a class="card q" href="qground.html">
-      <div class="icon">Q</div>
-      <div class="name">QGround</div>
-      <div class="desc">Інтерактивна інструкція інтерфейсу</div>
+    <a class="tile" href="qground.html">
+      <div class="icon">✥</div>
+      <div class="title">QGROUND</div>
+      <div class="desc">Інтерактивна схема інтерфейсу з підказками по елементах</div>
+      <div class="arrow">→</div>
     </a>
   </div>
 </main>
