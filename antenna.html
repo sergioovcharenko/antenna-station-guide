@@ -1026,7 +1026,7 @@ frequencyMode.addEventListener('mouseleave',hideTip);
 document.addEventListener('scroll',hideTip,true);
 const channelWidth=document.getElementById('channelWidth');
 if(channelWidth){
-  const widthTip='<strong>20 MHz</strong> дає більш стійку відеопередачу до 15 км.<br><strong>10 MHz</strong> можна використовувати, якщо потрібно більше 15+ км, але відеопередача може трішки фрізитися.';
+  const widthTip='<strong>20 MHz</strong> дає більш стійку відеопередачу до 15 км.<br><strong>10 MHz</strong> можна використовувати, якщо потрібно більше 15+ км, але відеопередача може трішки фрізитися.<br><br><strong>ВАЖЛИВО:</strong> якщо у вас було встановлено <strong>20 MHz</strong> і ви змінили ширину каналу на <strong>10 MHz</strong>, після цього потрібно <strong>ЗГЕНЕРУВАТИ КЛЮЧІ</strong>.';
   channelWidth.addEventListener('mouseenter',e=>showTip(widthTip,e.clientX,e.clientY));
   channelWidth.addEventListener('mousemove',e=>showTip(widthTip,e.clientX,e.clientY));
   channelWidth.addEventListener('mouseleave',hideTip);
