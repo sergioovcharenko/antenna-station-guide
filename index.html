@@ -337,6 +337,49 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
 .nav:not(.dim):hover{
   background:rgba(255,93,42,.45) !important;
 }
+
+/* ===== Selection highlight tuning ===== */
+/* Editable controls stay clean while being edited */
+.select:hover,
+.select:focus,
+.select:focus-visible,
+.range-input:hover,
+.range-input:focus,
+.range-input:focus-visible,
+input[type="number"]:hover,
+input[type="number"]:focus,
+input[type="number"]:focus-visible{
+  background:#fff !important;
+  box-shadow:none !important;
+  outline:none !important;
+  border-color:#d7dce1 !important;
+}
+
+/* Selected object: red background at 35% opacity */
+.range-zone.hovered,
+.range-zone:focus-within,
+.manual-freq-zone.hovered,
+.manual-freq-zone:focus-within,
+.drone-card.selected,
+.overview-card.selected,
+.version-card.selected,
+.freq.selected,
+.tag.selected,
+.nav.active,
+.tab.active{
+  background:rgba(255,59,48,.35) !important;
+  border-color:rgba(255,59,48,.58) !important;
+  box-shadow:0 0 0 3px rgba(255,59,48,.14) !important;
+}
+
+/* Do not paint the editable field itself when its parent object is selected */
+.range-zone:focus-within .range-input,
+.manual-freq-zone:focus-within .select{
+  background:#fff !important;
+  box-shadow:none !important;
+  border-color:#d7dce1 !important;
+}
+
 </style>
 </head>
 <body>
