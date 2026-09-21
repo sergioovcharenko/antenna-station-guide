@@ -267,6 +267,88 @@
     font-size:20px;
   }
 }
+
+/* ===== QGround Report panel ===== */
+.report-hotspot{cursor:pointer}
+.report-panel{
+  position:absolute;
+  top:calc(6.5% + 5mm);
+  right:5mm;
+  left:5mm;
+  bottom:5mm;
+  z-index:120;
+  display:none;
+  background:#fff;
+  color:#111;
+  border:2px solid #111;
+  border-radius:20px;
+  box-shadow:0 12px 36px rgba(0,0,0,.28);
+  padding:28px 34px 70px;
+  overflow:auto;
+  text-align:left;
+  font:400 clamp(15px,1.35vw,24px)/1.42 Arial,Helvetica,sans-serif;
+}
+.report-panel.show{display:block}
+.report-line{white-space:nowrap}
+.report-line.critical,
+.report-line.warning{color:#e11616}
+.report-clear{
+  position:absolute;
+  right:18px;
+  bottom:16px;
+  width:48px;
+  height:48px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  padding:4px;
+}
+.report-clear svg{width:100%;height:100%;display:block}
+.zero-coordinate{
+  position:relative;
+  cursor:help;
+  border-bottom:1px dotted rgba(0,0,0,.45);
+}
+.zero-coordinate .report-help{
+  visibility:hidden;
+  opacity:0;
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 12px);
+  transform:translateX(-50%);
+  width:max-content;
+  max-width:520px;
+  padding:14px 18px;
+  border-radius:10px;
+  background:#151a21;
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.4;
+  box-shadow:0 12px 30px rgba(0,0,0,.32);
+  pointer-events:none;
+  transition:.15s;
+  white-space:normal;
+  z-index:160;
+}
+.zero-coordinate:hover .report-help,
+.zero-coordinate:focus .report-help{
+  visibility:visible;
+  opacity:1;
+}
+@media(max-width:700px){
+  .report-panel{
+    top:calc(6.5% + 3mm);
+    right:3mm;
+    left:3mm;
+    bottom:3mm;
+    padding:18px 18px 56px;
+    border-radius:14px;
+    font-size:14px;
+  }
+  .report-line{white-space:normal}
+  .zero-coordinate .report-help{font-size:15px;max-width:75vw}
+}
 </style>
 
 </head>
@@ -303,7 +385,7 @@
       </span>
     </div>
 
-    <div class="hotspot" tabindex="0" style="top: 0%; left: 21.5%; width: 3.5%; height: 6.5%;">
+    <div class="hotspot report-hotspot" id="reportHotspot" tabindex="0" role="button" aria-label="Відкрити Report" style="top: 0%; left: 21.5%; width: 3.5%; height: 6.5%;">
       <span class="tooltip tooltip-bottom"><b>Повідомлення</b><br> Штатні помилки. Критичні помилки</span>
     </div>
 
@@ -518,6 +600,45 @@ Large</span>
       // AltHold screen will be added later.
     });
   }
+})();
+</script>
+
+<script>
+/* ===== Report panel behavior ===== */
+(function(){
+  const hotspot=document.getElementById('reportHotspot');
+  const panel=document.getElementById('reportPanel');
+  const clearBtn=document.getElementById('reportClear');
+  const loiter=document.getElementById('modeLoiter');
+  if(!hotspot || !panel) return;
+
+  function toggleReport(){
+    if(loiter && !loiter.classList.contains('active')) return;
+    const open=!panel.classList.contains('show');
+    panel.classList.toggle('show',open);
+    panel.setAttribute('aria-hidden',String(!open));
+  }
+
+  hotspot.addEventListener('click',toggleReport);
+  hotspot.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      toggleReport();
+    }
+  });
+
+  if(clearBtn){
+    clearBtn.addEventListener('click',()=>{
+      panel.querySelectorAll('.report-line').forEach(line=>line.remove());
+    });
+  }
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&panel.classList.contains('show')){
+      panel.classList.remove('show');
+      panel.setAttribute('aria-hidden','true');
+    }
+  });
 })();
 </script>
 </body>
