@@ -779,9 +779,14 @@ function bindRangeZone(zone,kind){
   zone.addEventListener('mousemove',e=>showTip(rangeTip(kind),e.clientX,e.clientY));
   zone.addEventListener('mouseleave',()=>{zone.classList.remove('hovered');hideTip()});
 }
+function markControlRangesDirty(){
+  saveRanges.classList.toggle('show',rangeValuesChanged());
+}
 [ctlLowMin,ctlLowMax,ctlHighMin,ctlHighMax].forEach(inp=>{
-  inp.addEventListener('input',validateControlRanges);
-  inp.addEventListener('change',validateControlRanges);
+  // Під час набору не змінюємо значення автоматично —
+  // користувач може спокійно стерти старе число і ввести нове.
+  inp.addEventListener('input',markControlRangesDirty);
+  inp.addEventListener('change',markControlRangesDirty);
 });
 bindRangeZone(lowerRangeZone,'low');
 bindRangeZone(upperRangeZone,'high');
