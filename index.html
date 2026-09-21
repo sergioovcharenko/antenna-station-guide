@@ -389,6 +389,10 @@ function bindStatusHover(el,getText){
 function render(){
   freqGrid.innerHTML=''; tags.innerHTML='';
 
+  const activeWarningFrequencies=warningFrequencies.filter(freq=>!excludedFrequencies.has(freq));
+  warnTop.classList.toggle('hidden',activeWarningFrequencies.length===0);
+  if(activeWarningFrequencies.length===0) setWarning(false);
+
   allFrequencies.forEach(freq=>{
     const isWarning=freq>6005;
     const isExcluded=excludedFrequencies.has(freq);
@@ -426,10 +430,10 @@ function render(){
     tag.innerHTML='<span>'+freq+'</span><b class="remove">×</b>';
 
     tag.addEventListener('mouseenter',e=>{
-      setWarning(isWarning);
-      showTip(isWarning?badText:normalText,e.clientX,e.clientY);
+      setWarning(false);
+      showTip(isWarning?'<strong>Ця ненадійна частота вимкнена.</strong> Вона знаходиться в нижньому списку і зараз не використовується.':normalText,e.clientX,e.clientY);
     });
-    tag.addEventListener('mousemove',e=>showTip(isWarning?badText:normalText,e.clientX,e.clientY));
+    tag.addEventListener('mousemove',e=>showTip(isWarning?'<strong>Ця ненадійна частота вимкнена.</strong> Вона знаходиться в нижньому списку і зараз не використовується.':normalText,e.clientX,e.clientY));
     tag.addEventListener('mouseleave',()=>{hideTip();setWarning(false)});
 
     tag.querySelector('.remove').addEventListener('click',e=>{
