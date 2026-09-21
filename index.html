@@ -253,18 +253,18 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
             <div class="range-zone" id="lowerRangeZone">
               <div class="range-group-label">Нижній діапазон</div>
               <div class="range-values">
-                <input class="range-input" id="ctlLowMin" type="number" min="410" max="485" value="410">
+                <input class="range-input" id="ctlLowMin" type="text" inputmode="numeric" autocomplete="off" value="410">
                 <span>–</span>
-                <input class="range-input" id="ctlLowMax" type="number" min="410" max="485" value="485">
+                <input class="range-input" id="ctlLowMax" type="text" inputmode="numeric" autocomplete="off" value="485">
                 <span class="mhz">MHz</span>
               </div>
             </div>
             <div class="range-zone" id="upperRangeZone">
               <div class="range-group-label">Верхній діапазон</div>
               <div class="range-values">
-                <input class="range-input" id="ctlHighMin" type="number" min="820" max="970" value="820">
+                <input class="range-input" id="ctlHighMin" type="text" inputmode="numeric" autocomplete="off" value="820">
                 <span>–</span>
-                <input class="range-input" id="ctlHighMax" type="number" min="820" max="970" value="895">
+                <input class="range-input" id="ctlHighMax" type="text" inputmode="numeric" autocomplete="off" value="895">
                 <span class="mhz">MHz</span>
               </div>
               <div class="range-save-wrap"><button class="range-save" id="saveRanges">ЗБЕРЕГТИ</button></div>
@@ -779,7 +779,12 @@ function bindRangeZone(zone,kind){
   zone.addEventListener('mousemove',e=>showTip(rangeTip(kind),e.clientX,e.clientY));
   zone.addEventListener('mouseleave',()=>{zone.classList.remove('hovered');hideTip()});
 }
-function markControlRangesDirty(){
+function sanitizeRangeInput(inp){
+  const cleaned=inp.value.replace(/\D+/g,'');
+  if(inp.value!==cleaned) inp.value=cleaned;
+}
+function markControlRangesDirty(e){
+  if(e && e.target) sanitizeRangeInput(e.target);
   saveRanges.classList.toggle('show',rangeValuesChanged());
 }
 [ctlLowMin,ctlLowMax,ctlHighMin,ctlHighMax].forEach(inp=>{
