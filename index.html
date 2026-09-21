@@ -441,6 +441,40 @@ function render(){
   refreshManualFrequencyOptions();
 }
 
+const navLink=document.getElementById('navLink'),navAntenna=document.getElementById('navAntenna');
+const pageLink=document.getElementById('pageLink'),pageAntenna=document.getElementById('pageAntenna'),pageDrone=document.getElementById('pageDrone');
+const navDrone=document.getElementById('navDrone');
+const searchToggle=document.getElementById('searchToggle');
+const searchToggleLabel=document.getElementById('searchToggleLabel');
+const droneResults=document.getElementById('droneResults');
+const connectedArea=document.getElementById('connectedArea');
+const settingsDroneName=document.getElementById('settingsDroneName');
+const settingsDroneStatus=document.getElementById('settingsDroneStatus');
+const settingsDroneBind=document.getElementById('settingsDroneBind');
+const connectHint=document.getElementById('connectHint');
+const ctlLowMin=document.getElementById('ctlLowMin');
+const ctlLowMax=document.getElementById('ctlLowMax');
+const ctlHighMin=document.getElementById('ctlHighMin');
+const ctlHighMax=document.getElementById('ctlHighMax');
+const lowerRangeZone=document.getElementById('lowerRangeZone');
+const upperRangeZone=document.getElementById('upperRangeZone');
+const saveRanges=document.getElementById('saveRanges');
+const frequencyMode=document.getElementById('frequencyMode');
+const manualFreqZone=document.getElementById('manualFreqZone');
+const manualFreq1=document.getElementById('manualFreq1');
+const manualFreq2=document.getElementById('manualFreq2');
+const manualFreq3=document.getElementById('manualFreq3');
+let connectedDrone=null;
+let droneBound=false;
+let savedControlRanges={lowMin:410,lowMax:485,highMin:820,highMax:895};
+const manualDefaults=[5080,5540,6005];
+const foundDrones=[
+  {name:'ZOOM31-032-680',type:'Дрон'},
+  {name:'ZOOM31-030-029',type:'Дрон'},
+  {name:'LNZA31-031-242',type:'Дрон'}
+];
+const chooseDroneText='<strong>Виберіть борт, який потрібно підключити.</strong>';
+
 function refreshManualFrequencyOptions(){
   const selects=[manualFreq1,manualFreq2,manualFreq3];
   if(selects.some(s=>!s)) return;
@@ -517,39 +551,7 @@ gen.addEventListener('mouseleave',hideTip);
 gen.addEventListener('click',()=>{gen.classList.remove('pulse');void gen.offsetWidth;gen.classList.add('pulse');showToast('Налаштування успішно збережено.')});
 gen.addEventListener('animationend',()=>gen.classList.remove('pulse'));
 
-const navLink=document.getElementById('navLink'),navAntenna=document.getElementById('navAntenna');
-const pageLink=document.getElementById('pageLink'),pageAntenna=document.getElementById('pageAntenna'),pageDrone=document.getElementById('pageDrone');
-const navDrone=document.getElementById('navDrone');
-const searchToggle=document.getElementById('searchToggle');
-const searchToggleLabel=document.getElementById('searchToggleLabel');
-const droneResults=document.getElementById('droneResults');
-const connectedArea=document.getElementById('connectedArea');
-const settingsDroneName=document.getElementById('settingsDroneName');
-const settingsDroneStatus=document.getElementById('settingsDroneStatus');
-const settingsDroneBind=document.getElementById('settingsDroneBind');
-const connectHint=document.getElementById('connectHint');
-const ctlLowMin=document.getElementById('ctlLowMin');
-const ctlLowMax=document.getElementById('ctlLowMax');
-const ctlHighMin=document.getElementById('ctlHighMin');
-const ctlHighMax=document.getElementById('ctlHighMax');
-const lowerRangeZone=document.getElementById('lowerRangeZone');
-const upperRangeZone=document.getElementById('upperRangeZone');
-const saveRanges=document.getElementById('saveRanges');
-const frequencyMode=document.getElementById('frequencyMode');
-const manualFreqZone=document.getElementById('manualFreqZone');
-const manualFreq1=document.getElementById('manualFreq1');
-const manualFreq2=document.getElementById('manualFreq2');
-const manualFreq3=document.getElementById('manualFreq3');
-let connectedDrone=null;
-let droneBound=false;
-let savedControlRanges={lowMin:410,lowMax:485,highMin:820,highMax:895};
-const manualDefaults=[5080,5540,6005];
-const foundDrones=[
-  {name:'ZOOM31-032-680',type:'Дрон'},
-  {name:'ZOOM31-030-029',type:'Дрон'},
-  {name:'LNZA31-031-242',type:'Дрон'}
-];
-const chooseDroneText='<strong>Виберіть борт, який потрібно підключити.</strong>';
+
 function openPage(which){
   if(which!=='antenna'){
     lowRange.value=savedLow;
