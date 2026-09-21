@@ -150,7 +150,7 @@ h1{font-size:32px;margin:18px 0 10px}
 }
 
 
-/* ===== Typography matched to reference + controlled highlights ===== */
+/* ===== Larger typography only — default highlight behavior restored ===== */
 :root{
   --accent:#ff5d2a;
   --text:#252830;
@@ -160,198 +160,19 @@ html,body{font-size:17px}
 body,button,input,select{color:var(--text)}
 .brand{font-size:19px;color:#20242a}
 .status{font-size:17px;color:#7b838c}
-.nav{font-size:17px;color:#747d87}
+.nav{font-size:17px}
 h1{font-size:34px;color:#22252b}
 h2{font-size:22px;color:#22252b}
 .page-subtitle{font-size:20px;color:#7b838c}
-.search-title,.ranges-title{font-size:21px;color:#252830}
-.switch-label{font-size:20px;color:#252830}
-.muted-title{font-size:18px;color:#9ca4ad}
-.range-group-label,.label{font-size:18px;color:#69737e}
+.search-title,.ranges-title{font-size:21px}
+.switch-label{font-size:20px}
+.muted-title{font-size:18px}
+.range-group-label,.label{font-size:18px}
 .freq,.tag,.select,.range-input,.value-box,.overview-card .line,.drone-name{font-size:18px}
 button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-size:18px}
 .tooltip{font-size:21px;font-weight:700;line-height:1.5}
+.tooltip strong{font-weight:800}
 .toast .msg{font-size:22px}
-
-/* Reference-style active navigation/tabs: light orange, not red */
-.nav.active{
-  background:#fff1ec !important;
-  color:#ef6035 !important;
-  box-shadow:none !important;
-  border-color:transparent !important;
-}
-.tab.active{
-  background:#fff0ea !important;
-  color:#ef6035 !important;
-  box-shadow:none !important;
-}
-.lang-btn.active{
-  background:#fff4ef !important;
-  color:#ef6035 !important;
-  box-shadow:none !important;
-}
-
-/* Normal navigation does not get the strong selection highlight */
-.nav:not(.active):not(.dim):hover{
-  background:#fafbfc !important;
-  color:#5f6873 !important;
-  box-shadow:none !important;
-}
-
-/* Inputs/edit fields stay neutral at all times */
-.select:hover,.select:focus,.select:focus-visible,
-.range-input:hover,.range-input:focus,.range-input:focus-visible,
-input[type="number"]:hover,input[type="number"]:focus,input[type="number"]:focus-visible{
-  background:#fff !important;
-  color:#252830 !important;
-  box-shadow:none !important;
-  outline:none !important;
-  border-color:#d7dce1 !important;
-}
-
-/* Only the agreed selectable objects get the strong 35% red highlight */
-.range-zone.hovered,
-.manual-freq-zone.hovered,
-.drone-card:hover{
-  background:rgba(255,59,48,.35) !important;
-  border-color:rgba(255,59,48,.58) !important;
-  box-shadow:0 0 0 3px rgba(255,59,48,.14) !important;
-}
-
-/* Do not paint controls inside a highlighted object */
-.range-zone.hovered .range-input,
-.manual-freq-zone.hovered .select{
-  background:#fff !important;
-  box-shadow:none !important;
-  border-color:#d7dce1 !important;
-}
-
-/* Cards and auxiliary controls not agreed for selection highlighting remain neutral */
-.overview-card:hover,
-.version-card:hover,
-.status-item:hover,
-.tab:hover,
-.lang-btn:hover,
-.action-bind:hover,
-.action-lite:hover,
-.gear-btn:hover{
-  background:inherit;
-  box-shadow:none;
-}
-
-/* Keep normal frequency hover subtle; warning frequencies remain visibly red */
-.freq:hover{
-  background:#f8fafb;
-  border-color:#d8e0e8;
-  box-shadow:0 0 0 4px rgba(110,130,150,.07);
-}
-.freq.bad{
-  background:#fff0ed;
-  color:#e45e42;
-}
-.freq.bad:hover{
-  background:#ffe9e3;
-  border-color:#ef8a6b !important;
-  box-shadow:0 0 0 4px rgba(239,91,37,.14),0 8px 22px rgba(239,91,37,.10);
-}
-
-/* Disabled navigation remains subdued */
-.nav.dim{
-  opacity:.48;
-  font-size:17px;
-  color:#a9b0b8;
-}
-.nav.dim:hover{
-  background:transparent !important;
-  box-shadow:none !important;
-}
-
-/* ===== Fix: solid orange action buttons must never wash out on hover/focus ===== */
-.connect-btn:hover,
-.connect-btn:focus-visible,
-.gen:hover,
-.gen:focus-visible,
-.apply:hover,
-.apply:focus-visible,
-.range-save:hover,
-.range-save:focus-visible{
-  background:#e94f1d !important;
-  color:#fff !important;
-  border-color:#e94f1d !important;
-  box-shadow:0 0 0 4px rgba(255,93,42,.18),0 8px 22px rgba(233,79,29,.18) !important;
-}
-
-.connect-btn:active,
-.gen:active,
-.apply:active,
-.range-save:active{
-  background:#d94718 !important;
-  color:#fff !important;
-  transform:translateY(1px);
-}
-
-
-/* ===== Final narrow selection override ===== */
-.range-zone.hovered,
-.manual-freq-zone.hovered,
-.drone-card:hover{
-  background:rgba(255,59,48,.35) !important;
-  border-color:rgba(255,59,48,.58) !important;
-  box-shadow:0 0 0 3px rgba(255,59,48,.14) !important;
-}
-.range-zone.hovered .range-input,
-.manual-freq-zone.hovered .select,
-.select:hover,.select:focus,.select:focus-visible,
-.range-input:hover,.range-input:focus,.range-input:focus-visible{
-  background:#fff !important;
-  color:#252830 !important;
-  box-shadow:none !important;
-  border-color:#d7dce1 !important;
-}
-.nav.active{background:#fff1ec !important;color:#ef6035 !important;box-shadow:none !important}
-.tab.active{background:#fff0ea !important;color:#ef6035 !important;box-shadow:none !important}
-.lang-btn.active{background:#fff4ef !important;color:#ef6035 !important;box-shadow:none !important}
-
-/* ===== Sidebar menu exactly like reference ===== */
-.side{
-  background:#fff;
-}
-.nav{
-  background:transparent !important;
-  color:#747d87 !important;
-  font-weight:600 !important;
-  border:1px solid transparent !important;
-  box-shadow:none !important;
-}
-.nav:hover,
-.nav:focus,
-.nav:focus-visible{
-  background:transparent !important;
-  color:#747d87 !important;
-  border-color:transparent !important;
-  box-shadow:none !important;
-  outline:none !important;
-}
-.nav.active,
-.nav.active:hover,
-.nav.active:focus{
-  background:#fff1ec !important;
-  color:#ef6035 !important;
-  border-color:transparent !important;
-  box-shadow:none !important;
-}
-.nav.dim,
-.nav.dim:hover{
-  background:transparent !important;
-  color:#b8bec6 !important;
-  opacity:1 !important;
-  font-weight:500 !important;
-  box-shadow:none !important;
-}
-#connectHint{
-  color:#c5cbd2 !important;
-  font-weight:500 !important;
-}
 
 </style>
 </head>
