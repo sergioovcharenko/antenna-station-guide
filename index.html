@@ -22,7 +22,7 @@ h1{font-size:34px;margin:6px 0 22px;color:#20252b}h2{font-size:21px;margin:0 0 2
 .freq:hover{background:#f8fafb;border-color:#d8e0e8;box-shadow:0 0 0 4px rgba(110,130,150,.07)}
 .freq.bad{background:#fff0ed;color:#e45e42}.freq.bad:hover{border-color:#ef8a6b;box-shadow:0 0 0 5px rgba(239,91,37,.12),0 0 26px rgba(239,91,37,.2)}
 .tags{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;min-height:46px}.tag{display:flex;border:1px solid #efc9c1;border-radius:8px;overflow:hidden;color:#dd5c45;background:#fff8f6;font-size:18px;transition:.15s}.tag:hover{box-shadow:0 0 0 4px rgba(239,91,37,.08)}
-.tag span{padding:12px 14px}.tag b{padding:12px 14px;border-left:1px solid #efc9c1;font-weight:400;cursor:pointer}.unit{font-size:14px;color:#9aa1a8;margin-top:7px}
+.tag span{padding:12px 14px}.tag b{padding:12px 14px;border-left:1px solid #efc9c1;font-weight:400;cursor:pointer}.tag.soft{background:#fff;color:#6f7a86;border-color:#dce2e8}.tag.soft b{border-left-color:#dce2e8;color:#8c97a3}.unit{font-size:14px;color:#9aa1a8;margin-top:7px}
 .label{font-size:18px;font-weight:700;color:#707984;margin-top:28px;margin-bottom:10px}.select{width:118px;padding:14px 16px;border:1px solid #d7dce1;border-radius:10px;font-size:20px;background:#fff}
 .keys{padding:38px 36px 48px;position:relative}.keys h2{font-size:22px;margin-bottom:24px}
 .gen,.apply{position:relative;border:0;border-radius:10px;background:#ef5b25;color:#fff;font-weight:700;font-size:20px;padding:20px 26px;cursor:pointer;transition:.18s}
@@ -39,6 +39,7 @@ h1{font-size:34px;margin:6px 0 22px;color:#20252b}h2{font-size:21px;margin:0 0 2
 .tx-card{padding:34px 30px}.tx-title{font-size:18px;color:#9aa1aa;font-weight:700;text-transform:uppercase;margin-bottom:22px}.slider-block{margin-bottom:34px}.slider-label{font-size:20px;color:#68717c;margin-bottom:18px}.slider-row{display:grid;grid-template-columns:1fr 120px;gap:20px;align-items:center}
 input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:80px;border:1px solid #dfe4e9;border-radius:14px;display:grid;place-items:center;font-size:22px;background:#fff}
 .page-subtitle{font-size:20px;color:#7b838c;margin-top:-10px;margin-bottom:30px}.search-card{padding:34px}.search-title{font-size:20px;font-weight:700;margin-bottom:26px}.search-toggle-row{display:flex;align-items:center;gap:18px;margin-bottom:28px}.switch{position:relative;width:92px;height:54px;border-radius:30px;background:#dfe4ea;cursor:pointer;transition:.2s;flex:none}.switch.on{background:#ff5c2a}.switch::after{content:"";position:absolute;top:5px;left:5px;width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:.2s}.switch.on::after{left:43px}.switch-label{font-size:20px;font-weight:700}.drone-list{display:grid;grid-template-columns:1fr 1fr;gap:16px}.drone-card{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #e1e5e9;border-radius:14px;padding:14px 16px;background:#fff;transition:.16s}.drone-card:hover{box-shadow:0 0 0 4px rgba(255,92,42,.10),0 8px 20px rgba(0,0,0,.06);border-color:#f1b8a4}.drone-name{font-size:18px;letter-spacing:.02em}.drone-type{font-size:12px;padding:6px 8px;border-radius:8px;background:#fff4df;color:#d78e13;font-weight:700;margin-left:8px}.connect-btn{border:0;border-radius:10px;background:#ff5c2a;color:#fff;padding:14px 18px;font-weight:700;cursor:pointer}.search-off-note{padding:22px;border:1px dashed #d9dee4;border-radius:14px;color:#8b949e;background:#fafbfc}.ranges-card{margin-top:30px}.ranges-title{font-size:20px;font-weight:700;margin-bottom:20px}.range-placeholder{height:110px;border-radius:14px;border:1px solid #e5e8ec;background:#fff;display:flex;align-items:flex-start;padding:24px;color:#a3aab3;text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+.connected-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-left:auto;flex-wrap:wrap}.connected-board{display:flex;align-items:center;gap:9px;padding:12px 14px;border:1px solid #e1e5e9;border-radius:12px;background:#fff}.connected-board .board-dot{width:10px;height:10px;border-radius:50%;background:#25b87d}.action-lite{border:1px solid #dfe4e9;background:#fff;color:#6f7782;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}.action-bind{border:1px solid #efb49f;background:#fff8f4;color:#2b3037;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}.gear-btn{width:44px;height:44px;border:1px solid #dfe4e9;background:#fff;border-radius:10px;display:grid;place-items:center;font-size:21px;cursor:pointer}.range-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:16px}.range-group-label{font-size:16px;color:#6f7782;font-weight:700;margin-bottom:12px}.range-values{display:grid;grid-template-columns:1fr auto 1fr auto;gap:12px;align-items:center}.range-box{padding:14px 16px;border:1px solid #dfe4e9;border-radius:12px;background:#fff;font-size:20px}.mhz{color:#9aa1a8}.drone-settings-card{max-width:860px}.drone-settings-title{font-size:18px;color:#9aa1aa;text-transform:uppercase;font-weight:700;margin-bottom:20px}.setting-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #edf0f3}.setting-row:last-child{border-bottom:0}.setting-value{font-weight:700}
 @media(max-width:900px){.brand{width:190px;font-size:14px}.side{width:190px}.status{padding-left:16px;gap:6px;font-size:12px}.content{padding:16px}.freqgrid{grid-template-columns:repeat(3,1fr)}.version-wrap,.overview-grid,.drone-list{grid-template-columns:1fr}.antenna-head{align-items:flex-start;flex-direction:column}.slider-row{grid-template-columns:1fr 90px}}
 </style>
 </head>
@@ -64,7 +65,49 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
     </aside>
 
     <main class="content">
-      <section class="page active" id="pageLink">
+            <section class="page active" id="pageLink">
+        <h1>Зв'язок</h1>
+        <div class="page-subtitle">Пошук, підключення та налаштування діапазонів</div>
+
+        <section class="card search-card">
+          <div class="search-title">З'єднання</div>
+          <div class="search-toggle-row">
+            <div class="switch" id="searchToggle" role="switch" aria-checked="false" tabindex="0"></div>
+            <div class="switch-label" id="searchToggleLabel">Режим пошуку вимкнено</div>
+            <div id="connectedArea" class="connected-row"></div>
+          </div>
+          <div id="droneResults">
+            <div class="search-off-note">Увімкніть режим пошуку, щоб знайти доступні борти.</div>
+          </div>
+        </section>
+
+        <div class="ranges-title">Діапазони</div>
+        <section class="card ranges-card">
+          <div class="muted-title" style="border-left:3px solid #ff5c2a;padding-left:14px">Діапазони керування (MHz)</div>
+          <div class="range-grid">
+            <div>
+              <div class="range-group-label">Нижній діапазон</div>
+              <div class="range-values"><div class="range-box">410</div><span>–</span><div class="range-box">485</div><span class="mhz">MHz</span></div>
+            </div>
+            <div>
+              <div class="range-group-label">Верхній діапазон</div>
+              <div class="range-values"><div class="range-box">820</div><span>–</span><div class="range-box">895</div><span class="mhz">MHz</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="muted-title" style="border-left:3px solid #ff5c2a;padding-left:14px;margin-bottom:20px">Відео діапазони (MHz)</div>
+          <div class="label" style="margin-top:0">Режим вибору частот</div>
+          <select class="select" style="width:320px"><option>Автоматичний</option></select>
+          <div class="label">Ручні частоти (3)</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <select class="select" style="width:100%"><option>5080</option></select>
+            <select class="select" style="width:100%"><option>5540</option></select>
+            <select class="select" style="width:100%"><option>6005</option></select>
+          </div>
+        </section>
+
         <section class="card">
           <h2>Заборонені частоти</h2>
           <div class="freqbox">
@@ -72,7 +115,7 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
             <div class="tags" id="tags"></div>
             <div class="unit">MHz</div>
             <div class="label">Ширина каналу</div>
-            <select class="select"><option>20</option></select>
+            <select class="select" id="channelWidth"><option value="20" selected>20</option><option value="10">10</option></select>
             <div class="unit">MHz</div>
           </div>
         </section>
@@ -151,24 +194,13 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
       </section>
 
       <section class="page" id="pageDrone">
-        <h1>Зв'язок</h1>
-        <div class="page-subtitle">Пошук, підключення та налаштування діапазонів</div>
-
-        <section class="card search-card">
-          <div class="search-title">З'єднання</div>
-          <div class="search-toggle-row">
-            <div class="switch" id="searchToggle" role="switch" aria-checked="false" tabindex="0"></div>
-            <div class="switch-label" id="searchToggleLabel">Режим пошуку вимкнено</div>
-          </div>
-
-          <div id="droneResults">
-            <div class="search-off-note">Увімкніть режим пошуку, щоб знайти доступні борти.</div>
-          </div>
-        </section>
-
-        <div class="ranges-title">Діапазони</div>
-        <section class="card ranges-card">
-          <div class="range-placeholder">Діапазони керування (MHz)</div>
+        <h1>Дрон</h1>
+        <div class="page-subtitle">Налаштування підключеного борту</div>
+        <section class="card drone-settings-card">
+          <div class="drone-settings-title">Поточний борт</div>
+          <div class="setting-row"><span>Назва борту</span><span class="setting-value" id="settingsDroneName">Не підключено</span></div>
+          <div class="setting-row"><span>Статус</span><span class="setting-value" id="settingsDroneStatus">Не підключено</span></div>
+          <div class="setting-row"><span>Прив'язка</span><span class="setting-value" id="settingsDroneBind">Не виконано</span></div>
         </section>
       </section>
     </main>
@@ -259,7 +291,7 @@ function render(){
   });
   [...unreliable].sort((a,b)=>a-b).forEach(freq=>{
     const tag=document.createElement('div');
-    tag.className='tag';
+    tag.className='tag'+(freq<=6005?' soft':'');
     tag.innerHTML='<span>'+freq+'</span><b class="remove">×</b>';
     tag.addEventListener('mouseenter',e=>{setWarning(true);showTip(badText,e.clientX,e.clientY)});
     tag.addEventListener('mousemove',e=>showTip(badText,e.clientX,e.clientY));
@@ -281,6 +313,12 @@ const navDrone=document.getElementById('navDrone');
 const searchToggle=document.getElementById('searchToggle');
 const searchToggleLabel=document.getElementById('searchToggleLabel');
 const droneResults=document.getElementById('droneResults');
+const connectedArea=document.getElementById('connectedArea');
+const settingsDroneName=document.getElementById('settingsDroneName');
+const settingsDroneStatus=document.getElementById('settingsDroneStatus');
+const settingsDroneBind=document.getElementById('settingsDroneBind');
+let connectedDrone=null;
+let droneBound=false;
 const foundDrones=[
   {name:'ZOOM31-032-680',type:'Дрон'},
   {name:'ZOOM31-030-029',type:'Дрон'},
@@ -350,11 +388,54 @@ bindStatusHover(statusAntenna,()=>topStatusState.antennaConnected?antennaConnect
 bindStatusHover(statusDrone,()=>topStatusState.droneConnected?droneConnectedText:droneDisconnectedText);
 bindStatusHover(statusSearch,()=>topStatusState.searchEnabled?searchEnabledText:searchDisabledText);
 
+function renderConnectedArea(){
+  connectedArea.innerHTML='';
+  if(!connectedDrone) return;
+  const board=document.createElement('div');
+  board.className='connected-board';
+  board.innerHTML='<span class="board-dot"></span><span>'+connectedDrone.name+'</span>';
+  const bind=document.createElement('button');
+  bind.className='action-bind';
+  bind.textContent='Прив’язати дрон';
+  const disconnect=document.createElement('button');
+  disconnect.className='action-lite';
+  disconnect.textContent='Відключити';
+  const gear=document.createElement('button');
+  gear.className='gear-btn';
+  gear.textContent='⚙';
+  bind.addEventListener('click',()=>{
+    droneBound=true;
+    settingsDroneBind.textContent='Виконано';
+    showToast('Прив’язку дрона виконано успішно. Перезавантажте дрон, щоб застосувати зміни.');
+  });
+  disconnect.addEventListener('click',()=>{
+    connectedDrone=null;
+    droneBound=false;
+    topStatusState.droneConnected=false;
+    settingsDroneName.textContent='Не підключено';
+    settingsDroneStatus.textContent='Не підключено';
+    settingsDroneBind.textContent='Не виконано';
+    renderTopStatuses();
+    renderConnectedArea();
+    renderDroneSearch();
+  });
+  gear.addEventListener('click',()=>openPage('drone'));
+  [bind,disconnect,gear].forEach(btn=>{
+    btn.addEventListener('mouseenter',e=>showTip(btn===bind?'<strong>Прив’язати вибраний борт до антенної станції.</strong>':btn===disconnect?'<strong>Від’єднати поточний борт.</strong>':'<strong>Відкрити вкладку налаштувань дрона.</strong>',e.clientX,e.clientY));
+    btn.addEventListener('mouseleave',hideTip);
+  });
+  connectedArea.append(board,bind,disconnect,gear);
+}
 function renderDroneSearch(){
   searchToggle.classList.toggle('on',topStatusState.searchEnabled);
   searchToggle.setAttribute('aria-checked',String(topStatusState.searchEnabled));
   searchToggleLabel.textContent=topStatusState.searchEnabled?'Режим пошуку увімкнено':'Режим пошуку вимкнено';
   renderTopStatuses();
+  renderConnectedArea();
+  if(connectedDrone){
+    droneResults.innerHTML='';
+    return;
+  }
   if(!topStatusState.searchEnabled){
     droneResults.innerHTML='<div class="search-off-note">Увімкніть режим пошуку, щоб знайти доступні борти.</div>';
     return;
@@ -370,9 +451,15 @@ function renderDroneSearch(){
     card.addEventListener('mouseleave',hideTip);
     card.querySelector('.connect-btn').addEventListener('click',e=>{
       e.stopPropagation();
+      connectedDrone=drone;
+      droneBound=false;
       topStatusState.droneConnected=true;
+      settingsDroneName.textContent=drone.name;
+      settingsDroneStatus.textContent='Підключено';
+      settingsDroneBind.textContent='Не виконано';
       renderTopStatuses();
-      showToast('Борт '+drone.name+' підключено.');
+      renderDroneSearch();
+      showToast('Підключення виконано успішно.');
     });
     list.appendChild(card);
   });
@@ -394,6 +481,13 @@ document.getElementById('applyTx').addEventListener('click',()=>{
 });
 
 document.addEventListener('scroll',hideTip,true);
+const channelWidth=document.getElementById('channelWidth');
+if(channelWidth){
+  const widthTip='20 MHz — по дефолту. 10 MHz — для дальніх польотів 15+, але відео менш стабільне, ніж на 20 MHz.';
+  channelWidth.addEventListener('mouseenter',e=>showTip(widthTip,e.clientX,e.clientY));
+  channelWidth.addEventListener('mousemove',e=>showTip(widthTip,e.clientX,e.clientY));
+  channelWidth.addEventListener('mouseleave',hideTip);
+}
 window.addEventListener('resize',hideTip);
 renderTopStatuses();
 renderDroneSearch();
