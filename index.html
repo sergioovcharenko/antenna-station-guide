@@ -145,7 +145,7 @@ function render(){
   [...unreliable].sort((a,b)=>a-b).forEach(freq=>{
     const tag=document.createElement('div');
     tag.className='tag';
-    tag.innerHTML='<span>'+freq+'</span><b>×</b>';
+    tag.innerHTML='<span>'+freq+'</span><b class="remove">×</b>';
 
     tag.addEventListener('mouseenter',e=>{
       setWarning(true);
@@ -153,7 +153,9 @@ function render(){
     });
     tag.addEventListener('mousemove',e=>showTip(badText,e.clientX,e.clientY));
     tag.addEventListener('mouseleave',()=>{hideTip();setWarning(false)});
-    tag.addEventListener('click',()=>{
+
+    tag.querySelector('.remove').addEventListener('click',e=>{
+      e.stopPropagation();
       unreliable.delete(freq);
       render();
     });
