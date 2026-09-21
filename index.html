@@ -76,6 +76,15 @@ h1{font-size:32px;margin:18px 0 10px}
 .range-group-label{font-size:18px;margin-bottom:16px}
 .range-values{grid-template-columns:194px 18px 194px 48px;gap:10px}
 .range-box{height:56px;padding:13px 16px;font-size:18px;border-radius:12px}
+.range-zone{padding:14px;border-radius:14px;transition:.16s}
+.range-zone.hovered{background:#fff8f4;box-shadow:0 0 0 3px rgba(255,92,42,.12)}
+.range-input{width:100%;height:56px;padding:13px 16px;border:1px solid #dfe4e9;border-radius:12px;background:#fff;font-size:18px;color:#1f2937}
+.range-save-wrap{display:flex;justify-content:flex-end;margin-top:16px}
+.range-save{display:none;border:0;border-radius:10px;background:#ff5c2a;color:#fff;padding:13px 20px;font-weight:700;cursor:pointer}
+.range-save.show{display:inline-block}
+.manual-freq-zone{transition:.16s;border-radius:14px}
+.manual-freq-zone.hovered{box-shadow:0 0 0 3px rgba(255,92,42,.10);background:#fffaf7}
+.hidden{display:none!important}
 .mhz{font-size:17px}
 .muted-title{font-size:17px}
 .label{font-size:17px}
@@ -142,7 +151,7 @@ h1{font-size:32px;margin:18px 0 10px}
       <div class="nav active" id="navLink">Зв'язок</div>
       <div class="nav" id="navAntenna">Антенна станція</div>
       <div class="nav" id="navDrone">Дрон</div>
-      <div class="nav dim">Підключіться до дрона</div>
+      <div class="nav dim" id="connectHint">Підключіться до дрона</div>
     </aside>
 
     <main class="content">
@@ -166,13 +175,24 @@ h1{font-size:32px;margin:18px 0 10px}
         <section class="card ranges-card">
           <div class="muted-title" style="border-left:3px solid #ff5c2a;padding-left:14px">Діапазони керування (MHz)</div>
           <div class="range-grid">
-            <div>
+            <div class="range-zone" id="lowerRangeZone">
               <div class="range-group-label">Нижній діапазон</div>
-              <div class="range-values"><div class="range-box">410</div><span>–</span><div class="range-box">485</div><span class="mhz">MHz</span></div>
+              <div class="range-values">
+                <input class="range-input" id="ctlLowMin" type="number" min="410" max="485" value="410">
+                <span>–</span>
+                <input class="range-input" id="ctlLowMax" type="number" min="410" max="485" value="485">
+                <span class="mhz">MHz</span>
+              </div>
             </div>
-            <div>
+            <div class="range-zone" id="upperRangeZone">
               <div class="range-group-label">Верхній діапазон</div>
-              <div class="range-values"><div class="range-box">820</div><span>–</span><div class="range-box">895</div><span class="mhz">MHz</span></div>
+              <div class="range-values">
+                <input class="range-input" id="ctlHighMin" type="number" min="820" max="970" value="820">
+                <span>–</span>
+                <input class="range-input" id="ctlHighMax" type="number" min="820" max="970" value="895">
+                <span class="mhz">MHz</span>
+              </div>
+              <div class="range-save-wrap"><button class="range-save" id="saveRanges">ЗБЕРЕГТИ</button></div>
             </div>
           </div>
         </section>
@@ -180,12 +200,16 @@ h1{font-size:32px;margin:18px 0 10px}
         <section class="card">
           <div class="muted-title" style="border-left:3px solid #ff5c2a;padding-left:14px;margin-bottom:20px">Відео діапазони (MHz)</div>
           <div class="label" style="margin-top:0">Режим вибору частот</div>
-          <select class="select" style="width:320px"><option>Автоматичний</option></select>
+          <select class="select" id="frequencyMode" style="width:320px">
+            <option value="semi" selected>Напівавтоматичний</option>
+            <option value="auto">Автоматичний</option>
+            <option value="manual">Ручний</option>
+          </select>
           <div class="label">Ручні частоти (3)</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-            <select class="select" style="width:100%"><option>5080</option></select>
-            <select class="select" style="width:100%"><option>5540</option></select>
-            <select class="select" style="width:100%"><option>6005</option></select>
+          <div class="manual-freq-zone" id="manualFreqZone" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:4px">
+            <select class="select manual-freq" id="manualFreq1" style="width:100%"></select>
+            <select class="select manual-freq" id="manualFreq2" style="width:100%"></select>
+            <select class="select manual-freq" id="manualFreq3" style="width:100%"></select>
           </div>
         </section>
 
@@ -366,6 +390,7 @@ function render(){
   allFrequencies.forEach(freq=>{
     const isWarning=freq>6005;
     const isExcluded=excludedFrequencies.has(freq);
+    if(isExcluded) return;
     const el=document.createElement('div');
 
     // Колір зверху залежить ТІЛЬКИ від самої частоти:
@@ -413,7 +438,78 @@ function render(){
 
     tags.appendChild(tag);
   });
+  refreshManualFrequencyOptions();
 }
+
+function refreshManualFrequencyOptions(){
+  const selects=[manualFreq1,manualFreq2,manualFreq3];
+  if(selects.some(s=>!s)) return;
+  const previous=selects.map((s,i)=>Number(s.value)||manualDefaults[i]);
+  const available=allFrequencies.filter(f=>!excludedFrequencies.has(f));
+  selects.forEach((sel,i)=>{
+    sel.innerHTML='';
+    available.forEach(freq=>{
+      const opt=document.createElement('option');
+      opt.value=freq; opt.textContent=freq;
+      sel.appendChild(opt);
+    });
+    const desired=available.includes(previous[i])?previous[i]:(available.includes(manualDefaults[i])?manualDefaults[i]:available[0]);
+    if(desired!==undefined) sel.value=String(desired);
+  });
+}
+
+function rangeValuesChanged(){
+  return Number(ctlLowMin.value)!==savedControlRanges.lowMin ||
+    Number(ctlLowMax.value)!==savedControlRanges.lowMax ||
+    Number(ctlHighMin.value)!==savedControlRanges.highMin ||
+    Number(ctlHighMax.value)!==savedControlRanges.highMax;
+}
+function validateControlRanges(){
+  let lowMin=Math.max(410,Math.min(485,Number(ctlLowMin.value)||410));
+  let lowMax=Math.max(410,Math.min(485,Number(ctlLowMax.value)||485));
+  let highMin=Math.max(820,Math.min(970,Number(ctlHighMin.value)||820));
+  let highMax=Math.max(820,Math.min(970,Number(ctlHighMax.value)||895));
+  if(lowMin>lowMax) [lowMin,lowMax]=[lowMax,lowMin];
+  if(highMin>highMax) [highMin,highMax]=[highMax,highMin];
+  ctlLowMin.value=lowMin; ctlLowMax.value=lowMax;
+  ctlHighMin.value=highMin; ctlHighMax.value=highMax;
+  saveRanges.classList.toggle('show',rangeValuesChanged());
+}
+function rangeTip(kind){
+  const low=kind==='low';
+  const a=Number(low?ctlLowMin.value:ctlHighMin.value);
+  const b=Number(low?ctlLowMax.value:ctlHighMax.value);
+  const width=Math.max(0,b-a);
+  const limits=low?'410–485 MHz':'820–970 MHz';
+  return '<strong>Можна звужувати або розширювати діапазон.</strong><br>'+
+    'Доступні межі: '+limits+'. Поточна ширина: <strong>'+width+' MHz</strong>.<br><br>'+
+    '<strong>Після зміни обов’язково натисніть «ЗБЕРЕГТИ».</strong><br>'+
+    'Щоб нові налаштування вступили в силу на АС, після збереження потрібно <strong>згенерувати нові ключі</strong>.';
+}
+function bindRangeZone(zone,kind){
+  zone.addEventListener('mouseenter',e=>{zone.classList.add('hovered');showTip(rangeTip(kind),e.clientX,e.clientY)});
+  zone.addEventListener('mousemove',e=>showTip(rangeTip(kind),e.clientX,e.clientY));
+  zone.addEventListener('mouseleave',()=>{zone.classList.remove('hovered');hideTip()});
+}
+[ctlLowMin,ctlLowMax,ctlHighMin,ctlHighMax].forEach(inp=>{
+  inp.addEventListener('input',validateControlRanges);
+  inp.addEventListener('change',validateControlRanges);
+});
+bindRangeZone(lowerRangeZone,'low');
+bindRangeZone(upperRangeZone,'high');
+saveRanges.addEventListener('click',()=>{
+  validateControlRanges();
+  savedControlRanges={
+    lowMin:Number(ctlLowMin.value),lowMax:Number(ctlLowMax.value),
+    highMin:Number(ctlHighMin.value),highMax:Number(ctlHighMax.value)
+  };
+  saveRanges.classList.remove('show');
+  showToast('Діапазони збережено. Для застосування на АС згенеруйте нові ключі.');
+});
+const manualFreqTip='<strong>Ці канали можна вибирати з нашого списку доступних відеоканалів.</strong>';
+manualFreqZone.addEventListener('mouseenter',e=>{manualFreqZone.classList.add('hovered');showTip(manualFreqTip,e.clientX,e.clientY)});
+manualFreqZone.addEventListener('mousemove',e=>showTip(manualFreqTip,e.clientX,e.clientY));
+manualFreqZone.addEventListener('mouseleave',()=>{manualFreqZone.classList.remove('hovered');hideTip()});
 
 gen.addEventListener('mouseenter',e=>showTip(keyText,e.clientX,e.clientY));
 gen.addEventListener('mousemove',e=>showTip(keyText,e.clientX,e.clientY));
@@ -431,8 +527,23 @@ const connectedArea=document.getElementById('connectedArea');
 const settingsDroneName=document.getElementById('settingsDroneName');
 const settingsDroneStatus=document.getElementById('settingsDroneStatus');
 const settingsDroneBind=document.getElementById('settingsDroneBind');
+const connectHint=document.getElementById('connectHint');
+const ctlLowMin=document.getElementById('ctlLowMin');
+const ctlLowMax=document.getElementById('ctlLowMax');
+const ctlHighMin=document.getElementById('ctlHighMin');
+const ctlHighMax=document.getElementById('ctlHighMax');
+const lowerRangeZone=document.getElementById('lowerRangeZone');
+const upperRangeZone=document.getElementById('upperRangeZone');
+const saveRanges=document.getElementById('saveRanges');
+const frequencyMode=document.getElementById('frequencyMode');
+const manualFreqZone=document.getElementById('manualFreqZone');
+const manualFreq1=document.getElementById('manualFreq1');
+const manualFreq2=document.getElementById('manualFreq2');
+const manualFreq3=document.getElementById('manualFreq3');
 let connectedDrone=null;
 let droneBound=false;
+let savedControlRanges={lowMin:410,lowMax:485,highMin:820,highMax:895};
+const manualDefaults=[5080,5540,6005];
 const foundDrones=[
   {name:'ZOOM31-032-680',type:'Дрон'},
   {name:'ZOOM31-030-029',type:'Дрон'},
@@ -531,6 +642,7 @@ function renderConnectedArea(){
     connectedDrone=null;
     droneBound=false;
     topStatusState.droneConnected=false;
+    connectHint.classList.remove('hidden');
     settingsDroneName.textContent='Не підключено';
     settingsDroneStatus.textContent='Не підключено';
     settingsDroneBind.textContent='Не виконано';
@@ -573,6 +685,7 @@ function renderDroneSearch(){
       connectedDrone=drone;
       droneBound=false;
       topStatusState.droneConnected=true;
+      connectHint.classList.add('hidden');
       settingsDroneName.textContent=drone.name;
       settingsDroneStatus.textContent='Підключено';
       settingsDroneBind.textContent='Не виконано';
@@ -598,10 +711,14 @@ document.getElementById('applyTx').addEventListener('click',()=>{
   showToast('Параметри uplink успішно збережено.');
 });
 
+frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту; також доступні Автоматичний та Ручний режими.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mousemove',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту; також доступні Автоматичний та Ручний режими.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mouseleave',hideTip);
+
 document.addEventListener('scroll',hideTip,true);
 const channelWidth=document.getElementById('channelWidth');
 if(channelWidth){
-  const widthTip='20 MHz — по дефолту. 10 MHz — для дальніх польотів 15+, але відео менш стабільне, ніж на 20 MHz.';
+  const widthTip='<strong>20 MHz</strong> дає більш стійку відеопередачу до 15 км.<br><strong>10 MHz</strong> можна використовувати, якщо потрібно більше 15+ км, але відеопередача може трішки фрізитися.';
   channelWidth.addEventListener('mouseenter',e=>showTip(widthTip,e.clientX,e.clientY));
   channelWidth.addEventListener('mousemove',e=>showTip(widthTip,e.clientX,e.clientY));
   channelWidth.addEventListener('mouseleave',hideTip);
