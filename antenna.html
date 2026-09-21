@@ -1073,8 +1073,8 @@ langEN.classList.remove('active');
 </div>
 <script id="fontControlScript">
 (function(){
-  const KEY='siteFontScale';
-  const MIN=0.75, MAX=1.60, STEP=0.10;
+  const KEY='fontScaleAntenna';
+  const MIN=0.75, MAX=1.60, STEP=0.05;
   let scale=parseFloat(localStorage.getItem(KEY)||'1');
   if(!Number.isFinite(scale)) scale=1;
   scale=Math.max(MIN,Math.min(MAX,scale));
