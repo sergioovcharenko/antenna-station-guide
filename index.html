@@ -131,6 +131,147 @@ h1{font-size:32px;margin:18px 0 10px}
   .range-values{grid-template-columns:1fr 18px 1fr 44px}
 }
 
+
+/* ===== Unified highlight system + larger typography ===== */
+:root{
+  --accent:#ff5d2a;
+  --accent-soft:#fff3ee;
+  --accent-ring:rgba(255,93,42,.16);
+  --text:#20252b;
+  --muted:#77808b;
+}
+html,body{font-size:17px}
+body{color:var(--text)}
+.brand{font-size:19px}
+.status{font-size:17px}
+.nav{font-size:17px}
+h1{font-size:34px}
+h2{font-size:22px}
+.page-subtitle{font-size:20px}
+.search-title,.ranges-title{font-size:21px}
+.switch-label{font-size:20px}
+.muted-title{font-size:18px}
+.range-group-label,.label{font-size:18px}
+.freq,.tag,.select,.range-input,.value-box,.overview-card .line,.drone-name{font-size:18px}
+button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-size:18px}
+.tooltip{font-size:18px;line-height:1.5}
+.toast .msg{font-size:22px}
+
+/* one visual language for hover/focus/highlight */
+.nav:not(.dim),
+.status-item,
+.freq,
+.tag,
+.overview-card,
+.version-card,
+.drone-card,
+.range-zone,
+.manual-freq-zone,
+.tab,
+.select,
+.range-input,
+.connect-btn,
+.action-bind,
+.action-lite,
+.gear-btn,
+.gen,
+.apply,
+.range-save,
+.lang-btn{
+  transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+}
+
+.nav:not(.dim):hover,
+.status-item:hover,
+.freq:hover,
+.tag:hover,
+.overview-card:hover,
+.version-card:hover,
+.drone-card:hover,
+.range-zone:hover,
+.manual-freq-zone:hover,
+.tab:hover,
+.select:hover,
+.range-input:hover,
+.connect-btn:hover,
+.action-bind:hover,
+.action-lite:hover,
+.gear-btn:hover,
+.gen:hover,
+.apply:hover,
+.range-save:hover,
+.lang-btn:hover{
+  background:var(--accent-soft);
+  border-color:#ffb79f !important;
+  box-shadow:0 0 0 4px var(--accent-ring),0 8px 22px rgba(0,0,0,.06);
+}
+
+.nav:not(.dim):focus-visible,
+.status-item:focus-visible,
+.freq:focus-visible,
+.tag:focus-visible,
+.overview-card:focus-visible,
+.version-card:focus-visible,
+.drone-card:focus-visible,
+.range-zone:focus-within,
+.manual-freq-zone:focus-within,
+.tab:focus-visible,
+.select:focus-visible,
+.range-input:focus-visible,
+.connect-btn:focus-visible,
+.action-bind:focus-visible,
+.action-lite:focus-visible,
+.gear-btn:focus-visible,
+.gen:focus-visible,
+.apply:focus-visible,
+.range-save:focus-visible,
+.lang-btn:focus-visible{
+  outline:none;
+  background:var(--accent-soft);
+  border-color:var(--accent) !important;
+  box-shadow:0 0 0 4px var(--accent-ring),0 8px 22px rgba(0,0,0,.06);
+}
+
+/* active items use the same accent language */
+.nav.active,
+.tab.active,
+.lang-btn.active{
+  background:var(--accent-soft);
+  color:var(--accent);
+  box-shadow:inset 0 0 0 1px #ffd3c5;
+}
+
+/* keep warning frequencies visually distinct but within same system */
+.freq.bad{
+  background:#fff0ed;
+  color:#e45e42;
+  border-color:transparent;
+}
+.freq.bad:hover{
+  background:#ffe9e3;
+  border-color:#ef8a6b !important;
+  box-shadow:0 0 0 4px rgba(239,91,37,.14),0 8px 22px rgba(239,91,37,.10);
+}
+
+/* disabled navigation remains subdued */
+.nav.dim{
+  opacity:.48;
+  font-size:17px;
+}
+.nav.dim:hover{
+  background:transparent;
+  box-shadow:none;
+}
+
+/* make clickable cards feel clickable */
+.overview-card,
+.version-card,
+.drone-card,
+.range-zone,
+.manual-freq-zone{
+  cursor:pointer;
+}
+
 </style>
 </head>
 <body>
