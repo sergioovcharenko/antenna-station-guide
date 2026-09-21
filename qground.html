@@ -756,6 +756,7 @@ Large</span>
       <div class="report-dimmer" id="reportDimmer"></div>
 
       <div class="report-window" id="reportPanel" role="dialog" aria-label="Повідомлення QGround">
+
         <div class="report-log" id="reportLogLoiter">
           <div class="report-line">[22:13:37.076 COMP:1] Info: ArduCopter V4.5.77 (2faf5c7d)</div>
           <div class="report-line">[22:13:37.076 COMP:1] Info: ChibiOS: 6a85082c</div>
@@ -778,140 +779,88 @@ Large</span>
                 система може продовжувати працювати.
               </span>
             </span>
-          <div class="report-line warning">
-  <span class="report-issue" tabindex="0">
-    [00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30
+          </div>
 
-    <span class="report-issue-tip">
-      Це штатне повідомлення, яке може з’являтися, коли команда ARM задається в польотному режимі LOITER.
-    </span>
-  </span>
-</div>
+          <div class="report-line warning">
+            <span class="report-issue" tabindex="0">
+              [00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30
+              <span class="report-issue-tip">
+                Це штатне повідомлення, яке може з’являтися, коли команда ARM задається в польотному режимі LOITER.
+              </span>
+            </span>
+          </div>
+        </div>
 
         <div class="report-log hidden" id="reportLogAltHold">
+          <div class="report-line">[00:22:06.278 COMP:1] Info: RC9: Camera Zoom HIGH</div>
+          <div class="report-line">[00:22:07.296 COMP:1] Info: RC9: Camera Zoom MIDDLE</div>
 
-  <div class="report-line">
-    [00:22:06.278 COMP:1] Info: RC9: Camera Zoom HIGH
-  </div>
+          <div class="report-line critical">
+            <span class="report-issue critical" tabindex="0">
+              [00:22:22.422 COMP:1] Critical: EKF variance
+              <span class="report-issue-tip">
+                <b>Помилка EKF Variance</b> означає, що дані датчиків польотного контролера —
+                модуля оптичної навігації, компаса та акселерометра — суперечать один одному.
+                Простими словами: польотний комп’ютер отримує несумісні оцінки руху й положення,
+                тому видає помилку безпеки.
+              </span>
+            </span>
+          </div>
 
-  <div class="report-line">
-    [00:22:07.296 COMP:1] Info: RC9: Camera Zoom MIDDLE
-  </div>
+          <div class="report-line warning">
+            <span class="report-issue" tabindex="0">
+              [00:22:29.467 COMP:1] Warning: EKF3 IMU0 stopped aiding
+              <span class="report-issue-tip">
+                Це означає, що модуль оптичної навігації відключений
+                або його дані більше не використовуються для визначення положення БпЛА.
+              </span>
+            </span>
+          </div>
 
+          <div class="report-line warning">
+            <span class="report-issue" tabindex="0">
+              [00:22:35.501 COMP:1] Warning: SmartRTL deactivated: bad position
+              <span class="report-issue-tip">
+                <b>SmartRTL deactivated: bad position</b> означає, що функція розумного
+                повернення додому вимкнулась через некоректну оцінку позиції.
+                У цьому сценарії навігаційний шлях порушений, тому звичайний RTL
+                може працювати з похибкою.
+              </span>
+            </span>
+          </div>
 
-  <!-- EKF VARIANCE -->
-  <div class="report-line critical">
-    <span class="report-issue critical" tabindex="0">
+          <div class="report-line warning">
+            [00:25:23.037 COMP:1] Warning: Mode change to LOITER failed: requires position
+          </div>
 
-      [00:22:22.422 COMP:1] Critical: EKF variance
+          <div class="report-line">
+            [00:25:23.038 COMP:1] Info: EKF3 IMU0 is using external nav data
+          </div>
 
-      <span class="report-issue-tip">
-        <b>Помилка EKF Variance</b> означає, що дані датчиків польотного контролера —
-        модуля оптичної навігації, компаса та акселерометра — суперечать один одному.
+          <div class="report-line">
+            [00:25:23.038 COMP:1] Info: EKF3 IMU0 initial pos NE =
+            <span class="report-zero" tabindex="0">
+              1148.1,-1192.1 (m)
+              <span class="report-zero-tip">
+                Кожного разу при вмиканні <b>LOITER</b> система буде показувати поточні координати,
+                але після відновлення або повторної ініціалізації навігації може повертатися до
+                <b>нульових хибних координат</b>.
+              </span>
+            </span>
+          </div>
+        </div>
 
-        Простими словами: польотний комп’ютер отримує несумісні оцінки руху й положення,
-        тому видає помилку безпеки.
-      </span>
+        <button class="report-trash" id="reportClear" type="button" aria-label="Очистити повідомлення">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M20 18h24l-2 35H22z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round"/>
+            <path d="M16 18h32 M25 18l2-7h10l2 7 M28 27v17 M36 27v17"
+                  fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </button>
 
-    </span>
-  </div>
-
-
-  <!-- STOPPED AIDING -->
-  <div class="report-line warning">
-    <span class="report-issue" tabindex="0">
-
-      [00:22:29.467 COMP:1] Warning: EKF3 IMU0 stopped aiding
-
-      <span class="report-issue-tip">
-        Це означає, що модуль оптичної навігації відключений
-        або його дані більше не використовуються для визначення положення БпЛА.
-      </span>
-
-    </span>
-  </div>
-
-
-  <!-- SMART RTL -->
-  <div class="report-line warning">
-    <span class="report-issue" tabindex="0">
-
-      [00:22:35.501 COMP:1] Warning: SmartRTL deactivated: bad position
-
-      <span class="report-issue-tip">
-        <b>SmartRTL deactivated: bad position</b> означає, що функція розумного
-        повернення додому вимкнулась через некоректну оцінку позиції.
-
-        У цьому сценарії навігаційний шлях порушений, тому звичайний RTL
-        може працювати з похибкою.
-      </span>
-
-    </span>
-  </div>
-
-
-  <!-- LOITER FAILED -->
-  <div class="report-line warning">
-    [00:25:23.037 COMP:1] Warning: Mode change to LOITER failed: requires position
-  </div>
-
-
-  <!-- EXTERNAL NAV -->
-  <div class="report-line">
-    [00:25:23.038 COMP:1] Info: EKF3 IMU0 is using external nav data
-  </div>
-
-
-  <!-- COORDINATES -->
-  <div class="report-line">
-
-    [00:25:23.038 COMP:1] Info: EKF3 IMU0 initial pos NE =
-
-    <span class="report-zero" tabindex="0">
-
-      1148.1,-1192.1 (m)
-
-      <span class="report-zero-tip">
-        Кожного разу при вмиканні <b>LOITER</b> система буде показувати поточні координати,
-        але після відновлення або повторної ініціалізації навігації може повертатися до
-        <b>нульових хибних координат</b>.
-      </span>
-
-    </span>
-
-  </div>
-
-</div>
+      </div>
+    </div>
     <!-- /REPORT LAYER -->
-            <button
-  class="report-trash"
-  id="reportClear"
-  type="button"
-  aria-label="Очистити повідомлення"
->
-  <svg viewBox="0 0 64 64" aria-hidden="true">
-
-    <path
-      d="M20 18h24l-2 35H22z"
-      fill="none"
-      stroke="#000"
-      stroke-width="5"
-      stroke-linejoin="round"
-    />
-
-    <path
-      d="M16 18h32 M25 18l2-7h10l2 7 M28 27v17 M36 27v17"
-      fill="none"
-      stroke="#000"
-      stroke-width="5"
-      stroke-linecap="round"
-    />
-
-  </svg>
-</button>
-</div>
-
-
 
 <div class="q-menu-backdrop" id="qMenuBackdrop" aria-hidden="true">
   <div class="q-menu-panel" role="dialog" aria-modal="true" aria-labelledby="qMenuTitle">
