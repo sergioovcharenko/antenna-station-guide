@@ -764,15 +764,11 @@ Large</span>
           <div class="report-line">[22:13:37.105 COMP:1] Info: RCOut: DS600:1-6 PWM:7-13</div>
           <div class="report-line">[22:13:37.106 COMP:1] Info: IMU0: fast sampling enabled 2.0kHz</div>
           <div class="report-line">[22:13:37.107 COMP:1] Info: Frame: QUAD/X</div>
-          <div class="report-line critical">[22:13:50.038 COMP:1] Critical: PreArm: Need Position Estimate</div>
-          <div class="report-line">[22:14:12.789 COMP:2] Info: VISP 1.3.4 service has started</div>
-          <div class="report-line">[22:14:12.797 COMP:1] Info: EKF3 IMU0 origin set</div>
-          <div class="report-line">[22:14:12.817 COMP:1] Info: Field Elevation Set: 100m</div>
-          <div class="report-line warning">[22:14:20.687 COMP:2] Warning: VISP: No rangefinder.</div>
           <div class="report-line">[22:14:20.704 COMP:2] Info: VISP 1.3.4 camera service has started.</div>
           <div class="report-line critical">[22:14:21.145 COMP:1] Critical: PreArm: Need Position Estimate</div>
           <div class="report-line">[22:14:21.272 COMP:1] Info: EKF3 IMU0 is using external nav data</div>
           <div class="report-line">[22:14:21.289 COMP:1] Info: EKF3 IMU0 initial pos NE = <span class="report-zero" tabindex="0">0.0,0.0 (m)<span class="report-zero-tip">Хибна нульова координата. Можливі невеликі відхилення, наприклад −0.1, 0.5 (m) — система все одно буде працювати.</span></span></div>
+            <div class="report-line warning">[00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30</div>
         </div>
 
         <div class="report-log hidden" id="reportLogAltHold">
@@ -781,17 +777,10 @@ Large</span>
           <div class="report-line critical"><span class="report-issue critical" tabindex="0">[00:13:22.422 COMP:1] Critical: EKF variance<span class="report-issue-tip"><b>Помилка EKF Variance</b> означає, що дані датчиків польотного контролера — модуля оптичної навігації, компаса та акселерометра — суперечать один одному. Простими словами: польотний комп’ютер отримує несумісні оцінки руху й положення, тому видає помилку безпеки.</span></span></div>
           <div class="report-line warning"><span class="report-issue" tabindex="0">[00:13:22.467 COMP:1] Warning: EKF3 IMU0 stopped aiding<span class="report-issue-tip">Це повідомлення означає, що EKF перестав використовувати зовнішнє навігаційне джерело. У цьому навчальному сценарії — модуль оптичної навігації відключений або його дані більше не використовуються.</span></span></div>
           <div class="report-line warning"><span class="report-issue" tabindex="0">[00:13:22.501 COMP:1] Warning: SmartRTL deactivated: bad position<span class="report-issue-tip"><b>Smart RTL deactivated</b> означає, що функція розумного повернення додому стала недоступною через некоректну оцінку позиції. У цьому сценарії телеметричний/навігаційний шлях порушений, тому повернення може працювати з похибкою.</span></span></div>
-          <div class="report-line warning">[00:13:23.037 COMP:1] Warning: Mode change to LOITER failed: requires position</div>
-          <div class="report-line">[00:13:23.038 COMP:1] Info: EKF3 IMU0 is using external nav data</div>
-          <div class="report-line">[00:13:23.038 COMP:1] Info: EKF3 IMU0 initial pos NE = 1148.1,-1192.1 (m)</div>
-          <div class="report-line critical">[00:13:23.695 COMP:1] Critical: EKF variance</div>
-          <div class="report-line warning">[00:13:23.732 COMP:1] Warning: EKF3 IMU0 stopped aiding</div>
-          <div class="report-line critical">[00:13:26.508 COMP:1] Critical: PreArm: Battery 1 below minimum arming voltage</div>
-          <div class="report-line warning">[00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30</div>
-          <div class="report-line">[00:14:27.421 COMP:2] Info: stop downscaling images.</div>
-          <div class="report-line critical">[00:15:13.727 COMP:1] Critical: EKF variance</div>
-          <div class="report-line warning">[00:15:14.416 COMP:1] Warning: EKF3 IMU0 stopped aiding</div>
-          <div class="report-line warning">[00:15:15.135 COMP:1] Warning: SmartRTL deactivated: bad position</div>
+          <div class="report-line warning">[00:25:23.037 COMP:1] Warning: Mode change to LOITER failed: requires position</div>
+          <div class="report-line">[00:25:23.038 COMP:1] Info: EKF3 IMU0 is using external nav data</div>
+          <div class="report-line">[00:25:23.038 COMP:1] Info: EKF3 IMU0 initial pos NE = 1148.1,-1192.1 (m)</div>
+          
         </div>
 
         <button class="report-trash" id="reportClear" type="button" aria-label="Очистити повідомлення">
