@@ -41,8 +41,8 @@ h1{font-size:34px;margin:6px 0 22px;color:#20252b}h2{font-size:21px;margin:0 0 2
 .gen::after,.apply::after{content:"";position:absolute;inset:-9px;border-radius:16px;border:3px solid transparent;box-shadow:0 0 0 0 rgba(239,91,37,0);transition:.18s;pointer-events:none}
 .gen:hover::after,.gen:focus-visible::after,.gen.pulse::after,.apply:hover::after,.apply:focus-visible::after{border-color:#ff4c16;box-shadow:0 0 0 6px rgba(255,76,22,.16),0 0 34px rgba(255,76,22,.38)}
 .gen.pulse::after{animation:pulse .7s ease}@keyframes pulse{50%{transform:scale(1.04);box-shadow:0 0 0 10px rgba(255,76,22,.13),0 0 40px rgba(255,76,22,.55)}}
-.tooltip{position:fixed;max-width:620px;background:#20262e;color:#fff;padding:20px 24px;border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.28);font-size:21px;font-weight:700;line-height:1.5;opacity:0;transform:translateY(8px);pointer-events:none;transition:.15s;z-index:100}
-.tooltip.show{opacity:1;transform:none}.tooltip strong{color:#ffd4c5;font-weight:800}
+.tooltip{position:fixed;max-width:620px;background:#151a21;color:#ffffff;padding:20px 24px;border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.34);font-size:21px;font-weight:700;line-height:1.5;opacity:0;transform:translateY(8px);pointer-events:none;transition:.15s;z-index:100}
+.tooltip.show{opacity:1;transform:none}.tooltip strong{color:#ff9a78;font-weight:800;text-shadow:0 0 1px rgba(0,0,0,.25)}
 .toast{position:fixed;right:28px;top:26px;width:min(650px,calc(100vw - 56px));background:#fff;border:1px solid #e2e6ea;border-radius:20px;box-shadow:0 15px 38px rgba(0,0,0,.17);padding:24px 28px;opacity:0;transform:translateY(-18px);pointer-events:none;transition:.25s;z-index:150}.toast.show{opacity:1;transform:none}.ok{display:inline-block;background:#d9f8e2;color:#15914e;border-radius:999px;padding:10px 16px;font-weight:700;margin-bottom:15px}.toast .msg{font-size:22px;font-weight:700}
 .antenna-head{display:flex;align-items:center;gap:26px;margin-bottom:28px}.tabs{display:flex;border:1px solid #dfe4ea;border-radius:12px;overflow:hidden;background:#f8f9fb}.tab{padding:15px 24px;font-size:20px;font-weight:700;color:#737b86;cursor:pointer;border-right:1px solid #e2e5e9}.tab:last-child{border-right:0}.tab.active{background:#fff0ea;color:#ef6035}
 .subpage{display:none}.subpage.active{display:block}
@@ -183,6 +183,17 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
   color:#ef6035 !important;
   box-shadow:none !important;
   border-color:transparent !important;
+}
+
+/* ===== High contrast tooltip text ===== */
+.tooltip{
+  background:#151a21 !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.10);
+}
+.tooltip strong{
+  color:#ff9a78 !important;
+  font-weight:800 !important;
 }
 </style>
 </head>
