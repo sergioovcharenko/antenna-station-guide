@@ -778,15 +778,22 @@ Large</span>
                 система може продовжувати працювати.
               </span>
             </span>
-          </div>
+          <div class="report-line warning">
+  <span class="report-issue" tabindex="0">
+    [00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30
 
-          <div class="report-line warning">[00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30</div>
-        </div>
+    <span class="report-issue-tip">
+      Це штатне повідомлення, яке може з’являтися, коли команда ARM задається в польотному режимі LOITER.
+    </span>
+  </span>
+</div>
 
         <div class="report-log hidden" id="reportLogAltHold">
+          <div class="report-line">[00:22:06.278 COMP:1] Info: RC9: Camera Zoom HIGH</div>
+          <div class="report-line">[00:22:07.296 COMP:1] Info: RC9: Camera Zoom MIDDLE</div>
           <div class="report-line critical">
             <span class="report-issue critical" tabindex="0">
-              [00:13:22.422 COMP:1] Critical: EKF variance
+              [00:22:22.422 COMP:1] Critical: EKF variance
               <span class="report-issue-tip">
                 <b>Помилка EKF Variance</b> означає, що дані датчиків польотного контролера —
                 модуля оптичної навігації, компаса та акселерометра — суперечать один одному.
@@ -798,7 +805,7 @@ Large</span>
 
           <div class="report-line warning">
             <span class="report-issue" tabindex="0">
-              [00:13:22.467 COMP:1] Warning: EKF3 IMU0 stopped aiding
+              [00:22:29.467 COMP:1] Warning: EKF3 IMU0 stopped aiding
               <span class="report-issue-tip">
                 Це означає, що модуль оптичної навігації відключений
                 або його дані більше не використовуються для визначення положення БпЛА.
@@ -808,7 +815,7 @@ Large</span>
 
           <div class="report-line warning">
             <span class="report-issue" tabindex="0">
-              [00:13:22.501 COMP:1] Warning: SmartRTL deactivated: bad position
+              [00:22:35.501 COMP:1] Warning: SmartRTL deactivated: bad position
               <span class="report-issue-tip">
                 <b>SmartRTL deactivated: bad position</b> означає, що функція розумного
                 повернення додому вимкнулась через некоректну оцінку позиції.
@@ -816,8 +823,29 @@ Large</span>
                 може працювати з похибкою.
               </span>
             </span>
+            <div class="report-line warning">
+  [00:25:23.037 COMP:1] Warning: Mode change to LOITER failed: requires position
+</div>
+
+<div class="report-line">
+  [00:25:23.038 COMP:1] Info: EKF3 IMU0 is using external nav data
+</div>
+
+<div class="report-line">
+  [00:25:23.038 COMP:1] Info: EKF3 IMU0 initial pos NE =
+  <span class="report-zero" tabindex="0">
+    1148.1,-1192.1 (m)
+
+    <span class="report-zero-tip">
+      Кожного разу при вмиканні <b>LOITER</b> система буде показувати поточні координати,
+      але після відновлення або повторної ініціалізації навігації може повертатися до
+      <b>нульових хибних координат</b>.
+    </span>
+  </span>
+</div>
           </div>
         </div>
+            
 
         <button class="report-trash" id="reportClear" type="button" aria-label="Очистити повідомлення">
           <svg viewBox="0 0 64 64" aria-hidden="true">
