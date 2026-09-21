@@ -44,6 +44,19 @@ h1{font-size:34px;margin:6px 0 22px;color:#20252b}h2{font-size:21px;margin:0 0 2
 .tooltip{position:fixed;max-width:620px;background:#151a21;color:#ffffff;padding:20px 24px;border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.34);font-size:21px;font-weight:700;line-height:1.5;opacity:0;transform:translateY(8px);pointer-events:none;transition:.15s;z-index:100}
 .tooltip.show{opacity:1;transform:none}.tooltip strong{color:#ff9a78;font-weight:800;text-shadow:0 0 1px rgba(0,0,0,.25)}
 .toast{position:fixed;right:28px;top:26px;width:min(650px,calc(100vw - 56px));background:#fff;border:1px solid #e2e6ea;border-radius:20px;box-shadow:0 15px 38px rgba(0,0,0,.17);padding:24px 28px;opacity:0;transform:translateY(-18px);pointer-events:none;transition:.25s;z-index:150}.toast.show{opacity:1;transform:none}.ok{display:inline-block;background:#d9f8e2;color:#15914e;border-radius:999px;padding:10px 16px;font-weight:700;margin-bottom:15px}.toast .msg{font-size:22px;font-weight:700}
+/* ===== Binding error toast ===== */
+.toast.error{
+  background:#fff6f6;
+  border-color:#ef9a9a;
+  box-shadow:0 15px 38px rgba(190,45,45,.22);
+}
+.toast.error .ok{
+  background:#ffe0e0;
+  color:#c92f2f;
+}
+.toast.error .msg{
+  color:#9f2525;
+}
 .antenna-head{display:flex;align-items:center;gap:26px;margin-bottom:28px}.tabs{display:flex;border:1px solid #dfe4ea;border-radius:12px;overflow:hidden;background:#f8f9fb}.tab{padding:15px 24px;font-size:20px;font-weight:700;color:#737b86;cursor:pointer;border-right:1px solid #e2e5e9}.tab:last-child{border-right:0}.tab.active{background:#fff0ea;color:#ef6035}
 .subpage{display:none}.subpage.active{display:block}
 .version-wrap{display:grid;grid-template-columns:2fr 1fr;gap:18px}.version-card,.overview-card{border:1px solid #e4e7eb;border-radius:18px;padding:26px;background:#fff}.muted-title{font-size:17px;color:#a0a7b0;text-transform:uppercase;font-weight:700;letter-spacing:.03em}.big-value{font-size:28px;font-weight:700;margin-top:14px;color:#20252b}
@@ -620,6 +633,8 @@ const translationPairs=[
   ['Не виконано','Not completed'],
   ['Виконано','Completed'],
   ['Успішно','Success'],
+  ['Помилка','Error'],
+  ["Key's are not recorded. Повторіть спробу","Key's are not recorded. Please try again"],
   ['Налаштування успішно збережено.','Settings saved successfully.'],
   ['Параметри uplink успішно збережено.','Uplink parameters saved successfully.'],
   ['Діапазони збережено. Для застосування на АС згенеруйте нові ключі.','Bands saved. Generate new keys to apply them to the ground station.'],
@@ -726,11 +741,18 @@ function showTip(html,x,y){
 }
 function hideTip(){tooltip.classList.remove('show')}
 function setWarning(on){warnTop.classList.toggle('active',on)}
-function showToast(msg){
+function showToast(msg,type='success'){
+  const badge=toast.querySelector('.ok');
+  const isError=type==='error';
+  toast.classList.toggle('error',isError);
+  badge.textContent=translateString(isError?'Помилка':'Успішно',currentLang);
   toastMsg.textContent=translateString(msg,currentLang);
   toast.classList.add('show');
   clearTimeout(showToast.timer);
-  showToast.timer=setTimeout(()=>toast.classList.remove('show'),3500);
+  showToast.timer=setTimeout(()=>{
+    toast.classList.remove('show');
+    toast.classList.remove('error');
+  },isError?4500:3500);
 }
 function renderTopStatuses(){
   const aDot=statusAntenna.querySelector('.dot');
@@ -836,6 +858,7 @@ const manualFreq2=document.getElementById('manualFreq2');
 const manualFreq3=document.getElementById('manualFreq3');
 let connectedDrone=null;
 let droneBound=false;
+let bindAttemptCount=0;
 let searchRevealCount=0;
 let searchRevealTimers=[];
 
@@ -1040,6 +1063,22 @@ function renderConnectedArea(){
   gear.className='gear-btn';
   gear.textContent='⚙';
   bind.addEventListener('click',()=>{
+    bindAttemptCount++;
+
+    // Демонстраційна логіка:
+    // 1-ша спроба завжди помилка, 2-га завжди успішна,
+    // далі результат випадковий (приблизно 25% помилок).
+    const shouldFail =
+      bindAttemptCount===1 ||
+      (bindAttemptCount>2 && Math.random()<0.25);
+
+    if(shouldFail){
+      droneBound=false;
+      settingsDroneBind.textContent='Не виконано';
+      showToast("Key's are not recorded. Повторіть спробу",'error');
+      return;
+    }
+
     droneBound=true;
     settingsDroneBind.textContent='Виконано';
     showToast('Прив’язку дрона виконано успішно. Перезавантажте дрон, щоб застосувати зміни.');
