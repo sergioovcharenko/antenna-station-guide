@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Антенна станція — інтерактивна інструкція</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f5f7;color:#1f2937}button{font:inherit}
+.app{min-height:100vh;background:#f4f6f8}.top{height:76px;background:#fff;border-bottom:1px solid #e6e9ed;display:flex;align-items:center}
+.brand{width:326px;height:100%;display:flex;align-items:center;gap:14px;padding:0 28px;border-right:1px solid #eceff2;font-size:26px;font-weight:700;color:#20252b}
+.wifi{font-size:34px;color:#ff5d2a}.status{display:flex;gap:22px;align-items:center;padding-left:58px;font-size:20px;color:#7b838c}.dot{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:8px;background:#dfe4ea}.dot.green{background:#25b87d}.warn{color:#f3a31a}
+.lang{margin-left:auto;display:flex;align-items:center;gap:14px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}
+.body{display:flex}.side{width:326px;background:#fff;min-height:calc(100vh - 76px);padding:18px}
+.side .active{background:#fff1ec;color:#ef6035;border-radius:12px;padding:28px 24px;font-size:22px;font-weight:700;margin-bottom:18px}.nav{padding:18px 24px;font-size:20px;color:#6f7782;font-weight:600}.nav.dim{color:#a9b0b8}
+.content{flex:1;padding:22px 34px 70px}.card{background:#fff;border:1px solid #e1e5e9;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.03);padding:26px 28px;margin-bottom:48px}
+h2{font-size:21px;margin:0 0 22px}.freqgrid{border:1px solid #e3e6e9;border-radius:16px;padding:14px 16px 18px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px 14px;align-items:center}.freq{height:60px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#747d87}.freq.bad{background:#fff0ed;color:#e45e42;border-radius:10px}
+.tags{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.tag{display:flex;border:1px solid #efc9c1;border-radius:8px;overflow:hidden;color:#dd5c45;background:#fff8f6;font-size:18px}.tag span{padding:12px 14px}.tag b{padding:12px 14px;border-left:1px solid #efc9c1;font-weight:400}.unit{font-size:14px;color:#9aa1a8;margin-top:7px}
+.label{font-size:18px;font-weight:700;color:#707984;margin-top:28px;margin-bottom:10px}.select{width:118px;padding:14px 16px;border:1px solid #d7dce1;border-radius:10px;font-size:20px;background:#fff}
+.keys{padding:38px 36px 48px;position:relative}.keys h2{font-size:22px;margin-bottom:24px}
+.gen{position:relative;border:0;border-radius:10px;background:#ef5b25;color:#fff;font-weight:700;font-size:20px;padding:20px 26px;cursor:pointer;z-index:3;transition:.18s}
+.gen::after{content:"";position:absolute;inset:-9px;border-radius:16px;border:3px solid transparent;box-shadow:0 0 0 0 rgba(239,91,37,0);transition:.18s;pointer-events:none}
+.gen:hover::after,.gen:focus-visible::after,.gen.pulse::after{border-color:#ff4c16;box-shadow:0 0 0 6px rgba(255,76,22,.16),0 0 34px rgba(255,76,22,.48)}
+.gen.pulse::after{animation:pulse .7s ease}@keyframes pulse{50%{transform:scale(1.04);box-shadow:0 0 0 10px rgba(255,76,22,.13),0 0 40px rgba(255,76,22,.55)}}
+.tip{position:absolute;left:32px;bottom:122px;width:min(620px,72vw);background:#20262e;color:white;padding:17px 19px;border-radius:13px;box-shadow:0 16px 40px rgba(0,0,0,.25);font-size:18px;line-height:1.45;opacity:0;transform:translateY(8px);pointer-events:none;transition:.18s;z-index:5}
+.tip:after{content:"";position:absolute;top:100%;left:70px;border:10px solid transparent;border-top-color:#20262e}.gen:hover+.tip,.gen:focus-visible+.tip{opacity:1;transform:none}.tip strong{color:#ffd4c5}
+.toast{position:fixed;right:28px;top:26px;width:min(650px,calc(100vw - 56px));background:#fff;border:1px solid #e2e6ea;border-radius:20px;box-shadow:0 15px 38px rgba(0,0,0,.17);padding:24px 28px;opacity:0;transform:translateY(-18px);pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:none}.ok{display:inline-block;background:#d9f8e2;color:#15914e;border-radius:999px;padding:10px 16px;font-weight:700;margin-bottom:15px}.toast .msg{font-size:22px;font-weight:700}
+.note{font-size:13px;color:#8e969f;margin-top:16px}
+@media(max-width:900px){.brand{width:230px;font-size:18px}.side{width:230px}.status{padding-left:20px;gap:10px;font-size:14px}.content{padding:16px}.freqgrid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand"><span class="wifi">◔</span>Панель керування</div>
+    <div class="status">
+      <span><i class="dot green"></i>Антенна станція</span>
+      <span><i class="dot"></i>Дрон</span>
+      <span><i class="dot"></i>Пошук</span>
+      <span class="warn">⚠ Попередження</span>
+    </div>
+    <div class="lang"><b>UA</b><span>EN</span></div>
+  </div>
+  <div class="body">
+    <aside class="side">
+      <div class="active">Зв'язок</div>
+      <div class="nav">Антенна станція</div>
+      <div class="nav">Дрон</div>
+      <div class="nav dim">Підключіться до дрона</div>
+    </aside>
+    <main class="content">
+      <section class="card">
+        <h2>Заборонені частоти</h2>
+        <div class="freqgrid">
+          <div class="freq">5885</div><div class="freq">5905</div><div class="freq">5925</div><div class="freq">5945</div><div class="freq">5965</div>
+          <div class="freq">5985</div><div class="freq">6005</div><div class="freq bad">6025 ⚠</div><div class="freq bad">6045 ⚠</div><div class="freq bad">6065 ⚠</div>
+          <div class="freq bad">6085 ⚠</div><div class="freq bad">6105 ⚠</div><div class="freq bad">6125 ⚠</div><div class="freq bad">6145 ⚠</div>
+        </div>
+        <div class="tags">
+          <div class="tag"><span>6145</span><b>×</b></div><div class="tag"><span>6105</span><b>×</b></div>
+          <div class="tag"><span>6085</span><b>×</b></div><div class="tag"><span>6065</span><b>×</b></div>
+          <div class="tag"><span>6045</span><b>×</b></div><div class="tag"><span>6125</span><b>×</b></div>
+          <div class="tag"><span>6025</span><b>×</b></div>
+        </div>
+        <div class="unit">MHz</div>
+        <div class="label">Ширина каналу</div>
+        <select class="select"><option>20</option></select>
+        <div class="unit">MHz</div>
+      </section>
+      <section class="card keys">
+        <h2>Ключі</h2>
+        <button id="gen" class="gen">Згенерувати нові ключі</button>
+        <div class="tip">Після цього усі борти, які були прив’язані до АС — <strong>відв’яжуться</strong>, тому їх потрібно буде <strong>прив’язати (забіндити) наново</strong>.</div>
+      </section>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast">
+  <div class="ok">Успішно</div>
+  <div class="msg">Налаштування успішно збережено.</div>
+</div>
+<script>
+const gen=document.getElementById('gen'),toast=document.getElementById('toast');let t;
+gen.addEventListener('click',()=>{gen.classList.remove('pulse');void gen.offsetWidth;gen.classList.add('pulse');toast.classList.add('show');clearTimeout(t);t=setTimeout(()=>toast.classList.remove('show'),3500)});
+gen.addEventListener('animationend',()=>gen.classList.remove('pulse'));
+</script>
+</body>
+</html>
