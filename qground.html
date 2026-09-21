@@ -415,6 +415,29 @@
     font-size:16px;
   }
 }
+
+/* ===== AltHold top-zone alignment ===== */
+.alt-status-overlay{pointer-events:none}
+.image-container.althold-state .top-mode-zone{
+  left:15% !important;
+  width:8.7% !important;
+}
+.image-container.althold-state .top-report-zone{
+  left:23.7% !important;
+  width:3.2% !important;
+}
+.image-container.althold-state .top-visp-zone{
+  left:26.9% !important;
+  width:6.6% !important;
+}
+.image-container.althold-state .top-dbm-zone{
+  left:33.5% !important;
+  width:9% !important;
+}
+.image-container.althold-state .top-rssi-zone{
+  left:42.5% !important;
+  width:7.5% !important;
+}
 </style>
 
 </head>
@@ -441,7 +464,7 @@
 <span style="color: green;">Flying</span>
     </div>
 
-    <div class="hotspot" tabindex="0" style="top: 0%; left: 15%; width: 6.5%; height: 6.5%;">
+    <div class="hotspot top-mode-zone" tabindex="0" style="top: 0%; left: 15%; width: 6.5%; height: 6.5%;">
       <span class="tooltip tooltip-bottom">
         <b>Польотний режим:</b><br> 
         1. <b>ALT HOLD</b> - утримує висоту по барометру. Обмежений кутами нахилу 30°<br>
@@ -451,17 +474,17 @@
       </span>
     </div>
 
-    <div class="hotspot report-hotspot" id="reportHotspot" tabindex="0" role="button" aria-label="Відкрити Report" style="top: 0%; left: 21.5%; width: 3.5%; height: 6.5%;">
+    <div class="hotspot report-hotspot top-report-zone" id="reportHotspot" tabindex="0" role="button" aria-label="Відкрити Report" style="top: 0%; left: 21.5%; width: 3.5%; height: 6.5%;">
       <span class="tooltip tooltip-bottom"><b>Повідомлення</b><br> Штатні помилки. Критичні помилки</span>
     </div>
 
-    <div class="hotspot" tabindex="0" style="top: 0%; left: 25%; width: 6.5%; height: 6.5%;">
+    <div class="hotspot top-visp-zone" tabindex="0" style="top: 0%; left: 25%; width: 6.5%; height: 6.5%;">
       <span class="tooltip tooltip-bottom"><b>VISP (Visual positioning)</b>. Дублюєче значення Engine Load - показник модуля візуальної стабілізації<br>
 Для коректної роботи потрібно більше <b>50%</b><br>
  <span style="color: red;"> Якщо 20%-30% - перейдіть в <b>ALT HOLD</b></span>
     </div>
     
-    <div class="hotspot" tabindex="0" style="top: 0%; left: 31.5%; width: 9%; height: 6.5%;">
+    <div class="hotspot top-dbm-zone" tabindex="0" style="top: 0%; left: 31.5%; width: 9%; height: 6.5%;">
       <span class="tooltip tooltip-bottom">
         <b>dBm</b> - Потужність сигналу прийому відео та телеметрії <br>
         <span style="color: green;"><b>Зелений</b></span> значок - менше 5% втрати пакетів.<br> 
@@ -476,7 +499,7 @@
       </span>
     </div>
     
-    <div class="hotspot" tabindex="0" style="top: 0%; left: 40.5%; width: 7.5%; height: 6.5%;">
+    <div class="hotspot top-rssi-zone" tabindex="0" style="top: 0%; left: 40.5%; width: 7.5%; height: 6.5%;">
       <span class="tooltip tooltip-bottom"><b>RSSI</b> - це індикатор рівня потужності прийнятого сигналу.<br> <b>Критичне значення  <span style="color: red;">45%</b></span>
     </div>
     
@@ -658,6 +681,7 @@ Large</span>
   const altOverlay=document.getElementById('altStatusOverlay');
   const altError=document.getElementById('altHoldError');
   const reportPanel=document.getElementById('reportPanel');
+  const imageContainer=document.querySelector('.image-container');
   let altErrorTimer=null;
 
   function hideAltError(){
@@ -676,6 +700,7 @@ Large</span>
     altHold?.classList.remove('active');
     altOverlay?.classList.remove('show');
     altOverlay?.setAttribute('aria-hidden','true');
+    imageContainer?.classList.remove('althold-state');
     hideAltError();
   }
 
@@ -684,6 +709,7 @@ Large</span>
     altHold?.classList.add('active');
     altOverlay?.classList.add('show');
     altOverlay?.setAttribute('aria-hidden','false');
+    imageContainer?.classList.add('althold-state');
 
     // Report belongs to Loiter, so close it when AltHold is selected.
     if(reportPanel){
