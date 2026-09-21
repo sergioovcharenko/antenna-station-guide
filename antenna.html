@@ -636,6 +636,7 @@ const translationPairs=[
   ['Помилка','Error'],
   ["Key's are not recorded. Повторіть спробу","Key's are not recorded. Please try again"],
   ['Налаштування успішно збережено.','Settings saved successfully.'],
+  ['Налаштування не збережено. Повторіть спробу.','Settings were not saved. Please try again.'],
   ['Параметри uplink успішно збережено.','Uplink parameters saved successfully.'],
   ['Діапазони збережено. Для застосування на АС згенеруйте нові ключі.','Bands saved. Generate new keys to apply them to the ground station.'],
   ['Прив’язку дрона виконано успішно. Перезавантажте дрон, щоб застосувати зміни.','Drone binding completed successfully. Restart the drone to apply the changes.'],
@@ -859,6 +860,7 @@ const manualFreq3=document.getElementById('manualFreq3');
 let connectedDrone=null;
 let droneBound=false;
 let bindAttemptCount=0;
+let keyGenerationAttemptCount=0;
 let searchRevealCount=0;
 let searchRevealTimers=[];
 
@@ -975,7 +977,25 @@ manualFreqZone.addEventListener('mouseleave',()=>{manualFreqZone.classList.remov
 gen.addEventListener('mouseenter',e=>showTip(keyText,e.clientX,e.clientY));
 gen.addEventListener('mousemove',e=>showTip(keyText,e.clientX,e.clientY));
 gen.addEventListener('mouseleave',hideTip);
-gen.addEventListener('click',()=>{gen.classList.remove('pulse');void gen.offsetWidth;gen.classList.add('pulse');showToast('Налаштування успішно збережено.')});
+gen.addEventListener('click',()=>{
+  gen.classList.remove('pulse');
+  void gen.offsetWidth;
+  gen.classList.add('pulse');
+
+  keyGenerationAttemptCount++;
+  // 1-ша спроба — помилка, 2-га — гарантований успіх,
+  // далі приблизно 25% помилок / 75% успіху.
+  const shouldFail =
+    keyGenerationAttemptCount===1 ||
+    (keyGenerationAttemptCount>2 && Math.random()<0.25);
+
+  if(shouldFail){
+    showToast('Налаштування не збережено. Повторіть спробу.','error');
+    return;
+  }
+
+  showToast('Налаштування успішно збережено.');
+});
 gen.addEventListener('animationend',()=>gen.classList.remove('pulse'));
 
 
