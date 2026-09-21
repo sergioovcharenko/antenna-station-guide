@@ -1055,14 +1055,13 @@ const ALT_HOLD_SRC="AH.jpg";
 
 
 <script>
-/* ===== Report panel behavior v4 ===== */
+/* ===== Report panel behavior v5 ===== */
 (function(){
   const hotspot=document.getElementById('reportHotspot');
   const layer=document.getElementById('reportLayer');
   const dimmer=document.getElementById('reportDimmer');
   const panel=document.getElementById('reportPanel');
   const clearBtn=document.getElementById('reportClear');
-  const loiter=document.getElementById('modeLoiter');
   const altHold=document.getElementById('modeAltHold');
   const loiterLog=document.getElementById('reportLogLoiter');
   const altHoldLog=document.getElementById('reportLogAltHold');
@@ -1070,7 +1069,7 @@ const ALT_HOLD_SRC="AH.jpg";
   if(!hotspot || !layer || !dimmer || !panel || !loiterLog || !altHoldLog) return;
 
   const played={loiter:false,althold:false};
-  let revealTimers=[];
+  let timers=[];
 
   function isAltHold(){
     return !!altHold && altHold.classList.contains('active');
@@ -1084,52 +1083,33 @@ const ALT_HOLD_SRC="AH.jpg";
     return isAltHold() ? altHoldLog : loiterLog;
   }
 
-  function clearRevealTimers(){
-    revealTimers.forEach(clearTimeout);
-    revealTimers=[];
+  function clearTimers(){
+    timers.forEach(clearTimeout);
+    timers=[];
   }
 
-  function showAllLines(log){
+  function resetLines(log){
+    log.querySelectorAll('.report-line').forEach(line=>{
+      line.classList.remove('reveal-visible');
+      line.classList.add('reveal-pending');
+    });
+  }
+
+  function showAll(log){
     log.querySelectorAll('.report-line').forEach(line=>{
       line.classList.remove('reveal-pending');
       line.classList.add('reveal-visible');
     });
   }
 
-  function playFirstOpenReveal(log,key){
-    clearRevealTimers();
-
-    const lines=[...log.querySelectorAll('.report-line')];
-
-    lines.forEach(line=>{
-      line.classList.remove('reveal-visible');
-      line.classList.add('reveal-pending');
-    });
-
-    let elapsed=0;
-
-    lines.forEach(line=>{
+  function showByColor(log,red){
+    log.querySelectorAll('.report-line').forEach(line=>{
       const isRed=line.classList.contains('warning') || line.classList.contains('critical');
-
-      // Black/info messages: +0.5 s.
-      // Red warning/critical messages: +5 s.
-      elapsed += isRed ? 5000 : 500;
-
-      const timer=setTimeout(()=>{
+      if(isRed===red){
         line.classList.remove('reveal-pending');
         line.classList.add('reveal-visible');
-      },elapsed);
-
-      revealTimers.push(timer);
+      }
     });
-
-    const doneTimer=setTimeout(()=>{
-      played[key]=true;
-      showAllLines(log);
-      clearRevealTimers();
-    },elapsed+250);
-
-    revealTimers.push(doneTimer);
   }
 
   function syncReportContent(){
@@ -1138,6 +1118,23 @@ const ALT_HOLD_SRC="AH.jpg";
     altHoldLog.classList.toggle('hidden',!alt);
     loiterLog.style.visibility='visible';
     altHoldLog.style.visibility='visible';
+  }
+
+  function playOnce(log,key){
+    clearTimers();
+    resetLines(log);
+
+    // Через 0.5 с одночасно показуємо всі чорні інформаційні повідомлення.
+    timers.push(setTimeout(()=>{
+      showByColor(log,false);
+    },500));
+
+    // Через 5 с від відкриття одночасно показуємо всі червоні Warning/Critical.
+    timers.push(setTimeout(()=>{
+      showByColor(log,true);
+      played[key]=true;
+      clearTimers();
+    },5000));
   }
 
   function openReport(){
@@ -1150,9 +1147,9 @@ const ALT_HOLD_SRC="AH.jpg";
     layer.setAttribute('aria-hidden','false');
 
     if(played[key]){
-      showAllLines(log);
+      showAll(log);
     }else{
-      playFirstOpenReveal(log,key);
+      playOnce(log,key);
     }
   }
 
@@ -1160,15 +1157,13 @@ const ALT_HOLD_SRC="AH.jpg";
     layer.classList.remove('show');
     layer.setAttribute('aria-hidden','true');
 
-    // If the first animation has already started, do not replay it on reopening.
-    // Mark it as completed and show everything next time.
     const key=activeKey();
     const log=activeLog();
 
     if(!played[key]){
       played[key]=true;
-      clearRevealTimers();
-      showAllLines(log);
+      clearTimers();
+      showAll(log);
     }
   }
 
@@ -1193,9 +1188,9 @@ const ALT_HOLD_SRC="AH.jpg";
     clearBtn.addEventListener('click',e=>{
       e.stopPropagation();
       const log=activeLog();
-      log.style.visibility='hidden';
-      clearRevealTimers();
+      clearTimers();
       played[activeKey()]=true;
+      log.style.visibility='hidden';
     });
   }
 
