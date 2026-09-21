@@ -202,7 +202,6 @@ h1{font-size:32px;margin:18px 0 10px}
           <div class="label" style="margin-top:0">Режим вибору частот</div>
           <select class="select" id="frequencyMode" style="width:320px">
             <option value="semi" selected>Напівавтоматичний</option>
-            <option value="auto">Автоматичний</option>
             <option value="manual">Ручний</option>
           </select>
           <div class="label">Ручні частоти (3)</div>
@@ -713,8 +712,8 @@ document.getElementById('applyTx').addEventListener('click',()=>{
   showToast('Параметри uplink успішно збережено.');
 });
 
-frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту; також доступні Автоматичний та Ручний режими.',e.clientX,e.clientY));
-frequencyMode.addEventListener('mousemove',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту; також доступні Автоматичний та Ручний режими.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту. Другий режим — Ручний.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mousemove',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту. Другий режим — Ручний.',e.clientX,e.clientY));
 frequencyMode.addEventListener('mouseleave',hideTip);
 
 document.addEventListener('scroll',hideTip,true);
