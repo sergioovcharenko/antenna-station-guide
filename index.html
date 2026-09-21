@@ -493,6 +493,20 @@ const translationPairs=[
   ['Ця ненадійна частота вимкнена.','This unreliable frequency is disabled.'],
   ['Вона знаходиться в нижньому списку і зараз не використовується.','It is in the lower list and is not currently in use.'],
   ['Ці канали можна вибирати з нашого списку доступних відеоканалів.','These channels can be selected from the available video channel list.'],
+  ['НАПІВАВТОМАТИЧНИЙ РЕЖИМ','SEMI-AUTOMATIC MODE'],
+  ['система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк.','the system scans the available video channels, finds a free frequency, and automatically switches the video link.'],
+  ['Робочий діапазон:','Operating range:'],
+  ['У штатному списку використовується','The standard list uses'],
+  ['47 робочих каналів','47 working channels'],
+  ['ненадійні частоти вище 6005 MHz вимкнені за замовчуванням.','unreliable frequencies above 6005 MHz are disabled by default.'],
+  ['За потреби можна зафіксувати постійну частоту або вибрати','If needed, you can lock a fixed frequency or select'],
+  ['3 ручні відеоканали','3 manual video channels'],
+  ['РУЧНИЙ РЕЖИМ','MANUAL MODE'],
+  ['працює за логікою антенної станції','works using the ground station'],
+  ['доступно','logic: there are'],
+  ['9 відеоканалів','9 video channels'],
+  ['у трьох піддіапазонах','across three sub-bands'],
+  ['між якими можна перемикатися під час польоту.','which can be switched during flight.'],
   ['Режим вибору частот:','Frequency selection mode:'],
   ['Напівавтоматичний — по дефолту. Другий режим — Ручний.','Semi-automatic is the default. The second mode is Manual.'],
   ['Можна звужувати або розширювати діапазон.','The band can be narrowed or widened.'],
@@ -929,8 +943,8 @@ document.getElementById('applyTx').addEventListener('click',()=>{
   showToast('Параметри uplink успішно збережено.');
 });
 
-frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту. Другий режим — Ручний.',e.clientX,e.clientY));
-frequencyMode.addEventListener('mousemove',e=>showTip('<strong>Режим вибору частот:</strong> Напівавтоматичний — по дефолту. Другий режим — Ручний.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — працює за логікою антенної станції <strong>v2.0</strong>: доступно <strong>9 відеоканалів</strong> у трьох піддіапазонах <strong>5.2 / 5.5 / 5.8 GHz</strong>, між якими можна перемикатися під час польоту.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mousemove',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — працює за логікою антенної станції <strong>v2.0</strong>: доступно <strong>9 відеоканалів</strong> у трьох піддіапазонах <strong>5.2 / 5.5 / 5.8 GHz</strong>, між якими можна перемикатися під час польоту.',e.clientX,e.clientY));
 frequencyMode.addEventListener('mouseleave',hideTip);
 
 document.addEventListener('scroll',hideTip,true);
