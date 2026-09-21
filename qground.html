@@ -141,6 +141,7 @@
   max-width:calc(100vw - 28px);
   background:#fff;
   color:#111;
+  box-sizing:border-box;
   border:1px solid #111;
   box-shadow:0 18px 55px rgba(0,0,0,.35);
   font-family:Arial,Helvetica,sans-serif;
@@ -355,7 +356,7 @@
   position:absolute;
   top:0;
   left:15%;
-  width:12%;
+  width:12.5%;
   height:6.5%;
   z-index:110;
   display:none;
@@ -378,7 +379,7 @@
   top:calc(6.5% + 4mm);
   left:50%;
   transform:translateX(-50%);
-  width:calc(100% - 10mm);
+  width:calc(100% - 8mm);
   z-index:180;
   display:none;
   background:#f4d33f;
@@ -681,6 +682,23 @@ Large</span>
     </div>
 
   
+
+    <!-- ALTHOLD OVERLAYS -->
+    <div class="alt-status-overlay" id="altStatusOverlay" aria-hidden="true">
+      <span>Altitude Hold</span>
+      <svg class="alt-warning-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 3L30 28H2L16 3Z" fill="#fff" stroke="#e51d2a" stroke-width="2.6"/>
+        <path d="M16 10v9" stroke="#e51d2a" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="16" cy="23.5" r="1.7" fill="#e51d2a"/>
+      </svg>
+    </div>
+
+    <div class="althold-error" id="altHoldError" role="button" tabindex="0" aria-hidden="true" title="Натисніть, щоб закрити">
+      <span class="althold-error-title">Vehicle Error</span>
+      <div>EKF variance</div>
+    </div>
+    <!-- /ALTHOLD OVERLAYS -->
+
     <!-- REPORT LAYER -->
     <div class="report-layer" id="reportLayer" aria-hidden="true">
       <div class="report-dimmer" id="reportDimmer"></div>
