@@ -696,6 +696,30 @@ const manualFreq2=document.getElementById('manualFreq2');
 const manualFreq3=document.getElementById('manualFreq3');
 let connectedDrone=null;
 let droneBound=false;
+let searchRevealCount=0;
+let searchRevealTimers=[];
+
+function clearSearchRevealTimers(){
+  searchRevealTimers.forEach(clearTimeout);
+  searchRevealTimers=[];
+}
+
+function startSearchRevealSequence(){
+  clearSearchRevealTimers();
+  searchRevealCount=0;
+  renderDroneSearch();
+
+  // First 10 seconds: only the searching placeholder is visible.
+  // Then reveal one drone every 5 seconds; the placeholder moves to the next grid cell.
+  [10000,15000,20000].forEach((delay,index)=>{
+    const timer=setTimeout(()=>{
+      if(!topStatusState.searchEnabled) return;
+      searchRevealCount=Math.min(index+1,foundDrones.length);
+      renderDroneSearch();
+    },delay);
+    searchRevealTimers.push(timer);
+  });
+}
 let savedControlRanges={lowMin:410,lowMax:485,highMin:820,highMax:895};
 const manualDefaults=[5080,5540,6005];
 const foundDrones=[
@@ -906,7 +930,7 @@ function renderDroneSearch(){
   }
   const list=document.createElement('div');
   list.className='drone-list';
-  foundDrones.forEach(drone=>{
+  foundDrones.slice(0,searchRevealCount).forEach(drone=>{
     const card=document.createElement('div');
     card.className='drone-card';
     card.innerHTML='<div><span class="drone-name">'+drone.name+'</span><span class="drone-type">'+drone.type+'</span></div><button class="connect-btn">Підключити</button>';
@@ -942,7 +966,13 @@ function renderDroneSearch(){
 }
 function toggleSearch(){
   topStatusState.searchEnabled=!topStatusState.searchEnabled;
-  renderDroneSearch();
+  if(topStatusState.searchEnabled){
+    startSearchRevealSequence();
+  }else{
+    clearSearchRevealTimers();
+    searchRevealCount=0;
+    renderDroneSearch();
+  }
 }
 searchToggle.addEventListener('click',toggleSearch);
 searchToggle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSearch();}});
