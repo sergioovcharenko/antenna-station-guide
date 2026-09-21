@@ -22,7 +22,7 @@
   box-shadow:0 0 0 4px rgba(243,163,26,.12);
 }
 .warn{display:flex;align-items:center;gap:6px;padding:10px 12px;border-radius:10px;color:#f3a31a;transition:.18s}.warn.active{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.18),0 0 24px rgba(243,163,26,.28)}
-.lang{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}.lang-btn{border:0;background:transparent;color:#7b838c;padding:14px 16px;border-radius:10px;cursor:pointer;font-weight:600}.lang-btn.active{background:#fff4ef;color:#ef6035}.lang-btn:hover{background:#f7f8fa}
+.lang{margin-left:0;display:flex;align-items:center;gap:8px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}.lang-btn{border:0;background:transparent;color:#7b838c;padding:14px 16px;border-radius:10px;cursor:pointer;font-weight:600}.lang-btn.active{background:#fff4ef;color:#ef6035}.lang-btn:hover{background:#f7f8fa}
 .body{display:flex}.side{width:216px;background:#fff;min-height:calc(100vh - 76px);padding:14px 10px}
 .nav{padding:18px 18px;font-size:14px;color:#6f7782;font-weight:600;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.16s}.nav.active{background:rgba(255,93,42,.05);color:#ef6035}.nav.dim{color:#a9b0b8;cursor:default;font-weight:500}
 .content{flex:1;padding:22px 34px 70px}.page{display:none}.page.active{display:block}
@@ -211,6 +211,70 @@ h2{font-size:24px}
 button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-size:20px}
 .tooltip{font-size:23px}
 .toast .msg{font-size:24px}
+
+/* ===== Direct font-size +/- control ===== */
+:root{--font-scale:1}
+.font-size-control{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-right:14px;
+  padding:4px;
+  border:1px solid #e2e6ea;
+  border-radius:10px;
+  background:#fff;
+}
+.font-size-btn{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:8px;
+  background:#f5f6f8;
+  color:#4f5964;
+  font-size:24px !important;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+}
+.font-size-btn:hover{background:#fff1ec;color:#ef6035}
+.font-size-btn:disabled{opacity:.35;cursor:default}
+.font-size-value{
+  min-width:54px;
+  text-align:center;
+  color:#6f7782;
+  font-size:14px !important;
+  font-weight:700;
+}
+
+/* Text only scales; cards/controls keep their dimensions */
+.brand{font-size:calc(21px * var(--font-scale)) !important}
+.status{font-size:calc(19px * var(--font-scale)) !important}
+.nav{font-size:calc(19px * var(--font-scale)) !important}
+h1{font-size:calc(38px * var(--font-scale)) !important}
+h2{font-size:calc(24px * var(--font-scale)) !important}
+.page-subtitle{font-size:calc(22px * var(--font-scale)) !important}
+.search-title,.ranges-title{font-size:calc(23px * var(--font-scale)) !important}
+.switch-label{font-size:calc(22px * var(--font-scale)) !important}
+.muted-title{font-size:calc(20px * var(--font-scale)) !important}
+.range-group-label,.label{font-size:calc(20px * var(--font-scale)) !important}
+.freq,.tag,.select,.range-input,.value-box,.overview-card .line,.drone-name{
+  font-size:calc(20px * var(--font-scale)) !important
+}
+button:not(.font-size-btn),.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{
+  font-size:calc(20px * var(--font-scale)) !important
+}
+.tooltip{font-size:calc(23px * var(--font-scale)) !important}
+.toast .msg{font-size:calc(24px * var(--font-scale)) !important}
+.big-value{font-size:calc(26px * var(--font-scale)) !important}
+.tx-title,.slider-label,.drone-settings-title,.setting-row,.connected-board,.search-off-note{
+  font-size:calc(18px * var(--font-scale)) !important
+}
+.drone-type,.unit,.mhz,.badge{
+  font-size:calc(14px * var(--font-scale)) !important
+}
+.warn{font-size:calc(17px * var(--font-scale)) !important}
+
 </style>
 </head>
 <body>
@@ -230,6 +294,11 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
       <div class="status-item disconnected" id="statusDrone"><i class="dot dot--gray"></i><span>Дрон</span></div>
       <div class="status-item disconnected" id="statusSearch"><i class="dot dot--gray"></i><span>Пошук</span></div>
       <span class="warn" id="warnTop">⚠ Попередження</span>
+    </div>
+    <div class="font-size-control" aria-label="Розмір шрифту">
+      <button class="font-size-btn" id="fontMinus" type="button" aria-label="Зменшити шрифт">−</button>
+      <span class="font-size-value" id="fontSizeValue">100%</span>
+      <button class="font-size-btn" id="fontPlus" type="button" aria-label="Збільшити шрифт">+</button>
     </div>
     <div class="lang" aria-label="Language">
       <button class="lang-btn active" id="langUA" type="button">UA</button>
@@ -446,6 +515,26 @@ const searchDisabledText='<strong>Пошук:</strong> вимкнений';
 let currentLang='uk';
 const langUA=document.getElementById('langUA');
 const langEN=document.getElementById('langEN');
+const fontMinus=document.getElementById('fontMinus');
+const fontPlus=document.getElementById('fontPlus');
+const fontSizeValue=document.getElementById('fontSizeValue');
+let fontScale=1;
+
+function applyFontScale(){
+  fontScale=Math.max(.80,Math.min(1.35,Math.round(fontScale*20)/20));
+  document.documentElement.style.setProperty('--font-scale',String(fontScale));
+  fontSizeValue.textContent=Math.round(fontScale*100)+'%';
+  fontMinus.disabled=fontScale<=.80;
+  fontPlus.disabled=fontScale>=1.35;
+  try{localStorage.setItem('antenna-guide-font-scale',String(fontScale));}catch(e){}
+}
+fontMinus.addEventListener('click',()=>{fontScale-=.05;applyFontScale();});
+fontPlus.addEventListener('click',()=>{fontScale+=.05;applyFontScale();});
+try{
+  const savedFontScale=Number(localStorage.getItem('antenna-guide-font-scale'));
+  if(savedFontScale>=.80 && savedFontScale<=1.35) fontScale=savedFontScale;
+}catch(e){}
+applyFontScale();
 
 const translationPairs=[
   ['Панель керування','Control Panel'],
