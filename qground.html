@@ -9,13 +9,17 @@
     margin: 0; 
     padding: 20px; 
     text-align: center; 
-    background-color: #2c2c2c; 
+    background-color: #2c2c2c;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
   
   .image-container { 
     position: relative; 
-    display: inline-block; 
-    max-width: 100%; 
+    display: block;
+    width: min(1920px, calc(100vw - 40px));
+    max-width: 100%;
+    margin: 0 auto;
     z-index: 1;
   }
   
@@ -99,7 +103,7 @@
   }
 
 .home-btn{
-  position:fixed;top:14px;left:14px;z-index:1000;
+  position:fixed;top:14px;left:14px;z-index:10001;
   display:flex;align-items:center;gap:8px;padding:11px 15px;
   border-radius:12px;background:rgba(15,18,22,.94);color:#fff;text-decoration:none;
   font:700 16px/1 Arial,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.28);
@@ -107,6 +111,12 @@
 }
 .home-btn:hover{background:#000}
 @media(max-width:700px){.home-btn{top:8px;left:8px;padding:9px 12px;font-size:14px}.tooltip{font-size:24px!important;max-width:75vw}}
+
+/* QGround layout fix */
+@media(max-width:700px){
+  body{padding:8px}
+  .image-container{width:calc(100vw - 16px)}
+}
 </style>
 
 <style id="fontControlStyle">
@@ -135,7 +145,7 @@
 }
 </style>
 </head>
-<body>\n<a class="portal-back" href="index.html">← До вибору</a>
+<body>
 <a class="home-btn" href="index.html">← На головну</a>
 
   <div class="image-container">
@@ -268,7 +278,6 @@ Large</span>
 <script src="qg-img-3.js"></script>
 <script src="qg-img-4.js"></script>
 <script src="qg-img-5.js"></script>
-<script src="qg-img-6.js"></script>
 <script>document.getElementById("qgImage").src="data:image/webp;base64,"+(window.QG_IMG||"");</script>
 
 <div class="font-controls" id="fontControls" aria-label="Зміна розміру шрифту">
