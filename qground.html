@@ -349,6 +349,72 @@
   .report-line{white-space:normal}
   .zero-coordinate .report-help{font-size:15px;max-width:75vw}
 }
+
+/* ===== AltHold delayed EKF error ===== */
+.alt-status-overlay{
+  position:absolute;
+  top:0;
+  left:15%;
+  width:12%;
+  height:6.5%;
+  z-index:110;
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:0 8px;
+  background:#fff;
+  color:#111;
+  font:400 clamp(14px,1.15vw,21px)/1 Arial,Helvetica,sans-serif;
+  white-space:nowrap;
+}
+.alt-status-overlay.show{display:flex}
+.alt-status-overlay .alt-warning-icon{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+}
+.althold-error{
+  position:absolute;
+  top:calc(6.5% + 4mm);
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 10mm);
+  z-index:180;
+  display:none;
+  background:#f4d33f;
+  color:#111;
+  border:1px solid #8f8f8f;
+  border-radius:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.22);
+  cursor:pointer;
+  text-align:left;
+  padding:28px 18px 22px;
+  font:400 clamp(17px,1.7vw,28px)/1.25 Arial,Helvetica,sans-serif;
+}
+.althold-error.show{display:block}
+.althold-error-title{
+  position:absolute;
+  top:-21px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#f4d33f;
+  border:1px solid #8f8f8f;
+  border-radius:8px;
+  padding:5px 8px;
+  font-size:.72em;
+  white-space:nowrap;
+}
+@media(max-width:700px){
+  .alt-status-overlay{font-size:12px;gap:5px}
+  .alt-status-overlay .alt-warning-icon{width:20px;height:20px;flex-basis:20px}
+  .althold-error{
+    top:calc(6.5% + 3mm);
+    width:calc(100% - 6mm);
+    padding:20px 14px 16px;
+    border-radius:12px;
+    font-size:16px;
+  }
+}
 </style>
 
 </head>
@@ -356,7 +422,7 @@
 <a class="home-btn" href="index.html">← На головну</a>
 <div class="flight-mode-panel" aria-label="Режим польоту">
   <button class="flight-mode-btn active" id="modeLoiter" type="button">Loiter</button>
-  <button class="flight-mode-btn pending" id="modeAltHold" type="button" aria-disabled="true">AltHold</button>
+  <button class="flight-mode-btn" id="modeAltHold" type="button">AltHold</button>
 </div>
 
   <div class="image-container">
@@ -589,15 +655,66 @@ Large</span>
 (function(){
   const loiter=document.getElementById('modeLoiter');
   const altHold=document.getElementById('modeAltHold');
-  if(loiter){
-    loiter.addEventListener('click',()=>{
-      loiter.classList.add('active');
-    });
+  const altOverlay=document.getElementById('altStatusOverlay');
+  const altError=document.getElementById('altHoldError');
+  const reportPanel=document.getElementById('reportPanel');
+  let altErrorTimer=null;
+
+  function hideAltError(){
+    if(altErrorTimer){
+      clearTimeout(altErrorTimer);
+      altErrorTimer=null;
+    }
+    if(altError){
+      altError.classList.remove('show');
+      altError.setAttribute('aria-hidden','true');
+    }
   }
-  if(altHold){
-    altHold.addEventListener('click',e=>{
-      e.preventDefault();
-      // AltHold screen will be added later.
+
+  function activateLoiter(){
+    loiter?.classList.add('active');
+    altHold?.classList.remove('active');
+    altOverlay?.classList.remove('show');
+    altOverlay?.setAttribute('aria-hidden','true');
+    hideAltError();
+  }
+
+  function activateAltHold(){
+    loiter?.classList.remove('active');
+    altHold?.classList.add('active');
+    altOverlay?.classList.add('show');
+    altOverlay?.setAttribute('aria-hidden','false');
+
+    // Report belongs to Loiter, so close it when AltHold is selected.
+    if(reportPanel){
+      reportPanel.classList.remove('show');
+      reportPanel.setAttribute('aria-hidden','true');
+    }
+
+    hideAltError();
+    altErrorTimer=setTimeout(()=>{
+      // Show only if AltHold is still the active mode.
+      if(!altHold?.classList.contains('active') || !altError) return;
+      altError.classList.add('show');
+      altError.setAttribute('aria-hidden','false');
+      altErrorTimer=null;
+    },5000);
+  }
+
+  loiter?.addEventListener('click',activateLoiter);
+  altHold?.addEventListener('click',activateAltHold);
+
+  if(altError){
+    const dismiss=()=>{
+      altError.classList.remove('show');
+      altError.setAttribute('aria-hidden','true');
+    };
+    altError.addEventListener('click',dismiss);
+    altError.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){
+        e.preventDefault();
+        dismiss();
+      }
     });
   }
 })();
