@@ -143,7 +143,7 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
               <div class="line">Серійний: 032-109</div>
             </div>
 
-            <div class="overview-card">
+            <div class="overview-card" id="txOverviewCard">
               <div class="muted-title">Передавач керування</div>
               <div class="badges">
                 <span class="badge">HW 2.0</span>
@@ -234,6 +234,7 @@ const normalText='Загалом доступно 47 відеоканалів а
 const keyText='Після цього усі борти, які були прив’язані до АС — <strong>відв’яжуться</strong>, тому їх потрібно буде <strong>прив’язати (забіндити) наново</strong>.';
 const txWarning='<strong>ПЕРЕДАВАЧ ЗАВЖДИ ПОВИНЕН БУТИ НА 100%</strong>';
 const stationModelText='<strong>Модель антенної станції:</strong> GS30<br><strong>Серійний номер:</strong> 032-109';
+const txOverviewText='<strong>ПОТРІБНО РАЗ ПЕРЕВІРЯТИ ЗНАЧЕННЯ ПЕРЕДАВАЧА! ЩОБ БУЛО 100%</strong>';
 const antennaConnectedText='<strong>Антенна станція:</strong> підключена';
 const antennaDisconnectedText='<strong>Антенна станція:</strong> від’єднана';
 const droneConnectedText='<strong>Дрон:</strong> підключений';
@@ -383,6 +384,11 @@ const stationModelCard=document.getElementById('stationModelCard');
 stationModelCard.addEventListener('mouseenter',e=>showTip(stationModelText,e.clientX,e.clientY));
 stationModelCard.addEventListener('mousemove',e=>showTip(stationModelText,e.clientX,e.clientY));
 stationModelCard.addEventListener('mouseleave',hideTip);
+
+const txOverviewCard=document.getElementById('txOverviewCard');
+txOverviewCard.addEventListener('mouseenter',e=>showTip(txOverviewText,e.clientX,e.clientY));
+txOverviewCard.addEventListener('mousemove',e=>showTip(txOverviewText,e.clientX,e.clientY));
+txOverviewCard.addEventListener('mouseleave',hideTip);
 
 bindStatusHover(statusAntenna,()=>topStatusState.antennaConnected?antennaConnectedText:antennaDisconnectedText);
 bindStatusHover(statusDrone,()=>topStatusState.droneConnected?droneConnectedText:droneDisconnectedText);
