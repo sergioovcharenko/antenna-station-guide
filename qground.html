@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QGROUND</title>
+<style>
+  body { 
+    margin: 0; 
+    padding: 20px; 
+    text-align: center; 
+    background-color: #2c2c2c; 
+  }
+  
+  .image-container { 
+    position: relative; 
+    display: inline-block; 
+    max-width: 100%; 
+    z-index: 1;
+  }
+  
+  .image-container img { 
+    width: 100%; 
+    height: auto; 
+    display: block; 
+    border-radius: 8px; 
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hotspot {
+    position: absolute; 
+    border: 1px dashed rgba(255, 255, 255, 0.4); 
+    background-color: rgba(255, 255, 255, 0.05); 
+    cursor: help;
+    transition: background-color 0.2s, border-color 0.2s;
+    z-index: 3;
+    outline: none; 
+  }
+  
+  .hotspot:hover,
+  .hotspot:focus { 
+    border-color: #ff0000; 
+    background-color: rgba(255, 0, 0, 0.25); 
+  }
+  
+  .tooltip {
+    visibility: hidden; 
+    width: max-content; 
+    max-width: 400px; /* Значно розширено для великого тексту */
+    background-color: rgba(0, 0, 0, 0.95);
+    color: #fff; 
+    text-align: left;
+    border-radius: 6px; 
+    padding: 15px 20px; /* Збільшено відступи */
+    position: absolute; 
+    z-index: 100;
+    bottom: 100%; 
+    left: 50%; 
+    transform: translateX(-50%);
+    margin-bottom: 8px; 
+    font-size: 40px !important; /* <--- ВЕЛИЧЕЗНИЙ ТЕКСТ ДЛЯ ПЕРЕВІРКИ */
+    font-family: sans-serif; 
+    opacity: 0;
+    transition: opacity 0.3s ease; 
+    pointer-events: none;
+    line-height: 1.5;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .tooltip::after {
+    content: ""; 
+    position: absolute; 
+    top: 100%; 
+    left: 50%; 
+    margin-left: -6px;
+    border-width: 6px; 
+    border-style: solid; 
+    border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
+  }
+
+  .tooltip-bottom {
+    bottom: auto; 
+    top: 100%; 
+    margin-bottom: 0; 
+    margin-top: 8px;
+  }
+
+  .tooltip-bottom::after {
+    top: auto; 
+    bottom: 100%; 
+    border-color: transparent transparent rgba(0, 0, 0, 0.95) transparent;
+  }
+  
+  .hotspot:hover .tooltip,
+  .hotspot:focus .tooltip { 
+    visibility: visible; 
+    opacity: 1; 
+  }
+
+.home-btn{
+  position:fixed;top:14px;left:14px;z-index:1000;
+  display:flex;align-items:center;gap:8px;padding:11px 15px;
+  border-radius:12px;background:rgba(15,18,22,.94);color:#fff;text-decoration:none;
+  font:700 16px/1 Arial,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.18)
+}
+.home-btn:hover{background:#000}
+@media(max-width:700px){.home-btn{top:8px;left:8px;padding:9px 12px;font-size:14px}.tooltip{font-size:24px!important;max-width:75vw}}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html">← На головну</a>
+
+  <div class="image-container">
+    <img id="qgImage" alt="Інтерфейс керування">
+
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 0%; width: 4%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom"><b>Меню QGround</b></span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 4%; width: 11%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom"><b>Статус:</b><br> 
+<span style="color: green;">Ready To Fly<br>
+<span style="color: yellow;">Not Ready<br>
+<span style="color: red;">Communication Lost<br>
+<span style="color: green;">Armed<br>
+<span style="color: green;">Flying</span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 15%; width: 6.5%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom">
+        <b>Польотний режим:</b><br> 
+        1. <b>ALT HOLD</b> - утримує висоту по барометру. Обмежений кутами нахилу 30°<br>
+        2. <b>LOITER</b> - працює з модульом візуальной стабілізації. Обмежений кутами нахилу 20°<br>
+        3. <b>LAND</b> - автоматична посадка з подальшим Disarm'ом<br>
+        4. <b>RTL</b> - вихід з зони РЕБ<br>
+      </span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 21.5%; width: 3.5%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom"><b>Повідомлення</b><br> Штатні помилки. Критичні помилки</span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 25%; width: 6.5%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom"><b>VISP (Visual positioning)</b>. Дублюєче значення Engine Load - показник модуля візуальної стабілізації<br>
+Для коректної роботи потрібно більше <b>50%</b><br>
+ <span style="color: red;"> Якщо 20%-30% - перейдіть в <b>ALT HOLD</b></span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 31.5%; width: 9%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom">
+        <b>dBm</b> - Потужність сигналу прийому відео та телеметрії <br>
+        <span style="color: green;"><b>Зелений</b></span> значок - менше 5% втрати пакетів.<br> 
+        <span style="color: orange;"><b>Помаранчевий</b></span> - від 5% до 10% втрати пакетів.<br> 
+        <span style="color: red;"><b>Червоний</b></span> - більше 10 % втрати. <br><br>
+        
+        <b>Значення dBm</b><br> 
+        <b>до -85dBm</b> - норма<br> 
+        <b>-85 -90dBm</b> - підсипання відео<br> 
+        <b>-90 -100 dBm</b> - втрата відео, телеметрія наявна<br> 
+        <b>-128 dBm</b> - втрата відео та телеметрії
+      </span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 40.5%; width: 7.5%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom"><b>RSSI</b> - це індикатор рівня потужності прийнятого сигналу.<br> <b>Критичне значення  <span style="color: red;">45%</b></span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="top: 0%; left: 87%; width: 13%; height: 6.5%;">
+      <span class="tooltip tooltip-bottom"><b>Відображення типу БпЛА та його серійний номер</b></span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="top: 7%; left: 78.5%; width: 10.5%; height: 18%;">
+      <span class="tooltip tooltip-bottom"><b>Авіагоризонт</b> - відображення кута нахилу БпЛА</span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="top: 7%; left: 89%; width: 10.5%; height: 18%;">
+      <span class="tooltip tooltip-bottom"><b>Компас</b> - відображення напрямок руху БпЛА</span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="bottom: 0%; left: 0%; width: 21%; height: 19.5%;">
+      <span class="tooltip"><b>Карта</b> - відображення телеметричного шляху</span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="bottom: 9%; left: 31%; width: 13%; height: 4%;">
+      <span class="tooltip"><b>Alt (Rel)</b> - Висота відносно точки зльоту БпЛА</span>
+    </div>
+    <div class="hotspot" tabindex="0" style="bottom: 5%; left: 31%; width: 13%; height: 4%;">
+      <span class="tooltip"><b>Distance to Home</b> - Дистанція до точки зльоту</span>
+    </div>
+    <div class="hotspot" tabindex="0" style="bottom: 1%; left: 31%; width: 13%; height: 4%;">
+      <span class="tooltip"><b>Ground Speed</b> - швидкість БпЛА відносно землі</span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="bottom: 9%; left: 44%; width: 14%; height: 4%;">
+      <span class="tooltip"><b>Flight Time</b> - час з моменту запуску двигунів</span>
+    </div>
+    <div class="hotspot" tabindex="0" style="bottom: 5%; left: 44%; width: 14%; height: 4%;">
+      <span class="tooltip"><b>Temperature(1)</b> - температура польотного контролера. <br>
+<span style="color: red;"><b>90°C - критична температура</b></span>
+    </div>
+    <div class="hotspot" tabindex="0" style="bottom: 1%; left: 44%; width: 14%; height: 4%;">
+      <span class="tooltip"><b>Flight Distance</b> - загальна дистанція польоту</span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="bottom: 9%; left: 58%; width: 11%; height: 4%;">
+      <span class="tooltip">
+        <b>Voltage</b> - Напруга АКБ<br>
+        <span style="color: green;"><b>20.0V - 25.2V</b></span><br>
+        <span style="color: orange;"><b>18.0V - 20.0V</b></span><br>
+        <span style="color: red;"><b>менше 18V</b></span>
+      </span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="bottom: 5%; left: 58%; width: 11%; height: 4%;">
+      <span class="tooltip"><b>Current</b> - споживання амперажу<br>
+<b>до 80А - норма</b></span>
+    </div>
+    
+    <div class="hotspot" tabindex="0" style="bottom: 1%; left: 58%; width: 11%; height: 4%;">
+      <span class="tooltip"><b>Engine Load</b> - показник модуля візуальної стабілізації<br>
+Для коректної роботи потрібно більше <b>50%</b><br>
+ <span style="color: red;"> Якщо 20%-30% - перейдіть в <b>ALT HOLD</b></span>
+    </div>
+
+    <div class="hotspot" tabindex="0" style="top: 36.5%; left: 39.5%; width: 21%; height: 33.5%;">
+      <span class="tooltip"><b>Цілик: Medium</b><br>
+Є можливість вибору:<br>
+None<br>
+Small<br>
+Medium<br>
+Large</span>
+    </div>
+
+  </div>
+
+
+<script src="qg-img-0.js"></script>
+<script src="qg-img-1.js"></script>
+<script src="qg-img-2.js"></script>
+<script src="qg-img-3.js"></script>
+<script src="qg-img-4.js"></script>
+<script src="qg-img-5.js"></script>
+<script src="qg-img-6.js"></script>
+<script>document.getElementById("qgImage").src="data:image/webp;base64,"+(window.QG_IMG||"");</script>
+</body>
+</html>
