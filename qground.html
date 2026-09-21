@@ -602,6 +602,17 @@
 @media(max-width:700px){
   .report-issue-tip{width:300px;max-width:58vw;font-size:14px}
 }
+
+/* ===== Report first-open reveal animation ===== */
+.report-line.reveal-pending{
+  opacity:0;
+  transform:translateY(-4px);
+}
+.report-line.reveal-visible{
+  opacity:1;
+  transform:translateY(0);
+  transition:opacity .22s ease, transform .22s ease;
+}
 </style>
 
 </head>
@@ -1044,7 +1055,7 @@ const ALT_HOLD_SRC="AH.jpg";
 
 
 <script>
-/* ===== Report panel behavior v3 ===== */
+/* ===== Report panel behavior v4 ===== */
 (function(){
   const hotspot=document.getElementById('reportHotspot');
   const layer=document.getElementById('reportLayer');
@@ -1058,8 +1069,67 @@ const ALT_HOLD_SRC="AH.jpg";
 
   if(!hotspot || !layer || !dimmer || !panel || !loiterLog || !altHoldLog) return;
 
+  const played={loiter:false,althold:false};
+  let revealTimers=[];
+
   function isAltHold(){
     return !!altHold && altHold.classList.contains('active');
+  }
+
+  function activeKey(){
+    return isAltHold() ? 'althold' : 'loiter';
+  }
+
+  function activeLog(){
+    return isAltHold() ? altHoldLog : loiterLog;
+  }
+
+  function clearRevealTimers(){
+    revealTimers.forEach(clearTimeout);
+    revealTimers=[];
+  }
+
+  function showAllLines(log){
+    log.querySelectorAll('.report-line').forEach(line=>{
+      line.classList.remove('reveal-pending');
+      line.classList.add('reveal-visible');
+    });
+  }
+
+  function playFirstOpenReveal(log,key){
+    clearRevealTimers();
+
+    const lines=[...log.querySelectorAll('.report-line')];
+
+    lines.forEach(line=>{
+      line.classList.remove('reveal-visible');
+      line.classList.add('reveal-pending');
+    });
+
+    let elapsed=0;
+
+    lines.forEach(line=>{
+      const isRed=line.classList.contains('warning') || line.classList.contains('critical');
+
+      // Black/info messages: +0.5 s.
+      // Red warning/critical messages: +5 s.
+      elapsed += isRed ? 5000 : 500;
+
+      const timer=setTimeout(()=>{
+        line.classList.remove('reveal-pending');
+        line.classList.add('reveal-visible');
+      },elapsed);
+
+      revealTimers.push(timer);
+    });
+
+    const doneTimer=setTimeout(()=>{
+      played[key]=true;
+      showAllLines(log);
+      clearRevealTimers();
+    },elapsed+250);
+
+    revealTimers.push(doneTimer);
   }
 
   function syncReportContent(){
@@ -1072,13 +1142,34 @@ const ALT_HOLD_SRC="AH.jpg";
 
   function openReport(){
     syncReportContent();
+
+    const key=activeKey();
+    const log=activeLog();
+
     layer.classList.add('show');
     layer.setAttribute('aria-hidden','false');
+
+    if(played[key]){
+      showAllLines(log);
+    }else{
+      playFirstOpenReveal(log,key);
+    }
   }
 
   function closeReport(){
     layer.classList.remove('show');
     layer.setAttribute('aria-hidden','true');
+
+    // If the first animation has already started, do not replay it on reopening.
+    // Mark it as completed and show everything next time.
+    const key=activeKey();
+    const log=activeLog();
+
+    if(!played[key]){
+      played[key]=true;
+      clearRevealTimers();
+      showAllLines(log);
+    }
   }
 
   function toggleReport(e){
@@ -1095,17 +1186,16 @@ const ALT_HOLD_SRC="AH.jpg";
     }
   });
 
-  // Натискання на затемнену область закриває Report.
   dimmer.addEventListener('click',closeReport);
-
-  // Усередині самого повідомлення клік не закриває його.
   panel.addEventListener('click',e=>e.stopPropagation());
 
   if(clearBtn){
     clearBtn.addEventListener('click',e=>{
       e.stopPropagation();
-      const activeLog=isAltHold()?altHoldLog:loiterLog;
-      activeLog.style.visibility='hidden';
+      const log=activeLog();
+      log.style.visibility='hidden';
+      clearRevealTimers();
+      played[activeKey()]=true;
     });
   }
 
