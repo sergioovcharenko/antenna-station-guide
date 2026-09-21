@@ -215,11 +215,66 @@
   .q-menu-version{font-size:17px}
 }
 
+
+/* ===== QGround flight mode selector ===== */
+.flight-mode-panel{
+  position:fixed;
+  left:18px;
+  top:170px;
+  z-index:9000;
+  width:220px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.flight-mode-btn{
+  width:100%;
+  min-height:72px;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  font:700 24px/1.1 Arial,Helvetica,sans-serif;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  transition:.16s ease;
+}
+.flight-mode-btn:hover{
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.38);
+}
+.flight-mode-btn.active{
+  background:#ff5c2a;
+  border-color:#ff5c2a;
+  color:#fff;
+  box-shadow:0 0 0 4px rgba(255,92,42,.16),0 10px 28px rgba(0,0,0,.22);
+}
+.flight-mode-btn.pending{
+  background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.58);
+  cursor:default;
+}
+@media(max-width:1200px){
+  .flight-mode-panel{
+    position:static;
+    width:min(100%,420px);
+    margin:12px auto 14px;
+    flex-direction:row;
+  }
+  .flight-mode-btn{
+    min-height:56px;
+    font-size:20px;
+  }
+}
 </style>
 
 </head>
 <body>
 <a class="home-btn" href="index.html">← На головну</a>
+<div class="flight-mode-panel" aria-label="Режим польоту">
+  <button class="flight-mode-btn active" id="modeLoiter" type="button">Loiter</button>
+  <button class="flight-mode-btn pending" id="modeAltHold" type="button" aria-disabled="true">AltHold</button>
+</div>
 
   <div class="image-container">
     <img id="qgImage" src="QGRAUND.jpg" alt="Інтерфейс керування">
@@ -433,5 +488,23 @@ Large</span>
 })();
 </script>
 
+
+<script>
+(function(){
+  const loiter=document.getElementById('modeLoiter');
+  const altHold=document.getElementById('modeAltHold');
+  if(loiter){
+    loiter.addEventListener('click',()=>{
+      loiter.classList.add('active');
+    });
+  }
+  if(altHold){
+    altHold.addEventListener('click',e=>{
+      e.preventDefault();
+      // AltHold screen will be added later.
+    });
+  }
+})();
+</script>
 </body>
 </html>
