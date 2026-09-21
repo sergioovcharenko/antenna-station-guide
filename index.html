@@ -318,9 +318,12 @@ h1{font-size:32px;margin:18px 0 10px}
 </div>
 
 <script>
-const normalFrequencies=Array.from({length:47},(_,i)=>5080+i*20); // 5080..6000
+const normalFrequencies=[
+  ...Array.from({length:40},(_,i)=>5080+i*20), // 5080..5860
+  5885,5905,5925,5945,5965,5985,6005
+]; // 47 робочих каналів
 const warningFrequencies=[6025,6045,6065,6085,6105,6125,6145];
-const allFrequencies=[...normalFrequencies,6005,...warningFrequencies];
+const allFrequencies=[...normalFrequencies,...warningFrequencies];
 let excludedFrequencies=new Set(warningFrequencies);
 
 const freqGrid=document.getElementById('freqGrid');
