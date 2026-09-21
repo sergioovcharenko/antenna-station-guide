@@ -8,7 +8,7 @@
 *{box-sizing:border-box}html,body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f5f7;color:#1f2937}button,input,select{font:inherit}
 .app{min-height:100vh;background:#f4f6f8}.top{height:76px;background:#fff;border-bottom:1px solid #e6e9ed;display:flex;align-items:center}
 .brand{width:216px;height:100%;display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid #eceff2;font-size:16px;font-weight:700;color:#20252b}
-.wifi{font-size:28px;color:#ff5d2a}.status{display:flex;gap:12px;align-items:center;padding-left:38px;font-size:16px;color:#7b838c}.status-item{display:flex;align-items:center;gap:7px;padding:9px 10px;border-radius:10px;transition:.16s;cursor:default}.status-item.hovered.connected{background:#eefbf4;box-shadow:0 0 0 3px rgba(37,184,125,.13),0 0 18px rgba(37,184,125,.16)}.status-item.hovered.disconnected{background:#f4f6f8;box-shadow:0 0 0 3px rgba(150,160,170,.10),0 0 18px rgba(150,160,170,.12)}.status-item.hovered.searching{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.16),0 0 18px rgba(243,163,26,.18)}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#dfe4ea}.dot.green,.dot--green{background:#25b87d}.dot--gray{background:#dfe4ea}.dot--orange{background:#f3a31a}
+.wifi{font-size:28px;color:#ff5d2a}.wifi-icon{width:34px;height:34px;flex:0 0 34px;fill:none;stroke:#ff5d2a;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.wifi-icon circle{fill:#ff5d2a;stroke:none}.status{display:flex;gap:12px;align-items:center;padding-left:38px;font-size:16px;color:#7b838c}.status-item{display:flex;align-items:center;gap:7px;padding:9px 10px;border-radius:10px;transition:.16s;cursor:default}.status-item.hovered.connected{background:#eefbf4;box-shadow:0 0 0 3px rgba(37,184,125,.13),0 0 18px rgba(37,184,125,.16)}.status-item.hovered.disconnected{background:#f4f6f8;box-shadow:0 0 0 3px rgba(150,160,170,.10),0 0 18px rgba(150,160,170,.12)}.status-item.hovered.searching{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.16),0 0 18px rgba(243,163,26,.18)}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#dfe4ea}.dot.green,.dot--green{background:#25b87d}.dot--gray{background:#dfe4ea}.dot--orange{background:#f3a31a}
 .warn{display:flex;align-items:center;gap:6px;padding:10px 12px;border-radius:10px;color:#f3a31a;transition:.18s}.warn.active{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.18),0 0 24px rgba(243,163,26,.28)}
 .lang{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}.lang-btn{border:0;background:transparent;color:#7b838c;padding:14px 16px;border-radius:10px;cursor:pointer;font-weight:600}.lang-btn.active{background:#fff4ef;color:#ef6035}.lang-btn:hover{background:#f7f8fa}
 .body{display:flex}.side{width:216px;background:#fff;min-height:calc(100vh - 76px);padding:14px 10px}
@@ -45,7 +45,7 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
 /* ===== Screenshot-faithful layout overrides ===== */
 .top{height:82px}
 .brand{width:326px;padding:0 30px;font-size:20px;gap:14px}
-.wifi{font-size:34px}
+.wifi{font-size:34px}.wifi-icon{width:34px;height:34px;flex-basis:34px}
 .status{padding-left:54px;gap:14px;font-size:18px}
 .lang{padding-right:34px;font-size:18px}
 .body{align-items:stretch}
@@ -136,7 +136,15 @@ h1{font-size:32px;margin:18px 0 10px}
 <body>
 <div class="app">
   <div class="top">
-    <div class="brand"><span class="wifi">◔</span>Панель керування</div>
+    <div class="brand">
+      <svg class="wifi-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M4 11.5C10.7 5.8 21.3 5.8 28 11.5"></path>
+        <path d="M8 16c4.6-3.9 11.4-3.9 16 0"></path>
+        <path d="M12 20.3c2.3-1.9 5.7-1.9 8 0"></path>
+        <circle cx="16" cy="25" r="1.9"></circle>
+      </svg>
+      <span>Панель керування</span>
+    </div>
     <div class="status">
       <div class="status-item connected" id="statusAntenna"><i class="dot dot--green"></i><span>Антенна станція</span></div>
       <div class="status-item disconnected" id="statusDrone"><i class="dot dot--gray"></i><span>Дрон</span></div>
@@ -153,7 +161,7 @@ h1{font-size:32px;margin:18px 0 10px}
     <aside class="side">
       <div class="nav active" id="navLink">Зв'язок</div>
       <div class="nav" id="navAntenna">Антенна станція</div>
-      <div class="nav" id="navDrone">Дрон</div>
+      <div class="nav dim" id="navDrone">Дрон</div>
       <div class="nav dim" id="connectHint">Підключіться до дрона</div>
     </aside>
 
@@ -527,6 +535,7 @@ function renderTopStatuses(){
   const aDot=statusAntenna.querySelector('.dot');
   const dDot=statusDrone.querySelector('.dot');
   const sDot=statusSearch.querySelector('.dot');
+  navDrone.classList.toggle('dim',!topStatusState.droneConnected);
   statusAntenna.className='status-item '+(topStatusState.antennaConnected?'connected':'disconnected');
   statusDrone.className='status-item '+(topStatusState.droneConnected?'connected':'disconnected');
   statusSearch.className='status-item '+(topStatusState.searchEnabled?'searching':'disconnected');
