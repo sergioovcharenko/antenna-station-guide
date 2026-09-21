@@ -38,7 +38,8 @@ h1{font-size:34px;margin:6px 0 22px;color:#20252b}h2{font-size:21px;margin:0 0 2
 .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px}.overview-card{box-shadow:0 2px 4px rgba(0,0,0,.05)}.overview-card .line{margin-top:10px;font-size:20px;color:#6f7782}.badges{display:flex;gap:10px;margin-top:16px}.badge{background:#fff0ea;color:#ef6035;padding:7px 12px;border-radius:9px;font-weight:700}
 .tx-card{padding:34px 30px}.tx-title{font-size:18px;color:#9aa1aa;font-weight:700;text-transform:uppercase;margin-bottom:22px}.slider-block{margin-bottom:34px}.slider-label{font-size:20px;color:#68717c;margin-bottom:18px}.slider-row{display:grid;grid-template-columns:1fr 120px;gap:20px;align-items:center}
 input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:80px;border:1px solid #dfe4e9;border-radius:14px;display:grid;place-items:center;font-size:22px;background:#fff}
-@media(max-width:900px){.brand{width:190px;font-size:14px}.side{width:190px}.status{padding-left:16px;gap:6px;font-size:12px}.content{padding:16px}.freqgrid{grid-template-columns:repeat(3,1fr)}.version-wrap,.overview-grid{grid-template-columns:1fr}.antenna-head{align-items:flex-start;flex-direction:column}.slider-row{grid-template-columns:1fr 90px}}
+.page-subtitle{font-size:20px;color:#7b838c;margin-top:-10px;margin-bottom:30px}.search-card{padding:34px}.search-title{font-size:20px;font-weight:700;margin-bottom:26px}.search-toggle-row{display:flex;align-items:center;gap:18px;margin-bottom:28px}.switch{position:relative;width:92px;height:54px;border-radius:30px;background:#dfe4ea;cursor:pointer;transition:.2s;flex:none}.switch.on{background:#ff5c2a}.switch::after{content:"";position:absolute;top:5px;left:5px;width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:.2s}.switch.on::after{left:43px}.switch-label{font-size:20px;font-weight:700}.drone-list{display:grid;grid-template-columns:1fr 1fr;gap:16px}.drone-card{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #e1e5e9;border-radius:14px;padding:14px 16px;background:#fff;transition:.16s}.drone-card:hover{box-shadow:0 0 0 4px rgba(255,92,42,.10),0 8px 20px rgba(0,0,0,.06);border-color:#f1b8a4}.drone-name{font-size:18px;letter-spacing:.02em}.drone-type{font-size:12px;padding:6px 8px;border-radius:8px;background:#fff4df;color:#d78e13;font-weight:700;margin-left:8px}.connect-btn{border:0;border-radius:10px;background:#ff5c2a;color:#fff;padding:14px 18px;font-weight:700;cursor:pointer}.search-off-note{padding:22px;border:1px dashed #d9dee4;border-radius:14px;color:#8b949e;background:#fafbfc}.ranges-card{margin-top:30px}.ranges-title{font-size:20px;font-weight:700;margin-bottom:20px}.range-placeholder{height:110px;border-radius:14px;border:1px solid #e5e8ec;background:#fff;display:flex;align-items:flex-start;padding:24px;color:#a3aab3;text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+@media(max-width:900px){.brand{width:190px;font-size:14px}.side{width:190px}.status{padding-left:16px;gap:6px;font-size:12px}.content{padding:16px}.freqgrid{grid-template-columns:repeat(3,1fr)}.version-wrap,.overview-grid,.drone-list{grid-template-columns:1fr}.antenna-head{align-items:flex-start;flex-direction:column}.slider-row{grid-template-columns:1fr 90px}}
 </style>
 </head>
 <body>
@@ -58,7 +59,7 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
     <aside class="side">
       <div class="nav active" id="navLink">Зв'язок</div>
       <div class="nav" id="navAntenna">Антенна станція</div>
-      <div class="nav">Дрон</div>
+      <div class="nav" id="navDrone">Дрон</div>
       <div class="nav dim">Підключіться до дрона</div>
     </aside>
 
@@ -147,6 +148,28 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
             <button id="applyTx" class="apply">ЗБЕРЕГТИ</button>
           </section>
         </div>
+      </section>
+
+      <section class="page" id="pageDrone">
+        <h1>Зв'язок</h1>
+        <div class="page-subtitle">Пошук, підключення та налаштування діапазонів</div>
+
+        <section class="card search-card">
+          <div class="search-title">З'єднання</div>
+          <div class="search-toggle-row">
+            <div class="switch" id="searchToggle" role="switch" aria-checked="false" tabindex="0"></div>
+            <div class="switch-label" id="searchToggleLabel">Режим пошуку вимкнено</div>
+          </div>
+
+          <div id="droneResults">
+            <div class="search-off-note">Увімкніть режим пошуку, щоб знайти доступні борти.</div>
+          </div>
+        </section>
+
+        <div class="ranges-title">Діапазони</div>
+        <section class="card ranges-card">
+          <div class="range-placeholder">Діапазони керування (MHz)</div>
+        </section>
       </section>
     </main>
   </div>
@@ -253,21 +276,35 @@ gen.addEventListener('click',()=>{gen.classList.remove('pulse');void gen.offsetW
 gen.addEventListener('animationend',()=>gen.classList.remove('pulse'));
 
 const navLink=document.getElementById('navLink'),navAntenna=document.getElementById('navAntenna');
-const pageLink=document.getElementById('pageLink'),pageAntenna=document.getElementById('pageAntenna');
+const pageLink=document.getElementById('pageLink'),pageAntenna=document.getElementById('pageAntenna'),pageDrone=document.getElementById('pageDrone');
+const navDrone=document.getElementById('navDrone');
+const searchToggle=document.getElementById('searchToggle');
+const searchToggleLabel=document.getElementById('searchToggleLabel');
+const droneResults=document.getElementById('droneResults');
+const foundDrones=[
+  {name:'ZOOM31-032-680',type:'Дрон'},
+  {name:'ZOOM31-030-029',type:'Дрон'},
+  {name:'LNZA31-031-242',type:'Дрон'}
+];
+const chooseDroneText='<strong>Виберіть борт, який потрібно підключити.</strong>';
 function openPage(which){
-  const antenna=which==='antenna';
-  if(!antenna){
+  if(which!=='antenna'){
     lowRange.value=savedLow;
     highRange.value=savedHigh;
     lowValue.textContent=savedLow;
     highValue.textContent=savedHigh;
   }
-  navLink.classList.toggle('active',!antenna); navAntenna.classList.toggle('active',antenna);
-  pageLink.classList.toggle('active',!antenna); pageAntenna.classList.toggle('active',antenna);
+  navLink.classList.toggle('active',which==='link');
+  navAntenna.classList.toggle('active',which==='antenna');
+  navDrone.classList.toggle('active',which==='drone');
+  pageLink.classList.toggle('active',which==='link');
+  pageAntenna.classList.toggle('active',which==='antenna');
+  pageDrone.classList.toggle('active',which==='drone');
   hideTip();
 }
 navLink.addEventListener('click',()=>openPage('link'));
 navAntenna.addEventListener('click',()=>openPage('antenna'));
+navDrone.addEventListener('click',()=>openPage('drone'));
 
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
@@ -313,6 +350,42 @@ bindStatusHover(statusAntenna,()=>topStatusState.antennaConnected?antennaConnect
 bindStatusHover(statusDrone,()=>topStatusState.droneConnected?droneConnectedText:droneDisconnectedText);
 bindStatusHover(statusSearch,()=>topStatusState.searchEnabled?searchEnabledText:searchDisabledText);
 
+function renderDroneSearch(){
+  searchToggle.classList.toggle('on',topStatusState.searchEnabled);
+  searchToggle.setAttribute('aria-checked',String(topStatusState.searchEnabled));
+  searchToggleLabel.textContent=topStatusState.searchEnabled?'Режим пошуку увімкнено':'Режим пошуку вимкнено';
+  renderTopStatuses();
+  if(!topStatusState.searchEnabled){
+    droneResults.innerHTML='<div class="search-off-note">Увімкніть режим пошуку, щоб знайти доступні борти.</div>';
+    return;
+  }
+  const list=document.createElement('div');
+  list.className='drone-list';
+  foundDrones.forEach(drone=>{
+    const card=document.createElement('div');
+    card.className='drone-card';
+    card.innerHTML='<div><span class="drone-name">'+drone.name+'</span><span class="drone-type">'+drone.type+'</span></div><button class="connect-btn">Підключити</button>';
+    card.addEventListener('mouseenter',e=>showTip(chooseDroneText,e.clientX,e.clientY));
+    card.addEventListener('mousemove',e=>showTip(chooseDroneText,e.clientX,e.clientY));
+    card.addEventListener('mouseleave',hideTip);
+    card.querySelector('.connect-btn').addEventListener('click',e=>{
+      e.stopPropagation();
+      topStatusState.droneConnected=true;
+      renderTopStatuses();
+      showToast('Борт '+drone.name+' підключено.');
+    });
+    list.appendChild(card);
+  });
+  droneResults.innerHTML='';
+  droneResults.appendChild(list);
+}
+function toggleSearch(){
+  topStatusState.searchEnabled=!topStatusState.searchEnabled;
+  renderDroneSearch();
+}
+searchToggle.addEventListener('click',toggleSearch);
+searchToggle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSearch();}});
+
 document.getElementById('applyTx').addEventListener('click',()=>{
   savedLow=Number(lowRange.value); savedHigh=Number(highRange.value);
   document.getElementById('overviewTxLow').textContent=savedLow;
@@ -323,6 +396,7 @@ document.getElementById('applyTx').addEventListener('click',()=>{
 document.addEventListener('scroll',hideTip,true);
 window.addEventListener('resize',hideTip);
 renderTopStatuses();
+renderDroneSearch();
 render();
 </script>
 </body>
