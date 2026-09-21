@@ -146,7 +146,7 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
               </div>
             </div>
 
-            <button id="applyTx" class="apply">Застосувати</button>
+            <button id="applyTx" class="apply">ЗБЕРЕГТИ</button>
           </section>
         </div>
       </section>
@@ -231,6 +231,12 @@ const navLink=document.getElementById('navLink'),navAntenna=document.getElementB
 const pageLink=document.getElementById('pageLink'),pageAntenna=document.getElementById('pageAntenna');
 function openPage(which){
   const antenna=which==='antenna';
+  if(!antenna){
+    lowRange.value=savedLow;
+    highRange.value=savedHigh;
+    lowValue.textContent=savedLow;
+    highValue.textContent=savedHigh;
+  }
   navLink.classList.toggle('active',!antenna); navAntenna.classList.toggle('active',antenna);
   pageLink.classList.toggle('active',!antenna); pageAntenna.classList.toggle('active',antenna);
   hideTip();
@@ -240,6 +246,13 @@ navAntenna.addEventListener('click',()=>openPage('antenna'));
 
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
+    if(tab.dataset.tab==='overview'){
+      lowRange.value=savedLow;
+      highRange.value=savedHigh;
+      lowValue.textContent=savedLow;
+      highValue.textContent=savedHigh;
+      hideTip();
+    }
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     document.querySelectorAll('.subpage').forEach(p=>p.classList.remove('active'));
     tab.classList.add('active');
@@ -252,8 +265,14 @@ const lowRange=document.getElementById('lowRange'),highRange=document.getElement
 const lowValue=document.getElementById('lowValue'),highValue=document.getElementById('highValue');
 function sliderChanged(el,out,e){
   out.textContent=el.value;
-  if(Number(el.value)!==100) showTip(txWarning,e.clientX||window.innerWidth/2,e.clientY||180);
-  else hideTip();
+  const changed = Number(lowRange.value)!==savedLow || Number(highRange.value)!==savedHigh;
+  if(Number(el.value)!==100){
+    showTip(txWarning+'<br><br><strong>Після зміни обов’язково натисніть «ЗБЕРЕГТИ».</strong>',e.clientX||window.innerWidth/2,e.clientY||180);
+  } else if(changed){
+    showTip('<strong>Після зміни обов’язково натисніть «ЗБЕРЕГТИ».</strong>',e.clientX||window.innerWidth/2,e.clientY||180);
+  } else {
+    hideTip();
+  }
 }
 lowRange.addEventListener('input',e=>sliderChanged(lowRange,lowValue,e));
 highRange.addEventListener('input',e=>sliderChanged(highRange,highValue,e));
