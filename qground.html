@@ -550,6 +550,58 @@
     max-width:50vw;
   }
 }
+
+/* ===== AltHold report issue hotspots ===== */
+.report-issue{
+  position:relative;
+  display:inline-block;
+  padding:0 3px;
+  margin-left:1px;
+  border-radius:4px;
+  cursor:help;
+  transition:.15s ease;
+}
+.report-issue:hover,
+.report-issue:focus{
+  background:rgba(255,202,61,.34);
+  box-shadow:0 0 0 2px rgba(255,174,0,.50);
+  outline:none;
+}
+.report-issue.critical:hover,
+.report-issue.critical:focus{
+  background:rgba(255,70,70,.28);
+  box-shadow:0 0 0 2px rgba(255,70,70,.46);
+}
+.report-issue-tip{
+  visibility:hidden;
+  opacity:0;
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 10px);
+  transform:translateX(-50%);
+  width:430px;
+  max-width:42vw;
+  padding:13px 15px;
+  border-radius:10px;
+  background:#151a21;
+  color:#fff;
+  font-size:clamp(13px,1vw,18px);
+  font-weight:700;
+  line-height:1.42;
+  white-space:normal;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+  pointer-events:none;
+  z-index:8;
+}
+.report-issue:hover .report-issue-tip,
+.report-issue:focus .report-issue-tip{
+  visibility:visible;
+  opacity:1;
+}
+.report-log.hidden{display:none}
+@media(max-width:700px){
+  .report-issue-tip{width:300px;max-width:58vw;font-size:14px}
+}
 </style>
 
 </head>
@@ -704,7 +756,7 @@ Large</span>
       <div class="report-dimmer" id="reportDimmer"></div>
 
       <div class="report-window" id="reportPanel" role="dialog" aria-label="Повідомлення QGround">
-        <div class="report-log" id="reportLog">
+        <div class="report-log" id="reportLogLoiter">
           <div class="report-line critical">[22:13:27.173 COMP:1] Critical: PreArm: Need Position Estimate</div>
           <div class="report-line">[22:13:37.076 COMP:1] Info: ArduCopter V4.5.77 (2faf5c7d)</div>
           <div class="report-line">[22:13:37.076 COMP:1] Info: ChibiOS: 6a85082c</div>
@@ -721,6 +773,25 @@ Large</span>
           <div class="report-line critical">[22:14:21.145 COMP:1] Critical: PreArm: Need Position Estimate</div>
           <div class="report-line">[22:14:21.272 COMP:1] Info: EKF3 IMU0 is using external nav data</div>
           <div class="report-line">[22:14:21.289 COMP:1] Info: EKF3 IMU0 initial pos NE = <span class="report-zero" tabindex="0">0.0,0.0 (m)<span class="report-zero-tip">Хибна нульова координата. Можливі невеликі відхилення, наприклад −0.1, 0.5 (m) — система все одно буде працювати.</span></span></div>
+        </div>
+
+        <div class="report-log hidden" id="reportLogAltHold">
+          <div class="report-line">[22:28:06.278 COMP:1] Info: RC9: Camera Zoom HIGH</div>
+          <div class="report-line">[22:28:06.296 COMP:1] Info: RC9: Camera Zoom MIDDLE</div>
+          <div class="report-line critical"><span class="report-issue critical" tabindex="0">[00:13:22.422 COMP:1] Critical: EKF variance<span class="report-issue-tip"><b>Помилка EKF Variance</b> означає, що дані датчиків польотного контролера — модуля оптичної навігації, компаса та акселерометра — суперечать один одному. Простими словами: польотний комп’ютер отримує несумісні оцінки руху й положення, тому видає помилку безпеки.</span></span></div>
+          <div class="report-line warning"><span class="report-issue" tabindex="0">[00:13:22.467 COMP:1] Warning: EKF3 IMU0 stopped aiding<span class="report-issue-tip">Це повідомлення означає, що EKF перестав використовувати зовнішнє навігаційне джерело. У цьому навчальному сценарії — модуль оптичної навігації відключений або його дані більше не використовуються.</span></span></div>
+          <div class="report-line warning"><span class="report-issue" tabindex="0">[00:13:22.501 COMP:1] Warning: SmartRTL deactivated: bad position<span class="report-issue-tip"><b>Smart RTL deactivated</b> означає, що функція розумного повернення додому стала недоступною через некоректну оцінку позиції. У цьому сценарії телеметричний/навігаційний шлях порушений, тому повернення може працювати з похибкою.</span></span></div>
+          <div class="report-line warning">[00:13:23.037 COMP:1] Warning: Mode change to LOITER failed: requires position</div>
+          <div class="report-line">[00:13:23.038 COMP:1] Info: EKF3 IMU0 is using external nav data</div>
+          <div class="report-line">[00:13:23.038 COMP:1] Info: EKF3 IMU0 initial pos NE = 1148.1,-1192.1 (m)</div>
+          <div class="report-line critical">[00:13:23.695 COMP:1] Critical: EKF variance</div>
+          <div class="report-line warning">[00:13:23.732 COMP:1] Warning: EKF3 IMU0 stopped aiding</div>
+          <div class="report-line critical">[00:13:26.508 COMP:1] Critical: PreArm: Battery 1 below minimum arming voltage</div>
+          <div class="report-line warning">[00:14:02.297 COMP:1] Warning: Terrain: clamping offset -54 to -30</div>
+          <div class="report-line">[00:14:27.421 COMP:2] Info: stop downscaling images.</div>
+          <div class="report-line critical">[00:15:13.727 COMP:1] Critical: EKF variance</div>
+          <div class="report-line warning">[00:15:14.416 COMP:1] Warning: EKF3 IMU0 stopped aiding</div>
+          <div class="report-line warning">[00:15:15.135 COMP:1] Warning: SmartRTL deactivated: bad position</div>
         </div>
 
         <button class="report-trash" id="reportClear" type="button" aria-label="Очистити повідомлення">
@@ -913,7 +984,7 @@ Large</span>
 
 
 <script>
-/* ===== Report panel behavior v2 ===== */
+/* ===== Report panel behavior v3 ===== */
 (function(){
   const hotspot=document.getElementById('reportHotspot');
   const layer=document.getElementById('reportLayer');
@@ -921,15 +992,26 @@ Large</span>
   const panel=document.getElementById('reportPanel');
   const clearBtn=document.getElementById('reportClear');
   const loiter=document.getElementById('modeLoiter');
+  const altHold=document.getElementById('modeAltHold');
+  const loiterLog=document.getElementById('reportLogLoiter');
+  const altHoldLog=document.getElementById('reportLogAltHold');
 
-  if(!hotspot || !layer || !dimmer || !panel) return;
+  if(!hotspot || !layer || !dimmer || !panel || !loiterLog || !altHoldLog) return;
 
-  function isLoiter(){
-    return !loiter || loiter.classList.contains('active');
+  function isAltHold(){
+    return !!altHold && altHold.classList.contains('active');
+  }
+
+  function syncReportContent(){
+    const alt=isAltHold();
+    loiterLog.classList.toggle('hidden',alt);
+    altHoldLog.classList.toggle('hidden',!alt);
+    loiterLog.style.visibility='visible';
+    altHoldLog.style.visibility='visible';
   }
 
   function openReport(){
-    if(!isLoiter()) return;
+    syncReportContent();
     layer.classList.add('show');
     layer.setAttribute('aria-hidden','false');
   }
@@ -953,26 +1035,24 @@ Large</span>
     }
   });
 
-  // Clicking anywhere on the dimmed main screen closes the report.
+  // Натискання на затемнену область закриває Report.
   dimmer.addEventListener('click',closeReport);
 
-  // Clicks inside the report window must not close it.
+  // Усередині самого повідомлення клік не закриває його.
   panel.addEventListener('click',e=>e.stopPropagation());
 
   if(clearBtn){
     clearBtn.addEventListener('click',e=>{
       e.stopPropagation();
-      document.getElementById('reportLog')?.classList.toggle('cleared');
-      const log=document.getElementById('reportLog');
-      if(log) log.style.visibility='hidden';
+      const activeLog=isAltHold()?altHoldLog:loiterLog;
+      activeLog.style.visibility='hidden';
     });
   }
 
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape' && layer.classList.contains('show')) closeReport();
   });
-})();
-</script>
+})();</script>
 
 </body>
 </html>
