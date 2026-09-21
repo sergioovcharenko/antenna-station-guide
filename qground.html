@@ -108,6 +108,32 @@
 .home-btn:hover{background:#000}
 @media(max-width:700px){.home-btn{top:8px;left:8px;padding:9px 12px;font-size:14px}.tooltip{font-size:24px!important;max-width:75vw}}
 </style>
+
+<style id="fontControlStyle">
+.font-controls{
+  position:fixed;right:18px;top:18px;z-index:10000;
+  display:flex;align-items:center;gap:6px;
+  padding:7px;background:rgba(22,26,31,.94);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.22);
+  font-family:Arial,Helvetica,sans-serif!important;
+}
+.font-controls button{
+  width:44px;height:40px;border:0;border-radius:9px;
+  background:#fff;color:#20252b;cursor:pointer;
+  font-size:22px!important;font-weight:900!important;line-height:1!important;
+}
+.font-controls button:hover{background:#ef6035;color:#fff}
+.font-controls .font-value{
+  min-width:54px;text-align:center;color:#fff;
+  font-size:14px!important;font-weight:800!important;
+}
+@media(max-width:700px){
+  .font-controls{right:8px;top:8px;padding:5px}
+  .font-controls button{width:39px;height:36px;font-size:20px!important}
+  .font-controls .font-value{min-width:48px;font-size:12px!important}
+}
+</style>
 </head>
 <body>\n<a class="portal-back" href="index.html">← До вибору</a>
 <a class="home-btn" href="index.html">← На головну</a>
@@ -244,5 +270,77 @@ Large</span>
 <script src="qg-img-5.js"></script>
 <script src="qg-img-6.js"></script>
 <script>document.getElementById("qgImage").src="data:image/webp;base64,"+(window.QG_IMG||"");</script>
+
+<div class="font-controls" id="fontControls" aria-label="Зміна розміру шрифту">
+  <button type="button" id="fontMinus" title="Зменшити шрифт">−</button>
+  <span class="font-value" id="fontValue">100%</span>
+  <button type="button" id="fontPlus" title="Збільшити шрифт">+</button>
+</div>
+<script id="fontControlScript">
+(function(){
+  const KEY='siteFontScale';
+  const MIN=0.75, MAX=1.60, STEP=0.10;
+  let scale=parseFloat(localStorage.getItem(KEY)||'1');
+  if(!Number.isFinite(scale)) scale=1;
+  scale=Math.max(MIN,Math.min(MAX,scale));
+
+  const controls=document.getElementById('fontControls');
+  const minus=document.getElementById('fontMinus');
+  const plus=document.getElementById('fontPlus');
+  const value=document.getElementById('fontValue');
+
+  function eligible(el){
+    if(!el || el.nodeType!==1) return false;
+    if(controls && controls.contains(el)) return false;
+    const tag=el.tagName;
+    return !['SCRIPT','STYLE','IMG','SVG','PATH','VIDEO','CANVAS','IFRAME','NOSCRIPT'].includes(tag);
+  }
+
+  function remember(el){
+    if(!eligible(el)) return;
+    if(!el.dataset.baseFontSize){
+      const fs=parseFloat(getComputedStyle(el).fontSize);
+      if(Number.isFinite(fs) && fs>0) el.dataset.baseFontSize=String(fs);
+    }
+  }
+
+  function applyElement(el){
+    remember(el);
+    if(el.dataset.baseFontSize){
+      el.style.fontSize=(parseFloat(el.dataset.baseFontSize)*scale).toFixed(2)+'px';
+    }
+  }
+
+  function applyAll(){
+    document.querySelectorAll('body *').forEach(applyElement);
+    if(value) value.textContent=Math.round(scale*100)+'%';
+    if(minus) minus.disabled=scale<=MIN+.001;
+    if(plus) plus.disabled=scale>=MAX-.001;
+  }
+
+  function setScale(next){
+    scale=Math.round(Math.max(MIN,Math.min(MAX,next))*100)/100;
+    localStorage.setItem(KEY,String(scale));
+    applyAll();
+  }
+
+  minus.addEventListener('click',()=>setScale(scale-STEP));
+  plus.addEventListener('click',()=>setScale(scale+STEP));
+
+  const observer=new MutationObserver(mutations=>{
+    for(const mutation of mutations){
+      for(const node of mutation.addedNodes){
+        if(node.nodeType===1){
+          applyElement(node);
+          node.querySelectorAll && node.querySelectorAll('*').forEach(applyElement);
+        }
+      }
+    }
+  });
+
+  applyAll();
+  observer.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
