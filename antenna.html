@@ -209,6 +209,132 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
 }
 .portal-back:hover{background:#ef5b25}
 </style>
+
+<style id="mobile-fix-20260921">
+@media (max-width: 760px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  .top{
+    height:auto!important;
+    min-height:72px;
+    flex-wrap:wrap;
+    padding:8px 10px;
+    gap:8px;
+  }
+  .brand{
+    width:auto!important;
+    min-width:0;
+    height:52px;
+    padding:0 10px!important;
+    border-right:0;
+    font-size:16px!important;
+  }
+  .wifi-icon{width:26px!important;height:26px!important;flex-basis:26px!important}
+  .status{
+    order:3;
+    width:100%;
+    padding:0!important;
+    gap:6px!important;
+    flex-wrap:wrap;
+    font-size:12px!important;
+  }
+  .status-item{padding:6px 7px!important}
+  .lang{
+    margin-left:auto!important;
+    padding-right:0!important;
+    gap:4px!important;
+  }
+  .lang-btn{padding:9px 10px!important;font-size:14px!important}
+
+  .body{display:block!important}
+  .side{
+    width:100%!important;
+    min-height:0!important;
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:8px!important;
+    border-bottom:1px solid #eceff2;
+  }
+  .nav{
+    flex:0 0 auto;
+    padding:12px 14px!important;
+    margin:0!important;
+    font-size:14px!important;
+    white-space:nowrap;
+  }
+
+  .content{width:100%!important;padding:14px 10px 80px!important}
+  #pageLink,#pageAntenna,#pageDrone{max-width:none!important;width:100%!important}
+  h1{font-size:27px!important;margin-top:8px!important}
+  .page-subtitle{font-size:15px!important;margin-bottom:22px!important}
+  .card,.search-card,.ranges-card,.keys,.tx-card{
+    padding:18px 14px!important;
+    margin-bottom:18px!important;
+    border-radius:14px!important;
+  }
+
+  .search-toggle-row{align-items:center!important;gap:12px!important;flex-wrap:wrap}
+  .switch{width:72px!important;height:44px!important}
+  .switch::after{width:34px!important;height:34px!important}
+  .switch.on::after{left:33px!important}
+  .switch-label{font-size:16px!important}
+
+  .range-grid{grid-template-columns:1fr!important;gap:18px!important;margin-top:18px!important}
+  .range-values{
+    grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr) 42px!important;
+    gap:7px!important;
+  }
+  .range-box,.range-input{
+    min-width:0!important;
+    width:100%!important;
+    height:50px!important;
+    padding:10px 12px!important;
+    font-size:16px!important;
+    -webkit-text-fill-color:#252830!important;
+    opacity:1!important;
+  }
+  input,select,button{font-size:16px!important}
+  .mhz{font-size:13px!important}
+
+  .freqbox{padding:10px!important}
+  .freqgrid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px!important;
+    max-height:360px!important;
+  }
+  .freq{
+    min-width:0!important;
+    height:54px!important;
+    font-size:16px!important;
+  }
+  .tags{gap:6px!important}
+  .tag{font-size:14px!important}
+  .tag span,.tag b{padding:8px 9px!important}
+
+  .overview-grid,.version-wrap,.drone-list{grid-template-columns:1fr!important}
+  .antenna-head{gap:12px!important;margin-bottom:18px!important}
+  .tabs{max-width:100%;overflow-x:auto}
+  .tab{padding:11px 14px!important;font-size:14px!important;white-space:nowrap}
+  .slider-row{grid-template-columns:1fr 74px!important;gap:10px!important}
+  .value-box{height:58px!important;font-size:17px!important}
+
+  #pageLink > .card:nth-of-type(2) .select:first-of-type{width:100%!important}
+  #pageLink > .card:nth-of-type(2) > div[style*="grid-template-columns"]{
+    grid-template-columns:1fr!important;
+  }
+
+  .tooltip{
+    max-width:calc(100vw - 24px)!important;
+    width:auto!important;
+    font-size:17px!important;
+    padding:14px 16px!important;
+  }
+  .portal-back{
+    right:10px!important;bottom:10px!important;
+    padding:10px 13px!important;font-size:13px!important;
+  }
+}
+</style>
 </head>
 <body>
 <a class="portal-back" href="index.html">← До вибору</a>
