@@ -95,13 +95,13 @@ h1{font-size:32px;margin:18px 0 10px}
 .range-values{grid-template-columns:194px 18px 194px 48px;gap:10px}
 .range-box{height:56px;padding:13px 16px;font-size:18px;border-radius:12px}
 .range-zone{padding:14px;border-radius:14px;transition:.16s}
-.range-zone.hovered{background:#fff8f4;box-shadow:0 0 0 3px rgba(255,92,42,.12)}
+.range-zone.hovered{background:rgba(255,93,42,.45);box-shadow:0 0 0 4px rgba(255,93,42,.28)}
 .range-input{width:100%;height:56px;padding:13px 16px;border:1px solid #dfe4e9;border-radius:12px;background:#fff;font-size:18px;color:#1f2937}
 .range-save-wrap{display:flex;justify-content:flex-end;margin-top:16px}
 .range-save{display:none;border:0;border-radius:10px;background:#ff5c2a;color:#fff;padding:13px 20px;font-weight:700;cursor:pointer}
 .range-save.show{display:inline-block}
 .manual-freq-zone{transition:.16s;border-radius:14px}
-.manual-freq-zone.hovered{box-shadow:0 0 0 3px rgba(255,92,42,.10);background:#fffaf7}
+.manual-freq-zone.hovered{box-shadow:0 0 0 4px rgba(255,93,42,.28);background:rgba(255,93,42,.45)}
 .hidden{display:none!important}
 .mhz{font-size:17px}
 .muted-title{font-size:17px}
@@ -153,8 +153,8 @@ h1{font-size:32px;margin:18px 0 10px}
 /* ===== Unified highlight system + larger typography ===== */
 :root{
   --accent:#ff5d2a;
-  --accent-soft:#fff3ee;
-  --accent-ring:rgba(255,93,42,.16);
+  --accent-soft:rgba(255,93,42,.45);
+  --accent-ring:rgba(255,93,42,.28);
   --text:#20252b;
   --muted:#77808b;
 }
@@ -254,9 +254,9 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
 .nav.active,
 .tab.active,
 .lang-btn.active{
-  background:var(--accent-soft);
-  color:var(--accent);
-  box-shadow:inset 0 0 0 1px #ffd3c5;
+  background:rgba(255,93,42,.45);
+  color:#c94317;
+  box-shadow:inset 0 0 0 1px rgba(255,93,42,.62);
 }
 
 /* keep warning frequencies visually distinct but within same system */
@@ -315,6 +315,28 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
   transform:translateY(1px);
 }
 
+
+/* ===== Strong selected background tuning ===== */
+.status-item:hover,
+.freq:hover,
+.tag:hover,
+.overview-card:hover,
+.version-card:hover,
+.drone-card:hover,
+.range-zone:hover,
+.manual-freq-zone:hover,
+.tab:hover,
+.select:hover,
+.range-input:hover,
+.action-bind:hover,
+.action-lite:hover,
+.gear-btn:hover,
+.lang-btn:hover{
+  background:rgba(255,93,42,.45) !important;
+}
+.nav:not(.dim):hover{
+  background:rgba(255,93,42,.45) !important;
+}
 </style>
 </head>
 <body>
