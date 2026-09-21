@@ -41,6 +41,87 @@ input[type=range]{width:100%;accent-color:#ff5c2a;height:8px}.value-box{height:8
 .page-subtitle{font-size:20px;color:#7b838c;margin-top:-10px;margin-bottom:30px}.search-card{padding:34px}.search-title{font-size:20px;font-weight:700;margin-bottom:26px}.search-toggle-row{display:flex;align-items:center;gap:18px;margin-bottom:28px}.switch{position:relative;width:92px;height:54px;border-radius:30px;background:#dfe4ea;cursor:pointer;transition:.2s;flex:none}.switch.on{background:#ff5c2a}.switch::after{content:"";position:absolute;top:5px;left:5px;width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:.2s}.switch.on::after{left:43px}.switch-label{font-size:20px;font-weight:700}.drone-list{display:grid;grid-template-columns:1fr 1fr;gap:16px}.drone-card{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #e1e5e9;border-radius:14px;padding:14px 16px;background:#fff;transition:.16s}.drone-card:hover{box-shadow:0 0 0 4px rgba(255,92,42,.10),0 8px 20px rgba(0,0,0,.06);border-color:#f1b8a4}.drone-name{font-size:18px;letter-spacing:.02em}.drone-type{font-size:12px;padding:6px 8px;border-radius:8px;background:#fff4df;color:#d78e13;font-weight:700;margin-left:8px}.connect-btn{border:0;border-radius:10px;background:#ff5c2a;color:#fff;padding:14px 18px;font-weight:700;cursor:pointer}.search-off-note{padding:22px;border:1px dashed #d9dee4;border-radius:14px;color:#8b949e;background:#fafbfc}.ranges-card{margin-top:30px}.ranges-title{font-size:20px;font-weight:700;margin-bottom:20px}.range-placeholder{height:110px;border-radius:14px;border:1px solid #e5e8ec;background:#fff;display:flex;align-items:flex-start;padding:24px;color:#a3aab3;text-transform:uppercase;font-weight:700;letter-spacing:.03em}
 .connected-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-left:auto;flex-wrap:wrap}.connected-board{display:flex;align-items:center;gap:9px;padding:12px 14px;border:1px solid #e1e5e9;border-radius:12px;background:#fff}.connected-board .board-dot{width:10px;height:10px;border-radius:50%;background:#25b87d}.action-lite{border:1px solid #dfe4e9;background:#fff;color:#6f7782;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}.action-bind{border:1px solid #efb49f;background:#fff8f4;color:#2b3037;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}.gear-btn{width:44px;height:44px;border:1px solid #dfe4e9;background:#fff;border-radius:10px;display:grid;place-items:center;font-size:21px;cursor:pointer}.range-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:16px}.range-group-label{font-size:16px;color:#6f7782;font-weight:700;margin-bottom:12px}.range-values{display:grid;grid-template-columns:1fr auto 1fr auto;gap:12px;align-items:center}.range-box{padding:14px 16px;border:1px solid #dfe4e9;border-radius:12px;background:#fff;font-size:20px}.mhz{color:#9aa1a8}.drone-settings-card{max-width:860px}.drone-settings-title{font-size:18px;color:#9aa1aa;text-transform:uppercase;font-weight:700;margin-bottom:20px}.setting-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #edf0f3}.setting-row:last-child{border-bottom:0}.setting-value{font-weight:700}
 @media(max-width:900px){.brand{width:190px;font-size:14px}.side{width:190px}.status{padding-left:16px;gap:6px;font-size:12px}.content{padding:16px}.freqgrid{grid-template-columns:repeat(3,1fr)}.version-wrap,.overview-grid,.drone-list{grid-template-columns:1fr}.antenna-head{align-items:flex-start;flex-direction:column}.slider-row{grid-template-columns:1fr 90px}}
+
+/* ===== Screenshot-faithful layout overrides ===== */
+.top{height:82px}
+.brand{width:326px;padding:0 30px;font-size:20px;gap:14px}
+.wifi{font-size:34px}
+.status{padding-left:54px;gap:14px;font-size:18px}
+.lang{padding-right:34px;font-size:18px}
+.body{align-items:stretch}
+.side{width:326px;padding:18px 16px;min-height:calc(100vh - 82px)}
+.nav{padding:25px 24px;font-size:18px;border-radius:12px;margin-bottom:13px}
+.content{padding:20px 34px 70px;max-width:none}
+h1{font-size:32px;margin:18px 0 10px}
+.page-subtitle{font-size:19px;margin:0 0 46px}
+.card{border-radius:18px;padding:28px 28px;margin-bottom:36px}
+.search-card{padding:34px 34px 36px}
+.search-title{font-size:20px;margin-bottom:28px}
+.search-toggle-row{gap:18px;margin-bottom:28px;align-items:center}
+.switch{width:92px;height:56px}
+.switch::after{width:46px;height:46px;top:5px;left:5px}
+.switch.on::after{left:41px}
+.switch-label{font-size:20px}
+.drone-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.drone-card{min-height:90px;padding:13px 16px;border-radius:14px}
+.drone-name{font-size:17px}
+.connect-btn{padding:14px 18px;font-size:18px;border-radius:10px}
+.connected-row{gap:10px}
+.connected-board{padding:12px 16px;border-radius:12px;font-size:17px}
+.action-bind,.action-lite{padding:12px 16px;font-size:16px;border-radius:10px}
+.gear-btn{width:46px;height:46px}
+.ranges-title{font-size:20px;margin:44px 0 22px}
+.ranges-card{padding:28px 28px 34px}
+.range-grid{grid-template-columns:1fr 1fr;gap:80px;margin-top:52px}
+.range-group-label{font-size:18px;margin-bottom:16px}
+.range-values{grid-template-columns:194px 18px 194px 48px;gap:10px}
+.range-box{height:56px;padding:13px 16px;font-size:18px;border-radius:12px}
+.mhz{font-size:17px}
+.muted-title{font-size:17px}
+.label{font-size:17px}
+.select{height:52px;padding:10px 14px;font-size:18px}
+.freqbox{padding:16px 14px 18px;border-radius:14px}
+.freqgrid{grid-template-columns:repeat(5,minmax(0,1fr));gap:0 12px;max-height:234px;overflow-y:auto;padding-right:4px}
+.freq{height:72px;font-size:17px;border-radius:10px}
+.tags{gap:8px;margin-top:12px;min-height:42px}
+.tag{font-size:16px}
+.tag span,.tag b{padding:10px 12px}
+.keys{padding:36px 36px 48px}
+.gen,.apply{font-size:18px;padding:17px 24px;border-radius:10px}
+.antenna-head{gap:22px;margin:14px 0 34px}
+.antenna-head h1{margin:0}
+.tabs{border-radius:12px}
+.tab{padding:15px 24px;font-size:18px}
+.overview-grid{grid-template-columns:365px 365px;gap:24px;max-width:none}
+.overview-card{min-height:176px;padding:28px;border-radius:18px}
+.overview-card .line{font-size:18px}
+.big-value{font-size:26px}
+.version-wrap{grid-template-columns:minmax(0,2fr) minmax(320px,1fr);gap:18px}
+.version-card{min-height:112px}
+.tx-card{padding:34px 30px}
+.slider-block{margin-bottom:32px}
+.slider-label{font-size:20px;margin-bottom:22px}
+.slider-row{grid-template-columns:minmax(0,1fr) 118px;gap:20px}
+.value-box{height:78px;font-size:20px}
+.drone-settings-card{max-width:100%}
+
+/* link-page inner sections match original narrow controls */
+#pageLink > .card:nth-of-type(2) .select:first-of-type{width:465px !important}
+#pageLink > .card:nth-of-type(2) > div[style*="grid-template-columns"]{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:14px !important}
+#pageLink > .card:nth-of-type(2) > div[style*="grid-template-columns"] .select{height:50px !important}
+
+/* Wider desktop fidelity */
+@media(min-width:1200px){
+  #pageLink,#pageAntenna,#pageDrone{max-width:1140px}
+}
+@media(max-width:1199px){
+  .brand,.side{width:240px}
+  .status{padding-left:20px;font-size:14px;gap:8px}
+  .content{padding:18px}
+  .overview-grid{grid-template-columns:1fr 1fr}
+  .range-values{grid-template-columns:1fr 18px 1fr 44px}
+}
+
 </style>
 </head>
 <body>
