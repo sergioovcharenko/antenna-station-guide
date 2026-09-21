@@ -290,6 +290,31 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
   cursor:pointer;
 }
 
+
+/* ===== Fix: solid orange action buttons must never wash out on hover/focus ===== */
+.connect-btn:hover,
+.connect-btn:focus-visible,
+.gen:hover,
+.gen:focus-visible,
+.apply:hover,
+.apply:focus-visible,
+.range-save:hover,
+.range-save:focus-visible{
+  background:#e94f1d !important;
+  color:#fff !important;
+  border-color:#e94f1d !important;
+  box-shadow:0 0 0 4px rgba(255,93,42,.18),0 8px 22px rgba(233,79,29,.18) !important;
+}
+
+.connect-btn:active,
+.gen:active,
+.apply:active,
+.range-save:active{
+  background:#d94718 !important;
+  color:#fff !important;
+  transform:translateY(1px);
+}
+
 </style>
 </head>
 <body>
