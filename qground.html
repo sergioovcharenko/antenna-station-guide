@@ -438,6 +438,117 @@
   left:42.5% !important;
   width:7.5% !important;
 }
+
+/* ===== Report overlay v2 ===== */
+.report-layer{
+  position:absolute;
+  inset:0;
+  z-index:150;
+  display:none;
+}
+.report-layer.show{display:block}
+.report-dimmer{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.34);
+}
+.report-window{
+  position:absolute;
+  top:7.2%;
+  left:1.0%;
+  width:67%;
+  aspect-ratio:1279/802;
+  background:#fff;
+  color:#111;
+  border:1px solid #8f8f8f;
+  border-radius:18px;
+  box-shadow:0 12px 36px rgba(0,0,0,.30);
+  overflow:hidden;
+  text-align:left;
+}
+.report-log{
+  position:absolute;
+  inset:0;
+  padding:3.5% 2.7% 8.5%;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:clamp(12px,1.25vw,22px);
+  line-height:1.46;
+}
+.report-line{
+  white-space:nowrap;
+}
+.report-line.critical,
+.report-line.warning{
+  color:#e11919;
+}
+.report-zero{
+  position:relative;
+  display:inline-block;
+  padding:0 3px;
+  margin-left:1px;
+  border-radius:4px;
+  cursor:help;
+  transition:.15s ease;
+}
+.report-zero:hover,
+.report-zero:focus{
+  background:rgba(255,70,70,.28);
+  box-shadow:0 0 0 2px rgba(255,70,70,.42);
+  outline:none;
+}
+.report-zero-tip{
+  visibility:hidden;
+  opacity:0;
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 10px);
+  transform:translateX(-50%);
+  width:380px;
+  max-width:38vw;
+  padding:12px 14px;
+  border-radius:10px;
+  background:#151a21;
+  color:#fff;
+  font-size:clamp(13px,1vw,18px);
+  font-weight:700;
+  line-height:1.4;
+  white-space:normal;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+  pointer-events:none;
+  z-index:5;
+}
+.report-zero:hover .report-zero-tip,
+.report-zero:focus .report-zero-tip{
+  visibility:visible;
+  opacity:1;
+}
+.report-trash{
+  position:absolute;
+  right:1.7%;
+  bottom:2.3%;
+  width:4.4%;
+  aspect-ratio:1/1;
+  border:0;
+  background:transparent;
+  padding:0;
+  cursor:pointer;
+}
+.report-trash svg{width:100%;height:100%;display:block}
+
+@media(max-width:900px){
+  .report-window{
+    width:76%;
+    left:1.2%;
+  }
+  .report-log{
+    font-size:clamp(9px,1.45vw,15px);
+  }
+  .report-zero-tip{
+    width:300px;
+    max-width:50vw;
+  }
+}
 </style>
 
 </head>
@@ -569,7 +680,41 @@ Medium<br>
 Large</span>
     </div>
 
-  </div>
+  
+    <!-- REPORT LAYER -->
+    <div class="report-layer" id="reportLayer" aria-hidden="true">
+      <div class="report-dimmer" id="reportDimmer"></div>
+
+      <div class="report-window" id="reportPanel" role="dialog" aria-label="Повідомлення QGround">
+        <div class="report-log" id="reportLog">
+          <div class="report-line critical">[22:13:27.173 COMP:1] Critical: PreArm: Need Position Estimate</div>
+          <div class="report-line">[22:13:37.076 COMP:1] Info: ArduCopter V4.5.77 (2faf5c7d)</div>
+          <div class="report-line">[22:13:37.076 COMP:1] Info: ChibiOS: 6a85082c</div>
+          <div class="report-line">[22:13:37.077 COMP:1] Info: FLH743 003D0049 3034510D 38383934</div>
+          <div class="report-line">[22:13:37.105 COMP:1] Info: RCOut: DS600:1-6 PWM:7-13</div>
+          <div class="report-line">[22:13:37.106 COMP:1] Info: IMU0: fast sampling enabled 2.0kHz</div>
+          <div class="report-line">[22:13:37.107 COMP:1] Info: Frame: QUAD/X</div>
+          <div class="report-line critical">[22:13:50.038 COMP:1] Critical: PreArm: Need Position Estimate</div>
+          <div class="report-line">[22:14:12.789 COMP:2] Info: VISP 1.3.4 service has started</div>
+          <div class="report-line">[22:14:12.797 COMP:1] Info: EKF3 IMU0 origin set</div>
+          <div class="report-line">[22:14:12.817 COMP:1] Info: Field Elevation Set: 100m</div>
+          <div class="report-line warning">[22:14:20.687 COMP:2] Warning: VISP: No rangefinder.</div>
+          <div class="report-line">[22:14:20.704 COMP:2] Info: VISP 1.3.4 camera service has started.</div>
+          <div class="report-line critical">[22:14:21.145 COMP:1] Critical: PreArm: Need Position Estimate</div>
+          <div class="report-line">[22:14:21.272 COMP:1] Info: EKF3 IMU0 is using external nav data</div>
+          <div class="report-line">[22:14:21.289 COMP:1] Info: EKF3 IMU0 initial pos NE = <span class="report-zero" tabindex="0">0.0,0.0 (m)<span class="report-zero-tip">Хибна нульова координата. Можливі невеликі відхилення, наприклад −0.1, 0.5 (m) — система все одно буде працювати.</span></span></div>
+        </div>
+
+        <button class="report-trash" id="reportClear" type="button" aria-label="Очистити повідомлення">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M20 18h24l-2 35H22z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round"/>
+            <path d="M16 18h32M25 18l2-7h10l2 7M28 27v17M36 27v17" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- /REPORT LAYER -->
+</div>
 
 
 
@@ -712,9 +857,10 @@ Large</span>
     imageContainer?.classList.add('althold-state');
 
     // Report belongs to Loiter, so close it when AltHold is selected.
-    if(reportPanel){
-      reportPanel.classList.remove('show');
-      reportPanel.setAttribute('aria-hidden','true');
+    const reportLayer=document.getElementById('reportLayer');
+    if(reportLayer){
+      reportLayer.classList.remove('show');
+      reportLayer.setAttribute('aria-hidden','true');
     }
 
     hideAltError();
@@ -746,43 +892,69 @@ Large</span>
 })();
 </script>
 
+
+
 <script>
-/* ===== Report panel behavior ===== */
+/* ===== Report panel behavior v2 ===== */
 (function(){
   const hotspot=document.getElementById('reportHotspot');
+  const layer=document.getElementById('reportLayer');
+  const dimmer=document.getElementById('reportDimmer');
   const panel=document.getElementById('reportPanel');
   const clearBtn=document.getElementById('reportClear');
   const loiter=document.getElementById('modeLoiter');
-  if(!hotspot || !panel) return;
 
-  function toggleReport(){
-    if(loiter && !loiter.classList.contains('active')) return;
-    const open=!panel.classList.contains('show');
-    panel.classList.toggle('show',open);
-    panel.setAttribute('aria-hidden',String(!open));
+  if(!hotspot || !layer || !dimmer || !panel) return;
+
+  function isLoiter(){
+    return !loiter || loiter.classList.contains('active');
+  }
+
+  function openReport(){
+    if(!isLoiter()) return;
+    layer.classList.add('show');
+    layer.setAttribute('aria-hidden','false');
+  }
+
+  function closeReport(){
+    layer.classList.remove('show');
+    layer.setAttribute('aria-hidden','true');
+  }
+
+  function toggleReport(e){
+    if(e) e.stopPropagation();
+    if(layer.classList.contains('show')) closeReport();
+    else openReport();
   }
 
   hotspot.addEventListener('click',toggleReport);
   hotspot.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){
+    if(e.key==='Enter' || e.key===' '){
       e.preventDefault();
-      toggleReport();
+      toggleReport(e);
     }
   });
 
+  // Clicking anywhere on the dimmed main screen closes the report.
+  dimmer.addEventListener('click',closeReport);
+
+  // Clicks inside the report window must not close it.
+  panel.addEventListener('click',e=>e.stopPropagation());
+
   if(clearBtn){
-    clearBtn.addEventListener('click',()=>{
-      panel.querySelectorAll('.report-line').forEach(line=>line.remove());
+    clearBtn.addEventListener('click',e=>{
+      e.stopPropagation();
+      document.getElementById('reportLog')?.classList.toggle('cleared');
+      const log=document.getElementById('reportLog');
+      if(log) log.style.visibility='hidden';
     });
   }
 
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'&&panel.classList.contains('show')){
-      panel.classList.remove('show');
-      panel.setAttribute('aria-hidden','true');
-    }
+    if(e.key==='Escape' && layer.classList.contains('show')) closeReport();
   });
 })();
 </script>
+
 </body>
 </html>
