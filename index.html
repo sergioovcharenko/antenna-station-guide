@@ -150,120 +150,104 @@ h1{font-size:32px;margin:18px 0 10px}
 }
 
 
-/* ===== Unified highlight system + larger typography ===== */
+/* ===== Typography matched to reference + controlled highlights ===== */
 :root{
   --accent:#ff5d2a;
-  --accent-soft:rgba(255,93,42,.45);
-  --accent-ring:rgba(255,93,42,.28);
-  --text:#20252b;
-  --muted:#77808b;
+  --text:#252830;
+  --muted:#727b86;
 }
 html,body{font-size:17px}
-body{color:var(--text)}
-.brand{font-size:19px}
-.status{font-size:17px}
-.nav{font-size:17px}
-h1{font-size:34px}
-h2{font-size:22px}
-.page-subtitle{font-size:20px}
-.search-title,.ranges-title{font-size:21px}
-.switch-label{font-size:20px}
-.muted-title{font-size:18px}
-.range-group-label,.label{font-size:18px}
+body,button,input,select{color:var(--text)}
+.brand{font-size:19px;color:#20242a}
+.status{font-size:17px;color:#7b838c}
+.nav{font-size:17px;color:#747d87}
+h1{font-size:34px;color:#22252b}
+h2{font-size:22px;color:#22252b}
+.page-subtitle{font-size:20px;color:#7b838c}
+.search-title,.ranges-title{font-size:21px;color:#252830}
+.switch-label{font-size:20px;color:#252830}
+.muted-title{font-size:18px;color:#9ca4ad}
+.range-group-label,.label{font-size:18px;color:#69737e}
 .freq,.tag,.select,.range-input,.value-box,.overview-card .line,.drone-name{font-size:18px}
 button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-size:18px}
 .tooltip{font-size:21px;font-weight:700;line-height:1.5}
 .toast .msg{font-size:22px}
 
-/* one visual language for hover/focus/highlight */
-.nav:not(.dim),
-.status-item,
-.freq,
-.tag,
-.overview-card,
-.version-card,
-.drone-card,
-.range-zone,
-.manual-freq-zone,
-.tab,
-.select,
-.range-input,
-.connect-btn,
-.action-bind,
-.action-lite,
-.gear-btn,
-.gen,
-.apply,
-.range-save,
-.lang-btn{
-  transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+/* Reference-style active navigation/tabs: light orange, not red */
+.nav.active{
+  background:#fff1ec !important;
+  color:#ef6035 !important;
+  box-shadow:none !important;
+  border-color:transparent !important;
+}
+.tab.active{
+  background:#fff0ea !important;
+  color:#ef6035 !important;
+  box-shadow:none !important;
+}
+.lang-btn.active{
+  background:#fff4ef !important;
+  color:#ef6035 !important;
+  box-shadow:none !important;
 }
 
-.nav:not(.dim):hover,
-.status-item:hover,
-.freq:hover,
-.tag:hover,
+/* Normal navigation does not get the strong selection highlight */
+.nav:not(.active):not(.dim):hover{
+  background:#fafbfc !important;
+  color:#5f6873 !important;
+  box-shadow:none !important;
+}
+
+/* Inputs/edit fields stay neutral at all times */
+.select:hover,.select:focus,.select:focus-visible,
+.range-input:hover,.range-input:focus,.range-input:focus-visible,
+input[type="number"]:hover,input[type="number"]:focus,input[type="number"]:focus-visible{
+  background:#fff !important;
+  color:#252830 !important;
+  box-shadow:none !important;
+  outline:none !important;
+  border-color:#d7dce1 !important;
+}
+
+/* Only the agreed selectable objects get the strong 35% red highlight */
+.range-zone.hovered,
+.manual-freq-zone.hovered,
+.drone-card:hover{
+  background:rgba(255,59,48,.35) !important;
+  border-color:rgba(255,59,48,.58) !important;
+  box-shadow:0 0 0 3px rgba(255,59,48,.14) !important;
+}
+
+/* Do not paint controls inside a highlighted object */
+.range-zone.hovered .range-input,
+.manual-freq-zone.hovered .select{
+  background:#fff !important;
+  box-shadow:none !important;
+  border-color:#d7dce1 !important;
+}
+
+/* Cards and auxiliary controls not agreed for selection highlighting remain neutral */
 .overview-card:hover,
 .version-card:hover,
-.drone-card:hover,
-.range-zone:hover,
-.manual-freq-zone:hover,
+.status-item:hover,
 .tab:hover,
-.select:hover,
-.range-input:hover,
-.connect-btn:hover,
+.lang-btn:hover,
 .action-bind:hover,
 .action-lite:hover,
-.gear-btn:hover,
-.gen:hover,
-.apply:hover,
-.range-save:hover,
-.lang-btn:hover{
-  background:var(--accent-soft);
-  border-color:#ffb79f !important;
-  box-shadow:0 0 0 4px var(--accent-ring),0 8px 22px rgba(0,0,0,.06);
+.gear-btn:hover{
+  background:inherit;
+  box-shadow:none;
 }
 
-.nav:not(.dim):focus-visible,
-.status-item:focus-visible,
-.freq:focus-visible,
-.tag:focus-visible,
-.overview-card:focus-visible,
-.version-card:focus-visible,
-.drone-card:focus-visible,
-.range-zone:focus-within,
-.manual-freq-zone:focus-within,
-.tab:focus-visible,
-.select:focus-visible,
-.range-input:focus-visible,
-.connect-btn:focus-visible,
-.action-bind:focus-visible,
-.action-lite:focus-visible,
-.gear-btn:focus-visible,
-.gen:focus-visible,
-.apply:focus-visible,
-.range-save:focus-visible,
-.lang-btn:focus-visible{
-  outline:none;
-  background:var(--accent-soft);
-  border-color:var(--accent) !important;
-  box-shadow:0 0 0 4px var(--accent-ring),0 8px 22px rgba(0,0,0,.06);
+/* Keep normal frequency hover subtle; warning frequencies remain visibly red */
+.freq:hover{
+  background:#f8fafb;
+  border-color:#d8e0e8;
+  box-shadow:0 0 0 4px rgba(110,130,150,.07);
 }
-
-/* active items use the same accent language */
-.nav.active,
-.tab.active,
-.lang-btn.active{
-  background:rgba(255,93,42,.45);
-  color:#c94317;
-  box-shadow:inset 0 0 0 1px rgba(255,93,42,.62);
-}
-
-/* keep warning frequencies visually distinct but within same system */
 .freq.bad{
   background:#fff0ed;
   color:#e45e42;
-  border-color:transparent;
 }
 .freq.bad:hover{
   background:#ffe9e3;
@@ -271,25 +255,16 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
   box-shadow:0 0 0 4px rgba(239,91,37,.14),0 8px 22px rgba(239,91,37,.10);
 }
 
-/* disabled navigation remains subdued */
+/* Disabled navigation remains subdued */
 .nav.dim{
   opacity:.48;
   font-size:17px;
+  color:#a9b0b8;
 }
 .nav.dim:hover{
-  background:transparent;
-  box-shadow:none;
+  background:transparent !important;
+  box-shadow:none !important;
 }
-
-/* make clickable cards feel clickable */
-.overview-card,
-.version-card,
-.drone-card,
-.range-zone,
-.manual-freq-zone{
-  cursor:pointer;
-}
-
 
 /* ===== Fix: solid orange action buttons must never wash out on hover/focus ===== */
 .connect-btn:hover,
@@ -316,70 +291,26 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
 }
 
 
-/* ===== Strong selected background tuning ===== */
-.status-item:hover,
-.freq:hover,
-.tag:hover,
-.overview-card:hover,
-.version-card:hover,
-.drone-card:hover,
-.range-zone:hover,
-.manual-freq-zone:hover,
-.tab:hover,
-.select:hover,
-.range-input:hover,
-.action-bind:hover,
-.action-lite:hover,
-.gear-btn:hover,
-.lang-btn:hover{
-  background:rgba(255,93,42,.45) !important;
-}
-.nav:not(.dim):hover{
-  background:rgba(255,93,42,.45) !important;
-}
-
-/* ===== Selection highlight tuning ===== */
-/* Editable controls stay clean while being edited */
-.select:hover,
-.select:focus,
-.select:focus-visible,
-.range-input:hover,
-.range-input:focus,
-.range-input:focus-visible,
-input[type="number"]:hover,
-input[type="number"]:focus,
-input[type="number"]:focus-visible{
-  background:#fff !important;
-  box-shadow:none !important;
-  outline:none !important;
-  border-color:#d7dce1 !important;
-}
-
-/* Selected object: red background at 35% opacity */
+/* ===== Final narrow selection override ===== */
 .range-zone.hovered,
-.range-zone:focus-within,
 .manual-freq-zone.hovered,
-.manual-freq-zone:focus-within,
-.drone-card.selected,
-.overview-card.selected,
-.version-card.selected,
-.freq.selected,
-.tag.selected,
-.nav.active,
-.tab.active{
+.drone-card:hover{
   background:rgba(255,59,48,.35) !important;
   border-color:rgba(255,59,48,.58) !important;
   box-shadow:0 0 0 3px rgba(255,59,48,.14) !important;
 }
-
-/* Do not paint the editable field itself when its parent object is selected */
-.range-zone:focus-within .range-input,
-.manual-freq-zone:focus-within .select{
+.range-zone.hovered .range-input,
+.manual-freq-zone.hovered .select,
+.select:hover,.select:focus,.select:focus-visible,
+.range-input:hover,.range-input:focus,.range-input:focus-visible{
   background:#fff !important;
+  color:#252830 !important;
   box-shadow:none !important;
   border-color:#d7dce1 !important;
 }
-
+.nav.active{background:#fff1ec !important;color:#ef6035 !important;box-shadow:none !important}
+.tab.active{background:#fff0ea !important;color:#ef6035 !important;box-shadow:none !important}
+.lang-btn.active{background:#fff4ef !important;color:#ef6035 !important;box-shadow:none !important}
 </style>
 </head>
 <body>
