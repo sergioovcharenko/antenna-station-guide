@@ -9,6 +9,18 @@
 .app{min-height:100vh;background:#f4f6f8}.top{height:76px;background:#fff;border-bottom:1px solid #e6e9ed;display:flex;align-items:center}
 .brand{width:216px;height:100%;display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid #eceff2;font-size:16px;font-weight:700;color:#20252b}
 .wifi{font-size:28px;color:#ff5d2a}.wifi-icon{width:34px;height:34px;flex:0 0 34px;fill:none;stroke:#ff5d2a;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.wifi-icon circle{fill:#ff5d2a;stroke:none}.status{display:flex;gap:12px;align-items:center;padding-left:38px;font-size:16px;color:#7b838c}.status-item{display:flex;align-items:center;gap:7px;padding:9px 10px;border-radius:10px;transition:.16s;cursor:default}.status-item.hovered.connected{background:#eefbf4;box-shadow:0 0 0 3px rgba(37,184,125,.13),0 0 18px rgba(37,184,125,.16)}.status-item.hovered.disconnected{background:#f4f6f8;box-shadow:0 0 0 3px rgba(150,160,170,.10),0 0 18px rgba(150,160,170,.12)}.status-item.hovered.searching{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.16),0 0 18px rgba(243,163,26,.18)}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:#dfe4ea}.dot.green,.dot--green{background:#25b87d}.dot--gray{background:#dfe4ea}.dot--orange{background:#f3a31a}
+@keyframes searchStatusBlink{
+  0%,100%{opacity:1}
+  50%{opacity:.28}
+}
+.status-item.searching.blink{
+  color:#f3a31a;
+  animation:searchStatusBlink 1s ease-in-out infinite;
+}
+.status-item.searching.blink .dot{
+  background:#f3a31a;
+  box-shadow:0 0 0 4px rgba(243,163,26,.12);
+}
 .warn{display:flex;align-items:center;gap:6px;padding:10px 12px;border-radius:10px;color:#f3a31a;transition:.18s}.warn.active{background:#fff4df;box-shadow:0 0 0 3px rgba(243,163,26,.18),0 0 24px rgba(243,163,26,.28)}
 .lang{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:35px}.lang b{background:#fff4ef;color:#ef6035;padding:17px 20px;border-radius:10px}.lang-btn{border:0;background:transparent;color:#7b838c;padding:14px 16px;border-radius:10px;cursor:pointer;font-weight:600}.lang-btn.active{background:#fff4ef;color:#ef6035}.lang-btn:hover{background:#f7f8fa}
 .body{display:flex}.side{width:216px;background:#fff;min-height:calc(100vh - 76px);padding:14px 10px}
@@ -686,7 +698,7 @@ function renderTopStatuses(){
   navDrone.classList.toggle('dim',!topStatusState.droneConnected);
   statusAntenna.className='status-item '+(topStatusState.antennaConnected?'connected':'disconnected');
   statusDrone.className='status-item '+(topStatusState.droneConnected?'connected':'disconnected');
-  statusSearch.className='status-item '+(topStatusState.searchEnabled?'searching':'disconnected');
+  statusSearch.className='status-item '+(topStatusState.searchEnabled?'searching blink':'disconnected');
   aDot.className='dot '+(topStatusState.antennaConnected?'dot--green':'dot--gray');
   dDot.className='dot '+(topStatusState.droneConnected?'dot--green':'dot--gray');
   sDot.className='dot '+(topStatusState.searchEnabled?'dot--orange':'dot--gray');
