@@ -345,6 +345,23 @@ button,input,label,.menu-back{-webkit-tap-highlight-color:transparent;touch-acti
   }
 }
 </style>
+<style id="payload-weight-layout-fix">
+#weightButtons{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;
+}
+#weightButtons .mode-btn{
+    width:100%;
+    min-width:0;
+}
+@media (max-width:700px){
+    #weightButtons{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:8px;
+    }
+}
+</style>
 </head>
 
 
@@ -861,9 +878,16 @@ function calculate(armVoltage, oneWayDistance, landVoltage, configForward, confi
         }
 
 
-        let config2Forward = DRONE_CONFIG[selectedDrone][weightKeyForward][selectedMode2];
-        let config2Return = DRONE_CONFIG[selectedDrone][weightKeyReturn][selectedMode2];
+        let config2Forward = DRONE_CONFIG[selectedDrone]?.[weightKeyForward]?.[selectedMode2];
+        let config2Return = DRONE_CONFIG[selectedDrone]?.[weightKeyReturn]?.[selectedMode2];
 
+        if (!config2Forward || !config2Return) {
+            document.getElementById("res").innerHTML =
+                `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">
+                    ❌ Немає значень для 2-го БПЛА: модель / вага / режим
+                </div>`;
+            return;
+        }
 
         let combinedVPerKm2 = config2Forward.vPerKm + config2Return.vPerKm;
         let maxOneWayDistance2 = workingVoltage2 / combinedVPerKm2;
