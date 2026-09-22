@@ -230,6 +230,168 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
   #manualFreqZone .manual-freq{font-size:15px;min-height:44px}
   .manual-channel-number{font-size:12px}
 }
+
+/* ===== Drone receiver page ===== */
+.drone-head{
+  display:flex;
+  align-items:center;
+  gap:26px;
+  margin:0 0 28px;
+}
+.drone-head h1{margin:0}
+.drone-tab{
+  padding:16px 24px;
+  border:1px solid #f1d6cc;
+  border-radius:12px;
+  background:#fff1ec;
+  color:#f0643d;
+  font-size:20px;
+  font-weight:700;
+}
+.drone-top-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-bottom:24px;
+}
+.drone-info-card{margin-bottom:0;min-height:240px}
+.drone-section-title{
+  color:#a3aab3;
+  font-size:19px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  margin-bottom:22px;
+}
+.drone-version-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:18px;
+}
+.drone-mini-card{
+  border:1px solid #e4e7eb;
+  border-radius:18px;
+  padding:28px 24px;
+  min-height:132px;
+}
+.drone-mini-label{
+  color:#a3aab3;
+  font-size:15px;
+  text-transform:uppercase;
+  line-height:1.35;
+}
+.drone-mini-value{
+  margin-top:16px;
+  font-size:28px;
+  font-weight:700;
+  color:#1f252b;
+}
+.drone-model-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:26px;
+  margin-top:14px;
+}
+.drone-model-label{
+  color:#7d858d;
+  font-size:18px;
+  margin-bottom:4px;
+}
+.drone-model-value{
+  color:#15191e;
+  font-size:26px;
+  font-weight:700;
+}
+.receiver-card{
+  padding:28px 30px 30px;
+}
+.receiver-title{
+  border-left:3px solid #ff5c2a;
+  padding-left:16px;
+  color:#a3aab3;
+  font-size:19px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  margin-bottom:48px;
+}
+.receiver-top-controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
+  margin:0 24px 54px;
+}
+.receiver-field label{
+  display:block;
+  font-size:18px;
+  font-weight:700;
+  color:#707985;
+  margin-bottom:12px;
+}
+.receiver-select{
+  width:100%;
+  min-height:52px;
+  border:1px solid #dfe3e7;
+  border-radius:11px;
+  padding:10px 18px;
+  background:#fff;
+  color:#252a30;
+  font-size:20px;
+}
+.receiver-channels-title{
+  margin:0 24px 18px;
+  color:#707985;
+  font-size:18px;
+  font-weight:700;
+}
+.receiver-channels{
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:14px 12px;
+  margin:0 24px 50px;
+}
+.receiver-channel-wrap{min-width:0;text-align:center}
+.receiver-channel-input{
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  height:58px;
+  border:1px solid #dfe3e7;
+  border-radius:11px;
+  background:#fff;
+  color:#252a30;
+  text-align:center;
+  font-size:20px;
+  padding:8px;
+}
+.receiver-channel-num{
+  margin-top:6px;
+  color:#a9afb6;
+  font-size:13px;
+}
+.receiver-apply{
+  margin-left:0;
+  border:0;
+  border-radius:10px;
+  background:#ff5b2b;
+  color:#fff;
+  font-size:19px;
+  font-weight:700;
+  padding:16px 36px;
+  cursor:pointer;
+}
+.receiver-apply:hover{filter:brightness(.98);box-shadow:0 5px 16px rgba(255,91,43,.2)}
+@media(max-width:1050px){
+  .drone-top-grid{grid-template-columns:1fr}
+  .receiver-top-controls{gap:24px}
+  .receiver-channels{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .drone-head{align-items:flex-start;flex-direction:column;gap:12px}
+  .receiver-top-controls{grid-template-columns:1fr;margin-left:0;margin-right:0}
+  .receiver-channels{grid-template-columns:repeat(2,minmax(0,1fr));margin-left:0;margin-right:0}
+  .drone-version-grid,.drone-model-grid{grid-template-columns:1fr}
+}
 </style>
 
 <style id="portal-back-style">
@@ -544,15 +706,70 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
       </section>
 
       <section class="page" id="pageDrone">
-        <h1>Дрон</h1>
-        <div class="page-subtitle">Налаштування підключеного борту</div>
-        <section class="card drone-settings-card">
-          <div class="drone-settings-title">Поточний борт</div>
-          <div class="setting-row"><span>Назва борту</span><span class="setting-value" id="settingsDroneName">Не підключено</span></div>
-          <div class="setting-row"><span>Статус</span><span class="setting-value" id="settingsDroneStatus">Не підключено</span></div>
-          <div class="setting-row"><span>Прив'язка</span><span class="setting-value" id="settingsDroneBind">Не виконано</span></div>
+        <div class="drone-head">
+          <h1>Дрон</h1>
+          <div class="drone-tab active">Приймач керування</div>
+        </div>
+
+        <div class="drone-top-grid">
+          <section class="card drone-info-card">
+            <div class="drone-section-title">Версії</div>
+            <div class="drone-version-grid">
+              <div class="drone-mini-card">
+                <div class="drone-mini-label">Апаратна версія</div>
+                <div class="drone-mini-value">v2.0</div>
+              </div>
+              <div class="drone-mini-card">
+                <div class="drone-mini-label">Програмна<br>версія</div>
+                <div class="drone-mini-value">v6.1</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card drone-info-card">
+            <div class="drone-section-title">Модель дрона</div>
+            <div class="drone-model-grid">
+              <div>
+                <div class="drone-model-label">Продукт</div>
+                <div class="drone-model-value" id="droneProduct">ZOOM31</div>
+              </div>
+              <div>
+                <div class="drone-model-label">Серійний</div>
+                <div class="drone-model-value" id="droneSerial">032-680</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="card receiver-card">
+          <div class="receiver-title">Приймач керування</div>
+
+          <div class="receiver-top-controls">
+            <div class="receiver-field">
+              <label for="receiverRole">Роль</label>
+              <select class="receiver-select" id="receiverRole">
+                <option selected>Приймач</option>
+                <option>Ретранслятор</option>
+                <option>Приймач НРК</option>
+              </select>
+            </div>
+
+            <div class="receiver-field">
+              <label for="receiverFailsafe">Failsafe</label>
+              <select class="receiver-select" id="receiverFailsafe">
+                <option>Сигнал відсутній</option>
+                <option>Останні значення</option>
+                <option selected>Визначені значення</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="receiver-channels-title">Значення каналу керування</div>
+          <div class="receiver-channels" id="receiverChannels"></div>
+
+          <button class="receiver-apply" id="receiverApply" type="button">Застосувати</button>
         </section>
-      </section>
+      </section></section>
     </main>
   </div>
 </div>
@@ -859,9 +1076,12 @@ const searchToggle=document.getElementById('searchToggle');
 const searchToggleLabel=document.getElementById('searchToggleLabel');
 const droneResults=document.getElementById('droneResults');
 const connectedArea=document.getElementById('connectedArea');
-const settingsDroneName=document.getElementById('settingsDroneName');
-const settingsDroneStatus=document.getElementById('settingsDroneStatus');
-const settingsDroneBind=document.getElementById('settingsDroneBind');
+const droneProduct=document.getElementById('droneProduct');
+const droneSerial=document.getElementById('droneSerial');
+const receiverRole=document.getElementById('receiverRole');
+const receiverFailsafe=document.getElementById('receiverFailsafe');
+const receiverChannels=document.getElementById('receiverChannels');
+const receiverApply=document.getElementById('receiverApply');
 const connectHint=document.getElementById('connectHint');
 const ctlLowMin=document.getElementById('ctlLowMin');
 const ctlLowMax=document.getElementById('ctlLowMax');
@@ -875,6 +1095,38 @@ const manualFreqZone=document.getElementById('manualFreqZone');
 const manualFreqLabel=document.getElementById('manualFreqLabel');
 let connectedDrone=null;
 let droneBound=false;
+const receiverChannelDefaults=[1500,1500,1750,1500,0,0,0,0,0,0,1500,0,0,0,0,0];
+
+function renderReceiverChannels(){
+  if(!receiverChannels) return;
+  receiverChannels.innerHTML='';
+  receiverChannelDefaults.forEach((value,index)=>{
+    const wrap=document.createElement('div');
+    wrap.className='receiver-channel-wrap';
+
+    const input=document.createElement('input');
+    input.className='receiver-channel-input';
+    input.type='number';
+    input.step='1';
+    input.value=String(value);
+    input.dataset.channel=String(index+1);
+
+    const num=document.createElement('div');
+    num.className='receiver-channel-num';
+    num.textContent=String(index+1);
+
+    wrap.append(input,num);
+    receiverChannels.appendChild(wrap);
+  });
+}
+
+function updateDronePageModel(){
+  if(!droneProduct || !droneSerial) return;
+  const name=connectedDrone?.name || 'ZOOM31-032-680';
+  const parts=name.split('-');
+  droneProduct.textContent=parts[0] || 'ZOOM31';
+  droneSerial.textContent=parts.length>=3 ? parts.slice(1).join('-') : '032-680';
+}
 let bindAttemptCount=0;
 let keyGenerationAttemptCount=0;
 let searchRevealCount=0;
@@ -1089,6 +1341,7 @@ function openPage(which){
   pageLink.classList.toggle('active',which==='link');
   pageAntenna.classList.toggle('active',which==='antenna');
   pageDrone.classList.toggle('active',which==='drone');
+  if(which==='drone') updateDronePageModel();
   hideTip();
 }
 navLink.addEventListener('click',()=>openPage('link'));
@@ -1171,13 +1424,13 @@ function renderConnectedArea(){
 
     if(shouldFail){
       droneBound=false;
-      settingsDroneBind.textContent='Не виконано';
+      
       showToast("Key's are not recorded. Повторіть спробу",'error');
       return;
     }
 
     droneBound=true;
-    settingsDroneBind.textContent='Виконано';
+    
     showToast('Прив’язку дрона виконано успішно. Перезавантажте дрон, щоб застосувати зміни.');
   });
   disconnect.addEventListener('click',()=>{
@@ -1185,9 +1438,9 @@ function renderConnectedArea(){
     droneBound=false;
     topStatusState.droneConnected=false;
     connectHint.classList.remove('hidden');
-    settingsDroneName.textContent='Не підключено';
-    settingsDroneStatus.textContent='Не підключено';
-    settingsDroneBind.textContent='Не виконано';
+    
+    
+    
     renderTopStatuses();
     renderConnectedArea();
     renderDroneSearch();
@@ -1229,9 +1482,9 @@ function renderDroneSearch(){
       droneBound=false;
       topStatusState.droneConnected=true;
       connectHint.classList.add('hidden');
-      settingsDroneName.textContent=drone.name;
-      settingsDroneStatus.textContent='Підключено';
-      settingsDroneBind.textContent='Не виконано';
+      updateDronePageModel();
+      
+      
       renderTopStatuses();
       renderDroneSearch();
     });
@@ -1288,6 +1541,15 @@ if(channelWidth){
   channelWidth.addEventListener('mouseleave',hideTip);
 }
 window.addEventListener('resize',hideTip);
+
+if(receiverApply){
+  receiverApply.addEventListener('click',()=>{
+    showToast('Налаштування приймача керування успішно застосовано.');
+  });
+}
+renderReceiverChannels();
+updateDronePageModel();
+
 renderTopStatuses();
 renderDroneSearch();
 render();
