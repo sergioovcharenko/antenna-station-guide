@@ -1,1951 +1,919 @@
 <!DOCTYPE html>
-
 <html lang="uk">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Калькулятор польоту</title>
-
 <style>
-
 body{
-
-    background:#0b0d0f;
-
-    color:#e5e7eb;
-
-    font-family: Arial, sans-serif;
-
-    padding:30px;
-
-    margin: 0;
-
-    min-height: 100vh;
-
-    display: flex;
-
-    flex-direction: column;
-
+    background:#0b0d0f;
+    color:#e5e7eb;
+    font-family: Arial, sans-serif;
+    padding:30px;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-
-
-
 
 
 .box{
-
-    max-width:550px;
-
-    width: 100%;
-
-    margin:auto;
-
-    background:#15181c;
-
-    padding:25px;
-
-    border-radius:18px;
-
-    border:1px solid #2b3138;
-
-    box-sizing: border-box;
-
-    animation: fadeInSlide 0.5s ease-out;
-
-    position: relative;
-
+    max-width:550px;
+    width: 100%;
+    margin:auto;
+    background:#15181c;
+    padding:25px;
+    border-radius:18px;
+    border:1px solid #2b3138;
+    box-sizing: border-box;
+    animation: fadeInSlide 0.5s ease-out;
+    position: relative;
 }
-
-
-
 
 
 @keyframes fadeInSlide {
-
-    0% { opacity: 0; transform: translateY(-20px); }
-
-    100% { opacity: 1; transform: translateY(0); }
-
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
-
-
-
 
 
 .header h2{
-
-    text-align:center;
-
-    color:#ff6a00;
-
-    margin:0;
-
-    line-height:1.4;
-
+    text-align:center;
+    color:#ff6a00;
+    margin:0;
+    line-height:1.4;
 }
-
-
-
 
 
 .warning-box{
-
-    background:#2a0d0d;
-
-    border:1px solid #ff3b3b;
-
-    color:#ff7b7b;
-
-    padding:16px;
-
-    border-radius:14px;
-
-    margin-bottom:22px;
-
-    line-height:1.6;
-
+    background:#2a0d0d;
+    border:1px solid #ff3b3b;
+    color:#ff7b7b;
+    padding:16px;
+    border-radius:14px;
+    margin-bottom:22px;
+    line-height:1.6;
 }
-
-
-
 
 
 label{
-
-    display:flex;
-
-    align-items:center;
-
-    margin-top:15px;
-
-    margin-bottom:5px;
-
-    color:#ff7b1a;
-
-    font-weight:bold;
-
-    font-size:15px;
-
-    text-transform:uppercase;
-
+    display:flex;
+    align-items:center;
+    margin-top:15px;
+    margin-bottom:5px;
+    color:#ff7b1a;
+    font-weight:bold;
+    font-size:15px;
+    text-transform:uppercase;
 }
-
-
-
 
 
 .voltage-warning {
-
-    color: #ff4d4d;
-
-    font-size: 12px;
-
-    margin-left: 10px;
-
-    display: none;
-
-    text-transform: none;
-
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-left: 10px;
+    display: none;
+    text-transform: none;
 }
-
-
-
 
 
 input[type="text"] {
-
-    width:100%;
-
-    padding:12px;
-
-    font-size:18px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#222831;
-
-    color:white;
-
-    outline:none;
-
-    border:1px solid #323b46;
-
-    box-sizing:border-box;
-
-    transition: all 0.3s ease;
-
+    width:100%;
+    padding:12px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:#222831;
+    color:white;
+    outline:none;
+    border:1px solid #323b46;
+    box-sizing:border-box;
+    transition: all 0.3s ease;
 }
-
-
-
 
 
 input[type="text"]:focus {
-
-    border-color: #ff6a00;
-
-    box-shadow: 0 0 12px rgba(255, 106, 0, 0.4);
-
-    background: #1c2229;
-
+    border-color: #ff6a00;
+    box-shadow: 0 0 12px rgba(255, 106, 0, 0.4);
+    background: #1c2229;
 }
-
-
-
 
 
 .input-hint{
-
-    margin-top:6px;
-
-    font-size:13px;
-
-    color:#9ca3af;
-
+    margin-top:6px;
+    font-size:13px;
+    color:#9ca3af;
 }
-
-
-
 
 
 .mode-buttons{
-
-    display:flex;
-
-    gap:10px;
-
-    margin-top:10px;
-
+    display:flex;
+    gap:10px;
+    margin-top:10px;
 }
-
-
-
 
 
 .mode-btn{
-
-    flex:1;
-
-    padding:12px 10px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#222831;
-
-    color:#d1d5db;
-
-    font-size:16px;
-
-    font-weight: bold;
-
-    cursor:pointer;
-
-    border:1px solid #323b46;
-
-    transition: all 0.2s ease;
-
-    text-align: center;
-
+    flex:1;
+    padding:12px 10px;
+    border:none;
+    border-radius:12px;
+    background:#222831;
+    color:#d1d5db;
+    font-size:16px;
+    font-weight: bold;
+    cursor:pointer;
+    border:1px solid #323b46;
+    transition: all 0.2s ease;
+    text-align: center;
 }
-
-
-
 
 
 .mode-btn.active{
-
-    background:#ff6a00;
-
-    color:white;
-
-    box-shadow: 0 0 10px rgba(255, 106, 0, 0.3);
-
+    background:#ff6a00;
+    color:white;
+    box-shadow: 0 0 10px rgba(255, 106, 0, 0.3);
 }
-
-
-
 
 
 button.calc-btn{
-
-    width:100%;
-
-    padding:15px;
-
-    margin-top:22px;
-
-    background:#ff6a00;
-
-    color:white;
-
-    border:none;
-
-    border-radius:12px;
-
-    font-size:18px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition: all 0.3s ease;
-
+    width:100%;
+    padding:15px;
+    margin-top:22px;
+    background:#ff6a00;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition: all 0.3s ease;
 }
-
-
-
 
 
 button.calc-btn:hover:not(:disabled) {
-
-    transform: translateY(-2px);
-
-    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.4);
-
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.4);
 }
-
-
-
 
 
 button.calc-btn:disabled {
-
-    background: #2b3138 !important;
-
-    color: #6b7280 !important;
-
-    cursor: not-allowed;
-
-    border: 1px solid #323b46;
-
-    opacity: 0.6;
-
-    box-shadow: none;
-
-    transform: none;
-
+    background: #2b3138 !important;
+    color: #6b7280 !important;
+    cursor: not-allowed;
+    border: 1px solid #323b46;
+    opacity: 0.6;
+    box-shadow: none;
+    transform: none;
 }
-
-
-
 
 
 .share-btn{
-
-    background:#009dff !important;
-
+    background:#009dff !important;
 }
-
-
-
 
 
 .share-btn:hover:not(:disabled) {
-
-    box-shadow: 0 0 15px rgba(0, 157, 255, 0.4);
-
+    box-shadow: 0 0 15px rgba(0, 157, 255, 0.4);
 }
-
-
-
 
 
 .result{
-
-    margin-top:25px;
-
-    background:#1b2027;
-
-    padding:22px;
-
-    border-radius:14px;
-
-    border:1px solid #323b46;
-
+    margin-top:25px;
+    background:#1b2027;
+    padding:22px;
+    border-radius:14px;
+    border:1px solid #323b46;
 }
-
-
-
 
 
 .result p{
-
-    margin:12px 0;
-
-    font-size:18px;
-
+    margin:12px 0;
+    font-size:18px;
 }
-
-
-
 
 
 .error{
-
-    color:#ff4d4d;
-
-    font-size:20px;
-
-    text-align:center;
-
-    font-weight:bold;
-
+    color:#ff4d4d;
+    font-size:20px;
+    text-align:center;
+    font-weight:bold;
 }
-
-
-
 
 
 .checkbox-wrap{
-
-    margin-top:20px;
-
-    background:#1b2027;
-
-    border:1px solid #323b46;
-
-    padding:14px;
-
-    border-radius:12px;
-
+    margin-top:20px;
+    background:#1b2027;
+    border:1px solid #323b46;
+    padding:14px;
+    border-radius:12px;
 }
-
-
-
 
 
 .checkbox-wrap label{
-
-    margin:0;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    color:#00d26a;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    text-transform:none;
-
+    margin:0;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#00d26a;
+    cursor:pointer;
+    font-size:16px;
+    text-transform:none;
 }
-
-
-
 
 
 .checkbox-wrap input[type="checkbox"],
-
 .checkbox-wrap input[type="radio"]{
-
-    width:20px;
-
-    height:20px;
-
-    margin:0;
-
-    transform:scale(1.2);
-
-    accent-color:#00d26a;
-
+    width:20px;
+    height:20px;
+    margin:0;
+    transform:scale(1.2);
+    accent-color:#00d26a;
 }
-
-
-
 
 
 .relay-box{
-
-    background:#112018;
-
-    border:1px solid #1f7a4d;
-
-    padding:16px;
-
-    border-radius:14px;
-
-    margin-top:18px;
-
+    background:#112018;
+    border:1px solid #1f7a4d;
+    padding:16px;
+    border-radius:14px;
+    margin-top:18px;
 }
-
-
-
 
 
 .relay-title{
-
-    color:#00d26a;
-
-    font-size:20px;
-
-    font-weight:bold;
-
+    color:#00d26a;
+    font-size:20px;
+    font-weight:bold;
 }
-
-
-
 
 
 input[type="range"]{
-
-    width:100%;
-
-    margin-top:8px;
-
+    width:100%;
+    margin-top:8px;
 }
-
-
-
 
 
 #secondCrewBox{
-
-    display:none;
-
+    display:none;
 }
-
-
-
 
 
 .fixed-logo {
-
-    position: fixed;
-
-    top: 20px;
-
-    left: 20px;
-
-    width: 150px;
-
-    height: auto;
-
-    z-index: 1000;
-
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    height: auto;
+    z-index: 1000;
 }
-
-
-
 
 
 @media (max-width: 600px) {
-
-    .fixed-logo {
-
-        width: 100px;
-
-        top: 10px;
-
-        left: 10px;
-
-    }
-
-}
-
-
-.menu-back{
-  position:fixed;top:18px;right:18px;z-index:1200;
-  padding:10px 16px;border-radius:12px;background:#222831;
-  border:1px solid #323b46;color:#fff;text-decoration:none;
-  font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25)
-}
-.menu-back:hover{border-color:#ff6a00;color:#ff8a3d}
-@media(max-width:600px){.menu-back{top:10px;right:10px;padding:8px 12px;font-size:14px}}
-</style>
-
-
-<style id="calculator-fix">
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#0b0d0f;color:#e5e7eb;font-family:Arial,sans-serif}
-body{padding:30px;display:flex;flex-direction:column}
-.box{max-width:550px;width:100%;margin:auto;background:#15181c;padding:25px;border-radius:18px;border:1px solid #2b3138;animation:fadeInSlide .5s ease-out;position:relative}
-@keyframes fadeInSlide{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
-.header h2{text-align:center;color:#ff6a00;margin:0;line-height:1.4}
-.warning-box{background:#2a0d0d;border:1px solid #ff3b3b;color:#ff7b7b;padding:16px;border-radius:14px;margin-bottom:22px;line-height:1.6}
-label{display:flex;align-items:center;margin-top:15px;margin-bottom:5px;color:#ff7b1a;font-weight:bold;font-size:15px;text-transform:uppercase}
-.voltage-warning{color:#ff4d4d;font-size:12px;margin-left:10px;display:none;text-transform:none}
-input[type="text"]{width:100%;padding:12px;font-size:18px;border-radius:10px;background:#222831;color:white;outline:none;border:1px solid #323b46;transition:all .3s ease}
-input[type="text"]:focus{border-color:#ff6a00;box-shadow:0 0 12px rgba(255,106,0,.4);background:#1c2229}
-.input-hint{margin-top:6px;font-size:13px;color:#9ca3af}
-.mode-buttons{display:flex;gap:10px;margin-top:10px}
-.mode-btn{flex:1;padding:12px 10px;border-radius:12px;background:#222831;color:#d1d5db;font-size:16px;font-weight:bold;cursor:pointer;border:1px solid #323b46;transition:all .2s ease;text-align:center}
-.mode-btn.active{background:#ff6a00;color:white;box-shadow:0 0 10px rgba(255,106,0,.3)}
-button.calc-btn{width:100%;padding:15px;margin-top:22px;background:#ff6a00;color:white;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;transition:all .3s ease}
-button.calc-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,106,0,.4)}
-button.calc-btn:disabled{background:#2b3138!important;color:#6b7280!important;cursor:not-allowed;border:1px solid #323b46;opacity:.6;box-shadow:none;transform:none}
-.share-btn{background:#009dff!important}
-.share-btn:hover:not(:disabled){box-shadow:0 0 15px rgba(0,157,255,.4)}
-.result{margin-top:25px;background:#1b2027;padding:22px;border-radius:14px;border:1px solid #323b46}
-.result p{margin:12px 0;font-size:18px}
-.error{color:#ff4d4d;font-size:20px;text-align:center;font-weight:bold}
-.checkbox-wrap{margin-top:20px;background:#1b2027;border:1px solid #323b46;padding:14px;border-radius:12px}
-.checkbox-wrap label{margin:0;display:flex;align-items:center;gap:12px;color:#00d26a;cursor:pointer;font-size:16px;text-transform:none}
-.checkbox-wrap input[type="checkbox"],.checkbox-wrap input[type="radio"]{width:20px;height:20px;margin:0;transform:scale(1.2);accent-color:#00d26a}
-.relay-box{background:#112018;border:1px solid #1f7a4d;padding:16px;border-radius:14px;margin-top:18px}
-.relay-title{color:#00d26a;font-size:20px;font-weight:bold}
-input[type="range"]{width:100%;margin-top:8px}
-#secondCrewBox{display:none}
-.fixed-logo{position:fixed;top:20px;left:20px;width:150px;height:auto;z-index:1000}
-.menu-back{position:fixed;top:18px;right:18px;z-index:1200;padding:10px 16px;border-radius:12px;background:#222831;border:1px solid #323b46;color:#fff;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-.menu-back:hover{border-color:#ff6a00;color:#ff8a3d}
-@media(max-width:600px){
- body{padding:80px 14px 20px}
- .fixed-logo{width:90px;top:10px;left:10px}
- .menu-back{top:10px;right:10px;padding:8px 12px;font-size:14px}
- .box{padding:18px;border-radius:16px}
- .mode-buttons{gap:7px}
- .mode-btn{font-size:14px;padding:11px 6px}
-}
-</style>
-
-<style id="desktop-width-fix">
-@media (min-width: 701px){
-  body{
-    padding:30px 24px 60px;
-    align-items:center;
-  }
-  .box{
-    max-width:700px;
-    width:700px;
-    margin:0 auto;
-    padding:30px;
-    border-radius:18px;
-  }
-  .header h2{
-    font-size:28px;
-    margin:0 0 24px;
-  }
-  .warning-box{
-    padding:20px;
-    margin-bottom:26px;
-    font-size:16px;
-    line-height:1.6;
-    text-align:left;
-    word-spacing:normal;
-  }
-  label{
-    margin-top:18px;
-    margin-bottom:7px;
-    font-size:16px;
-  }
-  input[type="text"]{
-    min-height:56px;
-    padding:14px 16px;
-    font-size:20px;
-  }
-  .input-hint{
-    margin-top:8px;
-    font-size:14px;
-  }
-  .mode-buttons{
-    gap:12px;
-    margin-top:10px;
-  }
-  .mode-btn{
-    min-height:54px;
-    padding:13px 14px;
-    font-size:17px;
-    border-radius:12px;
-  }
-  .checkbox-wrap{
-    padding:16px;
-  }
-  button.calc-btn{
-    min-height:56px;
-  }
-  .result{
-    padding:24px;
-  }
+    .fixed-logo {
+        width: 100px;
+        top: 10px;
+        left: 10px;
+    }
 }
 </style>
 </head>
 
 
-
-
-
 <body>
-<a class="menu-back" href="index.html">← Меню</a>
-
-
-
 
 
 <img src="https://cdn.prod.website-files.com/68d1461ade78f2c6471c7987/68d40ec77712ef79a0f47795_logo.png" alt="Логотип" class="fixed-logo">
 
 
-
-
-
 <div class="box" id="calculatorBox">
 
 
+    <div class="header">
+        <h2>Калькулятор польоту</h2>
+    </div>
+
 
+    <div class="warning-box" style="margin-top: 20px;">
+         <b>Увага:</b>
+    цей калькулятор не несе повної відповідальності
+    за результати розрахунків або прийняті рішення.
+    Уся відповідальність за використання отриманих
+    даних, перевірку розрахунків та безпечне
+    виконання польоту покладається виключно
+    на пілота. Калькулятор має рекомендаційний
+    характер і слугує лише допоміжним інструментом.
+    </div>
+
+
+    <label>Виберіть ваш виріб</label>
+    <div class="mode-buttons">
+        <button class="mode-btn active" id="btnLinzaD" onclick="setDrone('LINZA_D')">Linza-D v3.0</button>
+        <button class="mode-btn" id="btnLinzaN" onclick="setDrone('LINZA_N')">Linza-N v3.0</button>
+        <button class="mode-btn" id="btnZoom" onclick="setDrone('ZOOM')">ZOOM v3.0</button>
+    </div>
+
+
+    <label>
+        Напруга ARM 1-го БПЛА
+        <span id="voltageWarning" class="voltage-warning">(Знижено до 24.50V)</span>
+    </label>
+    <input type="text" id="voltage" inputmode="decimal" value="24.20">
+    <div class="input-hint">Введіть напругу після 50м висоти</div>
+
+
+    <label>Дистанція, км (1 бік)</label>
+    <input type="text" id="distance" inputmode="decimal" placeholder="Наприклад: 12">
+    <div class="input-hint">Введіть дистанцію до цілі</div>
+
+
+    <label>LAND (мінімальна напруга)</label>
+    <input type="text" id="landVoltage" inputmode="decimal" value="17.4">
+     <div class="input-hint">Мінімальна напруга АКБ</div>
+
+
+    <div class="checkbox-wrap">
+        <label style="margin-bottom:12px;">
+            <input type="radio" name="batteryType" value="new" checked> Нова АКБ 100%
+        </label>
+        <label>
+            <input type="radio" name="batteryType" value="old"> Стара АКБ 80%
+        </label>
+    </div>
+
+
+    <div class="checkbox-wrap">
+        <label><input type="checkbox" id="payloadEnabled"> Політ з навантаженням</label>
+    </div>
+
+
+    <!-- ОНОВЛЕНИЙ БЛОК НАВАНТАЖЕННЯ: Тепер тут зручні кнопки -->
+    <div id="payloadBox" style="display: none; margin-top: 15px; padding: 14px; background: #1b2027; border: 1px solid #323b46; border-radius: 12px;">
+        <label style="margin-top: 0;">Маса бойової частини (БЧ)</label>
+       
+        <div class="mode-buttons" id="weightButtons" style="flex-wrap: wrap; margin-top: 10px;">
+            <!-- Кнопки будуть згенеровані через JavaScript -->
+        </div>
+        <!-- Приховане поле, що зберігає вибране значення -->
+        <input type="hidden" id="payloadWeight" value="1">
+       
+        <div style="margin-top: 15px; color: red; font-weight: bold; font-size: 1.1em; text-align: center;">
+            СЛІДКУЙТЕ ЗА СПОЖИВАННЯМ АМПЕРАЖУ! НЕ БІЛЬШЕ 80А!
+        </div>
+    </div>
+   
+    <label>Політний режим 1-го БПЛА</label>
+    <div class="mode-buttons">
+        <button class="mode-btn active" id="loiterBtn" onclick="setMode('LOITER')">LOITER</button>
+        <button class="mode-btn" id="altholdBtn" onclick="setMode('ALTHOLD')">ALTHOLD</button>
+    </div>
+
+
+    <div class="checkbox-wrap" id="hoverWrap" style="display: none;">
+        <label><input type="checkbox" id="hoverEnabled"> Враховувати зависання 1-го БПЛА</label>
+    </div>
+
+
+    <div class="checkbox-wrap" id="shuttleWrap" style="display: none;">
+        <label><input type="checkbox" id="shuttleMode"> Зміна в повітрі</label>
+    </div>
+
+
+    <div id="secondCrewBox">
+        <label>
+            Напруга ARM 2-го БПЛА
+            <span id="voltageWarning2" class="voltage-warning">(Знижено до 24.50V)</span>
+        </label>
+        <input type="text" id="voltage2" inputmode="decimal" value="24.00">
+        <div class="input-hint">Введіть напругу 2-го БПЛА після 50м висоти</div>
+
+
+        <label style="margin-top:15px;">Дистанція до цілі для 2-го екіпажу (км)</label>
+        <input type="text" id="secondCrewDistance" inputmode="decimal" placeholder="Наприклад: 12">
+        <div class="input-hint">Відстань до цілі від другого екіпажу до цілі</div>
 
 
-    <div class="header">
+        <label style="margin-top:15px;">Політний режим 2-го БПЛА</label>
+        <div class="mode-buttons">
+            <button class="mode-btn active" id="loiterBtn2" onclick="setMode2('LOITER')">LOITER</button>
+            <button class="mode-btn" id="altholdBtn2" onclick="setMode2('ALTHOLD')">ALTHOLD</button>
+        </div>
 
-        <h2>Калькулятор польоту</h2>
 
-    </div>
-
-
-
-
-
-    <div class="warning-box" style="margin-top: 20px;">
-
-         <b>Увага:</b>
-
-    цей калькулятор не несе повної відповідальності
-
-    за результати розрахунків або прийняті рішення.
-
-    Уся відповідальність за використання отриманих
-
-    даних, перевірку розрахунків та безпечне
-
-    виконання польоту покладається виключно
-
-    на пілота. Калькулятор має рекомендаційний
-
-    характер і слугує лише допоміжним інструментом.
-
-    </div>
-
-
-
-
-
-    <label>Виберіть ваш виріб</label>
-
-    <div class="mode-buttons">
-
-        <button class="mode-btn active" id="btnLinzaD" onclick="setDrone('LINZA_D')">Linza-D v3.0</button>
-
-        <button class="mode-btn" id="btnLinzaN" onclick="setDrone('LINZA_N')">Linza-N v3.0</button>
-
-        <button class="mode-btn" id="btnZoom" onclick="setDrone('ZOOM')">ZOOM v3.0</button>
-
-    </div>
-
-
-
-
-
-    <label>
-
-        Напруга ARM 1-го БПЛА
-
-        <span id="voltageWarning" class="voltage-warning">(Знижено до 24.50V)</span>
-
-    </label>
-
-    <input type="text" id="voltage" inputmode="decimal" value="24.20">
-
-    <div class="input-hint">Введіть напругу після 50м висоти</div>
-
-
-
-
-
-    <label>Дистанція, км (1 бік)</label>
-
-    <input type="text" id="distance" inputmode="decimal" placeholder="Наприклад: 12">
-
-    <div class="input-hint">Введіть дистанцію до цілі</div>
-
-
-
-
-
-    <label>LAND (мінімальна напруга)</label>
-
-    <input type="text" id="landVoltage" inputmode="decimal" value="17.4">
-
-     <div class="input-hint">Мінімальна напруга АКБ</div>
-
-
-
-
-
-    <div class="checkbox-wrap">
-
-        <label style="margin-bottom:12px;">
-
-            <input type="radio" name="batteryType" value="new" checked> Нова АКБ 100%
-
-        </label>
-
-        <label>
-
-            <input type="radio" name="batteryType" value="old"> Стара АКБ 80%
-
-        </label>
-
-    </div>
-
-
-
-
-
-    <div class="checkbox-wrap">
-
-        <label><input type="checkbox" id="payloadEnabled"> Політ з навантаженням</label>
-
-    </div>
-
-
-
-
-
-    <!-- ОНОВЛЕНИЙ БЛОК НАВАНТАЖЕННЯ: Тепер тут зручні кнопки -->
-
-    <div id="payloadBox" style="display: none; margin-top: 15px; padding: 14px; background: #1b2027; border: 1px solid #323b46; border-radius: 12px;">
-
-        <label style="margin-top: 0;">Маса бойової частини (БЧ)</label>
-
-
-
-        <div class="mode-buttons" id="weightButtons" style="flex-wrap: wrap; margin-top: 10px;">
-
-            <!-- Кнопки будуть згенеровані через JavaScript -->
-
-        </div>
-
-        <!-- Приховане поле, що зберігає вибране значення -->
-
-        <input type="hidden" id="payloadWeight" value="1">
-
-
-
-        <div style="margin-top: 15px; color: red; font-weight: bold; font-size: 1.1em; text-align: center;">
-
-            СЛІДКУЙТЕ ЗА СПОЖИВАННЯМ АМПЕРАЖУ! НЕ БІЛЬШЕ 80А!
-
-        </div>
-
-    </div>
-
-
-
-    <label>Політний режим 1-го БПЛА</label>
-
-    <div class="mode-buttons">
-
-        <button class="mode-btn active" id="loiterBtn" onclick="setMode('LOITER')">LOITER</button>
-
-        <button class="mode-btn" id="altholdBtn" onclick="setMode('ALTHOLD')">ALTHOLD</button>
-
-    </div>
-
-
-
-
-
-    <div class="checkbox-wrap" id="hoverWrap" style="display: none;">
-
-        <label><input type="checkbox" id="hoverEnabled"> Враховувати зависання 1-го БПЛА</label>
-
-    </div>
-
-
-
-
-
-    <div class="checkbox-wrap" id="shuttleWrap" style="display: none;">
-
-        <label><input type="checkbox" id="shuttleMode"> Зміна в повітрі</label>
-
-    </div>
-
-
-
-
-
-    <div id="secondCrewBox">
-
-        <label>
-
-            Напруга ARM 2-го БПЛА
-
-            <span id="voltageWarning2" class="voltage-warning">(Знижено до 24.50V)</span>
-
-        </label>
-
-        <input type="text" id="voltage2" inputmode="decimal" value="24.00">
-
-        <div class="input-hint">Введіть напругу 2-го БПЛА після 50м висоти</div>
-
-
-
-
-
-        <label style="margin-top:15px;">Дистанція до цілі для 2-го екіпажу (км)</label>
-
-        <input type="text" id="secondCrewDistance" inputmode="decimal" placeholder="Наприклад: 12">
-
-        <div class="input-hint">Відстань до цілі від другого екіпажу до цілі</div>
-
-
-
-
-
-        <label style="margin-top:15px;">Політний режим 2-го БПЛА</label>
-
-        <div class="mode-buttons">
-
-            <button class="mode-btn active" id="loiterBtn2" onclick="setMode2('LOITER')">LOITER</button>
-
-            <button class="mode-btn" id="altholdBtn2" onclick="setMode2('ALTHOLD')">ALTHOLD</button>
-
-        </div>
-
-
-
-
-
-        <div class="checkbox-wrap" style="margin-top:15px;">
-
-            <label><input type="checkbox" id="hoverEnabled2" checked> Враховувати зависання 2-го БПЛА</label>
-
-        </div>
-
-    </div>
-
+        <div class="checkbox-wrap" style="margin-top:15px;">
+            <label><input type="checkbox" id="hoverEnabled2" checked> Враховувати зависання 2-го БПЛА</label>
+        </div>
+    </div>
 <!--
-
-    ///<label>Похибка (%)</label>
-
-    ///<input type="range" id="errorRange" min="-10" max="10" value="0" step="1" oninput="updateErrorLabel()"/>
-
-    ///<div class="input-hint">Поточна похибка: <span id="errorValue">0%</span></div>
-
+    ///<label>Похибка (%)</label>
+    ///<input type="range" id="errorRange" min="-10" max="10" value="0" step="1" oninput="updateErrorLabel()"/>
+    ///<div class="input-hint">Поточна похибка: <span id="errorValue">0%</span></div>
 -->
-
-    <button class="calc-btn" id="calcBtn" onclick="calc()" disabled>Розрахувати</button>
-
-    <button class="calc-btn share-btn" id="shareBtn" onclick="shareResult()" style="display:none;">Поділитись результатами</button>
+    <button class="calc-btn" id="calcBtn" onclick="calc()" disabled>Розрахувати</button>
+    <button class="calc-btn share-btn" id="shareBtn" onclick="shareResult()" style="display:none;">Поділитись результатами</button>
 
 
-
-
-
-    <div class="result" id="res">
-
-        <p style="text-align:center;color:#9ca3af;">Введіть дані та натисніть "Розрахувати"</p>
-
-    </div>
-
-
-
+    <div class="result" id="res">
+        <p style="text-align:center;color:#9ca3af;">Введіть дані та натисніть "Розрахувати"</p>
+    </div>
 
 
 </div>
 
 
-
-
-
 <script>
-
 const DRONE_CONFIG = {
-
-    "ZOOM": {
-
-        "0": { LOITER: { vPerKm: 0.15, timePerKmSec: 88 }, ALTHOLD: { vPerKm: 0.13, timePerKmSec: 41 } },
-
-        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 92 }, ALTHOLD: { vPerKm: 0.14, timePerKmSec: 45 } },
-
-        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 98 }, ALTHOLD: { vPerKm: 0.14, timePerKmSec: 50 } },
-
-        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 105 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 54  } },
-
-        "3.5": { LOITER: { vPerKm: 0.22, timePerKmSec: 110 }, ALTHOLD: { vPerKm: 0.16, timePerKmSec: 56 } }
-
-    },
-
-    "LINZA_D": {
-
-        "0": { LOITER: { vPerKm: 0.12, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.07, timePerKmSec: 40 } },
-
-        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.08, timePerKmSec: 44 } },
-
-        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 58 }, ALTHOLD: { vPerKm: 0.10, timePerKmSec: 48 } },
-
-        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 68 }, ALTHOLD: { vPerKm: 0.11, timePerKmSec: 51 } },
-
-        "3.5": { LOITER: { vPerKm: 0.27, timePerKmSec: 65 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 57 } }
-
-    },
-
-    "LINZA_N": {
-
-        "0": { LOITER: { vPerKm: 0.12, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.07, timePerKmSec: 40 } },
-
-        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.08, timePerKmSec: 44 } },
-
-        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 58 }, ALTHOLD: { vPerKm: 0.10, timePerKmSec: 48 } },
-
-        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 68 }, ALTHOLD: { vPerKm: 0.11, timePerKmSec: 51 } },
-
-        "3.5": { LOITER: { vPerKm: 0.27, timePerKmSec: 65 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 57 } }
-
-    }
-
+    "ZOOM": {
+        "0": { LOITER: { vPerKm: 0.15, timePerKmSec: 88 }, ALTHOLD: { vPerKm: 0.13, timePerKmSec: 41 } },
+        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 92 }, ALTHOLD: { vPerKm: 0.14, timePerKmSec: 45 } },
+        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 98 }, ALTHOLD: { vPerKm: 0.14, timePerKmSec: 50 } },
+        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 105 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 54  } },
+        "3.5": { LOITER: { vPerKm: 0.22, timePerKmSec: 110 }, ALTHOLD: { vPerKm: 0.16, timePerKmSec: 56 } }
+    },
+    "LINZA_D": {
+        "0": { LOITER: { vPerKm: 0.12, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.07, timePerKmSec: 40 } },
+        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.08, timePerKmSec: 44 } },
+        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 58 }, ALTHOLD: { vPerKm: 0.10, timePerKmSec: 48 } },
+        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 68 }, ALTHOLD: { vPerKm: 0.11, timePerKmSec: 51 } },
+        "3.5": { LOITER: { vPerKm: 0.27, timePerKmSec: 65 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 57 } }
+    },
+    "LINZA_N": {
+        "0": { LOITER: { vPerKm: 0.12, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.07, timePerKmSec: 40 } },
+        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.08, timePerKmSec: 44 } },
+        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 58 }, ALTHOLD: { vPerKm: 0.10, timePerKmSec: 48 } },
+        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 68 }, ALTHOLD: { vPerKm: 0.11, timePerKmSec: 51 } },
+        "3.5": { LOITER: { vPerKm: 0.27, timePerKmSec: 65 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 57 } }
+    }
 };
 
 
-
-
-
 let selectedDrone = "LINZA_D";
-
 let selectedMode = "LOITER";
-
 let selectedMode2 = "LOITER";
-
 let errorPercent = 0;
 
 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
+    const shuttleModeCheckbox = document.getElementById("shuttleMode");
+    const payloadCheckbox = document.getElementById("payloadEnabled");
+    const payloadBox = document.getElementById("payloadBox");
+   
+    const calcBtn = document.getElementById("calcBtn");
+    const voltageInput = document.getElementById("voltage");
+    const distanceInput = document.getElementById("distance");
+    const secondCrewDistanceInput = document.getElementById("secondCrewDistance");
+    const voltageInput2 = document.getElementById("voltage2");
 
-    const shuttleModeCheckbox = document.getElementById("shuttleMode");
 
-    const payloadCheckbox = document.getElementById("payloadEnabled");
+    function validateInputs() {
+        const vVal = parseFloat(voltageInput.value.replace(',', '.')) || 0;
+        const dVal = parseFloat(distanceInput.value.replace(',', '.')) || 0;
+        const isVoltageValid = vVal > 0;
+        const isDistanceValid = dVal > 0;
 
-    const payloadBox = document.getElementById("payloadBox");
 
+        let isSecondCrewValid = true;
+        if (shuttleModeCheckbox.checked) {
+            const v2Val = parseFloat(voltageInput2.value.replace(',', '.')) || 0;
+            const d2Val = parseFloat(secondCrewDistanceInput.value.replace(',', '.')) || 0;
+            isSecondCrewValid = (v2Val > 0 && d2Val > 0);
+        }
 
 
-    const calcBtn = document.getElementById("calcBtn");
+        calcBtn.disabled = !(isVoltageValid && isDistanceValid && isSecondCrewValid);
+    }
 
-    const voltageInput = document.getElementById("voltage");
 
-    const distanceInput = document.getElementById("distance");
+    voltageInput.addEventListener("input", validateInputs);
+    distanceInput.addEventListener("input", validateInputs);
+    voltageInput2.addEventListener("input", validateInputs);
+    secondCrewDistanceInput.addEventListener("input", validateInputs);
 
-    const secondCrewDistanceInput = document.getElementById("secondCrewDistance");
 
-    const voltageInput2 = document.getElementById("voltage2");
+    payloadCheckbox.addEventListener("change", function() {
+        if (this.checked) {
+            payloadBox.style.display = "block";
+        } else {
+            payloadBox.style.display = "none";
+            document.getElementById("payloadWeight").value = "1";
+            setDrone(selectedDrone); // Оновлюємо кнопки
+        }
+    });
 
 
+    shuttleModeCheckbox.addEventListener("change", function(){
+        document.getElementById("secondCrewBox").style.display = this.checked ? "block" : "none";
+        validateInputs();
+    });
 
 
-
-    function validateInputs() {
-
-        const vVal = parseFloat(voltageInput.value.replace(',', '.')) || 0;
-
-        const dVal = parseFloat(distanceInput.value.replace(',', '.')) || 0;
-
-        const isVoltageValid = vVal > 0;
-
-        const isDistanceValid = dVal > 0;
-
-
-
-
-
-        let isSecondCrewValid = true;
-
-        if (shuttleModeCheckbox.checked) {
-
-            const v2Val = parseFloat(voltageInput2.value.replace(',', '.')) || 0;
-
-            const d2Val = parseFloat(secondCrewDistanceInput.value.replace(',', '.')) || 0;
-
-            isSecondCrewValid = (v2Val > 0 && d2Val > 0);
-
-        }
-
-
-
-
-
-        calcBtn.disabled = !(isVoltageValid && isDistanceValid && isSecondCrewValid);
-
-    }
-
-
-
-
-
-    voltageInput.addEventListener("input", validateInputs);
-
-    distanceInput.addEventListener("input", validateInputs);
-
-    voltageInput2.addEventListener("input", validateInputs);
-
-    secondCrewDistanceInput.addEventListener("input", validateInputs);
-
-
-
-
-
-    payloadCheckbox.addEventListener("change", function() {
-
-        if (this.checked) {
-
-            payloadBox.style.display = "block";
-
-        } else {
-
-            payloadBox.style.display = "none";
-
-            document.getElementById("payloadWeight").value = "1";
-
-            setDrone(selectedDrone); // Оновлюємо кнопки
-
-        }
-    });
-
-
-
-
-
-    shuttleModeCheckbox.addEventListener("change", function(){
-
-        document.getElementById("secondCrewBox").style.display = this.checked ? "block" : "none";
-
-        validateInputs();
-
-    });
-
-
-
-
-
-    validateInputs();
-
-    setDrone("LINZA_D"); // Ініціалізація кнопок при завантаженні
-
+    validateInputs();
+    setDrone("LINZA_D"); // Ініціалізація кнопок при завантаженні
 });
 
 
-
-
-
 function setDrone(model) {
-
-    selectedDrone = model;
-
-
-
-    document.getElementById("btnZoom").classList.remove("active");
-
-    document.getElementById("btnLinzaD").classList.remove("active");
-
-    document.getElementById("btnLinzaN").classList.remove("active");
-
-
-
-    if (model === "ZOOM") document.getElementById("btnZoom").classList.add("active");
-
-    else if (model === "LINZA_D") document.getElementById("btnLinzaD").classList.add("active");
-
-    else if (model === "LINZA_N") document.getElementById("btnLinzaN").classList.add("active");
-
-
-
-
-
-    let hoverWrap = document.getElementById("hoverWrap");
-
-    let shuttleWrap = document.getElementById("shuttleWrap");
-
-    let hoverCheckbox = document.getElementById("hoverEnabled");
-
-    let shuttleCheckbox = document.getElementById("shuttleMode");
-
-    let secondCrewBox = document.getElementById("secondCrewBox");
-
-
-
-
-
-    // --- ОНОВЛЕННЯ КНОПОК НАВАНТАЖЕННЯ ---
-
-    let weightContainer = document.getElementById("weightButtons");
-
-    let payloadInput = document.getElementById("payloadWeight");
-
-    let currentWeight = payloadInput.value;
-
-
-
-    weightContainer.innerHTML = ""; // Очищаємо старі кнопки
-
-
-
-    let availableWeights = (model === "ZOOM") ? ["1", "2", "3"] : ["1", "2", "3", "3.5"];
-
-
-
-    if (!availableWeights.includes(currentWeight)) {
-
-        currentWeight = "1";
-
-        payloadInput.value = "1";
-
-    }
-
-
-
-    availableWeights.forEach(weight => {
-
-        let btn = document.createElement("button");
-
-        btn.className = "mode-btn";
-
-        if (weight === currentWeight) btn.classList.add("active");
-
-        btn.textContent = weight + " кг";
-
-
-
-        // Логіка кліку по кнопці ваги
-
-        btn.onclick = function(e) {
-
-            e.preventDefault();
-
-            payloadInput.value = weight;
-
-            // Забираємо active з усіх кнопок у цьому блоці
-
-            let allBtns = weightContainer.querySelectorAll("button");
-
-            allBtns.forEach(b => b.classList.remove("active"));
-
-            // Додаємо active поточній
-
-            this.classList.add("active");
-
-        };
-
-        weightContainer.appendChild(btn);
-
-    });
-
-    // ------------------------------------
-
-
-
-
-
-    if (model === "ZOOM") {
-
-        hoverWrap.style.display = "block";
-
-        shuttleWrap.style.display = "block";
-
-        hoverCheckbox.checked = true;
-
-    } else {
-
-        hoverWrap.style.display = "none";
-
-        shuttleWrap.style.display = "none";
-
-        hoverCheckbox.checked = false;
-
-        shuttleCheckbox.checked = false;
-
-        secondCrewBox.style.display = "none";
-
-    }
-
-
-
-    document.getElementById("distance").dispatchEvent(new Event('input'));
-
+    selectedDrone = model;
+   
+    document.getElementById("btnZoom").classList.remove("active");
+    document.getElementById("btnLinzaD").classList.remove("active");
+    document.getElementById("btnLinzaN").classList.remove("active");
+   
+    if (model === "ZOOM") document.getElementById("btnZoom").classList.add("active");
+    else if (model === "LINZA_D") document.getElementById("btnLinzaD").classList.add("active");
+    else if (model === "LINZA_N") document.getElementById("btnLinzaN").classList.add("active");
+
+
+    let hoverWrap = document.getElementById("hoverWrap");
+    let shuttleWrap = document.getElementById("shuttleWrap");
+    let hoverCheckbox = document.getElementById("hoverEnabled");
+    let shuttleCheckbox = document.getElementById("shuttleMode");
+    let secondCrewBox = document.getElementById("secondCrewBox");
+
+
+    // --- ОНОВЛЕННЯ КНОПОК НАВАНТАЖЕННЯ ---
+    let weightContainer = document.getElementById("weightButtons");
+    let payloadInput = document.getElementById("payloadWeight");
+    let currentWeight = payloadInput.value;
+   
+    weightContainer.innerHTML = ""; // Очищаємо старі кнопки
+   
+    let availableWeights = (model === "ZOOM") ? ["1", "2", "3"] : ["1", "2", "3", "3.5"];
+   
+    if (!availableWeights.includes(currentWeight)) {
+        currentWeight = "1";
+        payloadInput.value = "1";
+    }
+   
+    availableWeights.forEach(weight => {
+        let btn = document.createElement("button");
+        btn.className = "mode-btn";
+        if (weight === currentWeight) btn.classList.add("active");
+        btn.textContent = weight + " кг";
+       
+        // Логіка кліку по кнопці ваги
+        btn.onclick = function(e) {
+            e.preventDefault();
+            payloadInput.value = weight;
+            // Забираємо active з усіх кнопок у цьому блоці
+            let allBtns = weightContainer.querySelectorAll("button");
+            allBtns.forEach(b => b.classList.remove("active"));
+            // Додаємо active поточній
+            this.classList.add("active");
+        };
+        weightContainer.appendChild(btn);
+    });
+    // ------------------------------------
+
+
+    if (model === "ZOOM") {
+        hoverWrap.style.display = "block";
+        shuttleWrap.style.display = "block";
+        hoverCheckbox.checked = true;
+    } else {
+        hoverWrap.style.display = "none";
+        shuttleWrap.style.display = "none";
+        hoverCheckbox.checked = false;
+        shuttleCheckbox.checked = false;
+        secondCrewBox.style.display = "none";
+    }
+   
+    document.getElementById("distance").dispatchEvent(new Event('input'));
 }
-
-
-
 
 
 function setMode(mode){
-
-    selectedMode = mode;
-
-    document.getElementById("loiterBtn").classList.remove("active");
-
-    document.getElementById("altholdBtn").classList.remove("active");
-
-    document.getElementById(mode === "LOITER" ? "loiterBtn" : "altholdBtn").classList.add("active");
-
+    selectedMode = mode;
+    document.getElementById("loiterBtn").classList.remove("active");
+    document.getElementById("altholdBtn").classList.remove("active");
+    document.getElementById(mode === "LOITER" ? "loiterBtn" : "altholdBtn").classList.add("active");
 }
-
-
-
 
 
 function setMode2(mode){
-
-    selectedMode2 = mode;
-
-    document.getElementById("loiterBtn2").classList.remove("active");
-
-    document.getElementById("altholdBtn2").classList.remove("active");
-
-    document.getElementById(mode === "LOITER" ? "loiterBtn2" : "altholdBtn2").classList.add("active");
-
+    selectedMode2 = mode;
+    document.getElementById("loiterBtn2").classList.remove("active");
+    document.getElementById("altholdBtn2").classList.remove("active");
+    document.getElementById(mode === "LOITER" ? "loiterBtn2" : "altholdBtn2").classList.add("active");
 }
-
-
-
 
 
 function updateErrorLabel(){
-
-    errorPercent = parseFloat(document.getElementById("errorRange").value) || 0;
-
-    document.getElementById("errorValue").innerText = errorPercent + "%";
-
+    errorPercent = parseFloat(document.getElementById("errorRange").value) || 0;
+    document.getElementById("errorValue").innerText = errorPercent + "%";
 }
-
-
-
 
 
 function calculateHoverTime(voltage){
-
-    return (voltage * 30) / 0.08;
-
+    return (voltage * 30) / 0.08;
 }
-
-
-
 
 
 function parseInput(id) {
-
-    let val = document.getElementById(id).value;
-
-    if (!val) return 0;
-
-    return parseFloat(val.replace(',', '.')) || 0;
-
+    let val = document.getElementById(id).value;
+    if (!val) return 0;
+    return parseFloat(val.replace(',', '.')) || 0;
 }
-
-
-
 
 
 function calc(){
+    const warningText = document.getElementById("voltageWarning");
+   
+    let oneWayDistance = parseInput("distance");
+    if(oneWayDistance <= 0) {
+        document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ Введіть коректну дистанцію польоту!</div>`;
+        return;
+    }
 
-    const warningText = document.getElementById("voltageWarning");
 
+    let armVoltage = parseInput("voltage");
+    if(armVoltage < 20){
+        document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ ОБЕРІТЬ ІНШУ АКБ ДЛЯ 1-го БПЛА (Напруга занизька)!</div>`;
+        warningText.style.display = "none";
+        return;
+    }
 
 
-    let oneWayDistance = parseInput("distance");
+    if(armVoltage > 25.2){
+        armVoltage = 24.5;
+        document.getElementById("voltage").value = "24.5";
+        warningText.style.display = "inline";
+    } else {
+        warningText.style.display = "none";
+    }
 
-    if(oneWayDistance <= 0) {
 
-        document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ Введіть коректну дистанцію польоту!</div>`;
+    if(document.getElementById("shuttleMode").checked) {
+        let secondCrewDistance = parseInput("secondCrewDistance");
+        if(secondCrewDistance <= 0) {
+            document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ Введіть дистанцію для 2-го БПЛА!</div>`;
+            return;
+        }
 
-        return;
 
-    }
+        const warningText2 = document.getElementById("voltageWarning2");
+        let armVoltage2 = parseInput("voltage2");
 
 
+        if(armVoltage2 < 20){
+            document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ ОБЕРІТЬ ІНШУ АКБ ДЛЯ 2-го БПЛА!</div>`;
+            warningText2.style.display = "none";
+            return;
+        }
 
 
+        if(armVoltage2 > 25.2){
+            document.getElementById("voltage2").value = "24.5";
+            warningText2.style.display = "inline";
+        } else {
+            warningText2.style.display = "none";
+        }
+    }
 
-    let armVoltage = parseInput("voltage");
 
-    if(armVoltage < 20){
+    let landVoltage = parseInput("landVoltage");
+    if(landVoltage === 0) landVoltage = 17.4;
 
-        document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ ОБЕРІТЬ ІНШУ АКБ ДЛЯ 1-го БПЛА (Напруга занизька)!</div>`;
 
-        warningText.style.display = "none";
+    let weightKeyForward = "0";
+    let payloadText = "Без навантаження";
+   
+    if (document.getElementById("payloadEnabled").checked) {
+        weightKeyForward = document.getElementById("payloadWeight").value; // Отримуємо з прихованого поля
+        payloadText = weightKeyForward + " кг";
+    }
 
-        return;
 
-    }
+    let weightKeyReturn = "0";
 
 
+    const configForward = DRONE_CONFIG[selectedDrone][weightKeyForward][selectedMode];
+    const configReturn = DRONE_CONFIG[selectedDrone][weightKeyReturn][selectedMode];
 
 
-
-    if(armVoltage > 25.2){
-
-        armVoltage = 24.5;
-
-        document.getElementById("voltage").value = "24.5";
-
-        warningText.style.display = "inline";
-
-    } else {
-
-        warningText.style.display = "none";
-
-    }
-
-
-
-
-
-    if(document.getElementById("shuttleMode").checked) {
-
-        let secondCrewDistance = parseInput("secondCrewDistance");
-
-        if(secondCrewDistance <= 0) {
-
-            document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ Введіть дистанцію для 2-го БПЛА!</div>`;
-
-            return;
-
-        }
-
-
-
-
-
-        const warningText2 = document.getElementById("voltageWarning2");
-
-        let armVoltage2 = parseInput("voltage2");
-
-
-
-
-
-        if(armVoltage2 < 20){
-
-            document.getElementById("res").innerHTML = `<div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ ОБЕРІТЬ ІНШУ АКБ ДЛЯ 2-го БПЛА!</div>`;
-
-            warningText2.style.display = "none";
-
-            return;
-
-        }
-
-
-
-
-
-        if(armVoltage2 > 25.2){
-
-            document.getElementById("voltage2").value = "24.5";
-
-            warningText2.style.display = "inline";
-
-        } else {
-
-            warningText2.style.display = "none";
-
-        }
-
-    }
-
-
-
-
-
-    let landVoltage = parseInput("landVoltage");
-
-    if(landVoltage === 0) landVoltage = 17.4;
-
-
-
-
-
-    let weightKeyForward = "0";
-
-    let payloadText = "Без навантаження";
-
-
-
-    if (document.getElementById("payloadEnabled").checked) {
-
-        weightKeyForward = document.getElementById("payloadWeight").value; // Отримуємо з прихованого поля
-
-        payloadText = weightKeyForward + " кг";
-
-    }
-
-
-
-
-
-    let weightKeyReturn = "0";
-
-
-
-
-
-    const configForward = DRONE_CONFIG[selectedDrone][weightKeyForward][selectedMode];
-
-    const configReturn = DRONE_CONFIG[selectedDrone][weightKeyReturn][selectedMode];
-
-
-
-
-
-    calculate(armVoltage, oneWayDistance, landVoltage, configForward, configReturn, selectedMode, selectedDrone, payloadText, weightKeyForward, weightKeyReturn);
-
+    calculate(armVoltage, oneWayDistance, landVoltage, configForward, configReturn, selectedMode, selectedDrone, payloadText, weightKeyForward, weightKeyReturn);
 }
-
-
-
 
 
 function calculate(armVoltage, oneWayDistance, landVoltage, configForward, configReturn, mode, selectedDrone, payloadText, weightKeyForward, weightKeyReturn){
+    let batteryType = document.querySelector('input[name="batteryType"]:checked').value;
+   
+    let workingVoltage = armVoltage - landVoltage;
+    if(workingVoltage < 0) workingVoltage = 0;
 
-    let batteryType = document.querySelector('input[name="batteryType"]:checked').value;
 
+    if(batteryType === "old"){
+        workingVoltage *= 0.8;
+    }
 
 
-    let workingVoltage = armVoltage - landVoltage;
+    let vPerKmForward = configForward.vPerKm;
+    let timePerKmSecForward = configForward.timePerKmSec;
 
-    if(workingVoltage < 0) workingVoltage = 0;
 
+    let vPerKmReturn = configReturn.vPerKm;
+    let timePerKmSecReturn = configReturn.timePerKmSec;
 
 
+    let combinedVPerKm = vPerKmForward + vPerKmReturn;
+   
+    let flightVoltageForward = oneWayDistance * vPerKmForward;
+    let flightVoltageReturn = oneWayDistance * vPerKmReturn;
+    let flightVoltage = flightVoltageForward + flightVoltageReturn;
 
 
-    if(batteryType === "old"){
+    let maxOneWayDistance = workingVoltage / combinedVPerKm;
+    let remainingOneWay = maxOneWayDistance - oneWayDistance;
 
-        workingVoltage *= 0.8;
 
-    }
+    if(remainingOneWay < 0){
+        document.getElementById("res").innerHTML = `
+            <div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ АКБ НЕ ВИСТАЧИТЬ</div>
+            <hr>
+            <p>🔋 Максимальна дистанція в 1 бік: <b>${maxOneWayDistance.toFixed(2)} км</b></p>
+            <p>⚠ Перевищення в 1 бік: <b>${Math.abs(remainingOneWay).toFixed(2)} км</b></p>
+        `;
+        document.getElementById("shareBtn").style.display = "block";
+        return;
+    }
 
 
+    let hoverEnabled = document.getElementById("hoverEnabled").checked;
+    let hoverVoltage = 0;
 
 
+    if(hoverEnabled){
+        hoverVoltage = workingVoltage - flightVoltage;
+        if(hoverVoltage < 0) hoverVoltage = 0;
+    }
 
-    let vPerKmForward = configForward.vPerKm;
 
-    let timePerKmSecForward = configForward.timePerKmSec;
+    let returnVoltage = armVoltage - flightVoltageForward - hoverVoltage;
+   
+    let flightTimeSecForward = oneWayDistance * timePerKmSecForward;
+    let flightTimeSecReturn = oneWayDistance * timePerKmSecReturn;
+    let hoverTimeSec = 0;
 
 
+    if(hoverEnabled) {
+        hoverTimeSec = calculateHoverTime(hoverVoltage);
+    }
 
 
+    let errorMultiplier = 1 + (errorPercent / 100);
+   
+    flightTimeSecForward *= errorMultiplier;
+    flightTimeSecReturn *= errorMultiplier;
+    hoverTimeSec *= errorMultiplier;
+   
+    let flightTimeSecTotal = flightTimeSecForward + flightTimeSecReturn;
+    let totalTimeSec = flightTimeSecTotal + hoverTimeSec;
 
-    let vPerKmReturn = configReturn.vPerKm;
 
-    let timePerKmSecReturn = configReturn.timePerKmSec;
+    let relayHTML = "";
+    if(document.getElementById("shuttleMode").checked){
+        let secondCrewDistance = parseInput("secondCrewDistance");
+        let armVoltage2 = parseInput("voltage2");
+       
+        let workingVoltage2 = armVoltage2 - landVoltage;
+        if(workingVoltage2 < 0) workingVoltage2 = 0;
+       
+        if(batteryType === "old") {
+            workingVoltage2 *= 0.8;
+        }
 
 
+        let config2Forward = DRONE_CONFIG[selectedDrone][weightKeyForward][selectedMode2];
+        let config2Return = DRONE_CONFIG[selectedDrone][weightKeyReturn][selectedMode2];
 
 
+        let combinedVPerKm2 = config2Forward.vPerKm + config2Return.vPerKm;
+        let maxOneWayDistance2 = workingVoltage2 / combinedVPerKm2;
+        let remainingOneWay2 = maxOneWayDistance2 - secondCrewDistance;
 
-    let combinedVPerKm = vPerKmForward + vPerKmReturn;
 
-
-
-    let flightVoltageForward = oneWayDistance * vPerKmForward;
-
-    let flightVoltageReturn = oneWayDistance * vPerKmReturn;
-
-    let flightVoltage = flightVoltageForward + flightVoltageReturn;
-
-
-
-
-
-    let maxOneWayDistance = workingVoltage / combinedVPerKm;
-
-    let remainingOneWay = maxOneWayDistance - oneWayDistance;
-
-
-
-
-
-    if(remainingOneWay < 0){
-
-        document.getElementById("res").innerHTML = `
-
-            <div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ АКБ НЕ ВИСТАЧИТЬ</div>
-
-            <hr>
-
-            <p>🔋 Максимальна дистанція в 1 бік: <b>${maxOneWayDistance.toFixed(2)} км</b></p>
-
-            <p>⚠ Перевищення в 1 бік: <b>${Math.abs(remainingOneWay).toFixed(2)} км</b></p>
-
-        `;
-
-        document.getElementById("shareBtn").style.display = "block";
-
-        return;
-
-    }
-
-
-
-
-
-    let hoverEnabled = document.getElementById("hoverEnabled").checked;
-
-    let hoverVoltage = 0;
-
-
-
-
-
-    if(hoverEnabled){
-
-        hoverVoltage = workingVoltage - flightVoltage;
-
-        if(hoverVoltage < 0) hoverVoltage = 0;
-
-    }
-
-
-
-
-
-    let returnVoltage = armVoltage - flightVoltageForward - hoverVoltage;
-
-
-
-    let flightTimeSecForward = oneWayDistance * timePerKmSecForward;
-
-    let flightTimeSecReturn = oneWayDistance * timePerKmSecReturn;
-
-    let hoverTimeSec = 0;
-
-
-
-
-
-    if(hoverEnabled) {
-
-        hoverTimeSec = calculateHoverTime(hoverVoltage);
-
-    }
-
-
-
-
-
-    let errorMultiplier = 1 + (errorPercent / 100);
-
-
-
-    flightTimeSecForward *= errorMultiplier;
-
-    flightTimeSecReturn *= errorMultiplier;
-
-    hoverTimeSec *= errorMultiplier;
-
-
-
-    let flightTimeSecTotal = flightTimeSecForward + flightTimeSecReturn;
-
-    let totalTimeSec = flightTimeSecTotal + hoverTimeSec;
-
-
-
-
-
-    let relayHTML = "";
-
-    if(document.getElementById("shuttleMode").checked){
-
-        let secondCrewDistance = parseInput("secondCrewDistance");
-
-        let armVoltage2 = parseInput("voltage2");
-
-
-
-        let workingVoltage2 = armVoltage2 - landVoltage;
-
-        if(workingVoltage2 < 0) workingVoltage2 = 0;
-
-
-
-        if(batteryType === "old") {
-
-            workingVoltage2 *= 0.8;
-
-        }
-
-
-
-
-
-        let config2Forward = DRONE_CONFIG[selectedDrone][weightKeyForward][selectedMode2];
-
-        let config2Return = DRONE_CONFIG[selectedDrone][weightKeyReturn][selectedMode2];
-
-
-
-
-
-        let combinedVPerKm2 = config2Forward.vPerKm + config2Return.vPerKm;
-
-        let maxOneWayDistance2 = workingVoltage2 / combinedVPerKm2;
-
-        let remainingOneWay2 = maxOneWayDistance2 - secondCrewDistance;
-
-
-
-
-
-        if(remainingOneWay2 < 0){
-
-            document.getElementById("res").innerHTML = `
-
-                <div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ АКБ 2-го БПЛА НЕ ВИСТАЧИТЬ</div>
-
-                <hr>
-
-                <p>🔋 Максимальна дистанція 2-го БПЛА (1 бік): <b>${maxOneWayDistance2.toFixed(2)} км</b></p>
-
-                <p>⚠ Перевищення 2-го БПЛА: <b>${Math.abs(remainingOneWay2).toFixed(2)} км</b></p>
-
-            `;
-
-            document.getElementById("shareBtn").style.display = "block";
-
-            return;
-
-        }
-
-
-
-
-
-        let flightVoltage2 = (secondCrewDistance * config2Forward.vPerKm) + (secondCrewDistance * config2Return.vPerKm);
-
-
-
-        let hoverEnabled2 = document.getElementById("hoverEnabled2").checked;
-
-        let hoverVoltage2 = 0;
-
-        let hoverTimeSec2 = 0;
-
-
-
-        if(hoverEnabled2){
-
-            hoverVoltage2 = workingVoltage2 - flightVoltage2;
-
-            if(hoverVoltage2 < 0) hoverVoltage2 = 0;
-
-            hoverTimeSec2 = calculateHoverTime(hoverVoltage2);
-
-            hoverTimeSec2 *= errorMultiplier;
-
-        }
-
-
-
-
-
-        let firstDroneToTargetSec = flightTimeSecForward;
-
-        let secondDroneToTargetSec = (secondCrewDistance * config2Forward.timePerKmSec) * errorMultiplier;
-
-
-
-        let firstDroneRTBSec = firstDroneToTargetSec + hoverTimeSec;
-
-        let secondLaunchSec = firstDroneRTBSec - secondDroneToTargetSec;
-
-
-
-
-
-        if(secondLaunchSec < 0) secondLaunchSec = 0;
-
-
-
-
-
-        let actualUsedVoltage = hoverEnabled ? workingVoltage : flightVoltage;
-
-        let voltagePerSec = actualUsedVoltage / totalTimeSec;
-
-        let secondLaunchVoltage = armVoltage - (voltagePerSec * secondLaunchSec);
-
-
-
-
-
-        if(secondLaunchVoltage < 0) secondLaunchVoltage = 0;
-
-
-
-
-
-        relayHTML = `
-
-            <div class="relay-box" style="animation: fadeInSlide 0.4s ease-out;">
-
-                <p class="relay-title">Зміна в повітрі (2-й БПЛА)</p>
-
-                <p>🎯 Дистанція 2-го екіпажу: <b>${secondCrewDistance.toFixed(2)} км</b></p>
-
-                <p>⚡ Напруга ARM 2-го БПЛА: <b>${armVoltage2.toFixed(2)} V</b></p>
-
-                <p>⚙️ Режим 2-го БПЛА: <b>${selectedMode2}</b></p>
-
-                <p>🕒 Зависання 2-го БПЛА: <b>${hoverEnabled2 ? formatTime(hoverTimeSec2) : "Вимкнено"}</b></p>
-
-                <p>🚁 Початок вильоту 2-го БПЛА: <b>${formatTime(secondLaunchSec)}</b></p>
-
-                <p>🔋 Voltage 1-го БПЛА при старті 2-го: <b>${secondLaunchVoltage.toFixed(2)} V</b></p>
-
-                <p>📡 Вихід 2-го БПЛА на точку: <b>${formatTime(firstDroneRTBSec)}</b></p>
-
-                <p>↩ Повернення 1-го БПЛА: <b>${formatTime(firstDroneRTBSec)}</b></p>
-
-            </div>
-
-        `;
-
-    }
-
-
-
-
-
-    let droneNameFormat = selectedDrone === "LINZA_D" ? "Linza D v3.0" : (selectedDrone === "LINZA_N" ? "Linza N v3.0" : "ZOOM v3.0");
-
-
-
-
-
-    let hoverTimeLine = selectedDrone === "ZOOM" ? `<p><b>🕒 Зависання:</b> ${hoverEnabled ? formatTime(hoverTimeSec) : "Вимкнено"}</p>` : "";
-
-    let hoverVoltageLine = selectedDrone === "ZOOM" ? `<p><b>V на зависання:</b> ${hoverEnabled ? hoverVoltage.toFixed(2) + " V" : "Вимкнено"}</p>` : "";
-
-
-
-
-
-    document.getElementById("res").innerHTML = `
-
-        <div style="animation: fadeInSlide 0.4s ease-out;">
-
-            <h3 style="color:#ff6a00;">Результати (1-й БПЛА)</h3>
-
-            <p><b>🚁 Модель БПЛА:</b> ${droneNameFormat}</p>
-
-            <p><b>💣 Навантаження:</b> ${payloadText} ${weightKeyForward !== "0" ? "(Назад - пустий)" : ""}</p>
-
-            <p><b>⚙️ Режим:</b> ${mode}</p>
-
-            <p><b>🔋 Тип АКБ:</b> ${batteryType === "new" ? "Нова АКБ 100%" : "Стара АКБ 80%"}</p>
-
-            <hr>
-
-            <p><b>Максимальна дистанція (1 бік):</b> ${maxOneWayDistance.toFixed(2)} км</p>
-
-            <p><b>🎯 Введена дистанція:</b> ${oneWayDistance.toFixed(2)} км</p>
-
-            <p><b>Запас до польоту:</b> +${remainingOneWay.toFixed(2)} км</p>
-
-            <hr>
-
-            <p><b>Повернення назад при:</b> ${returnVoltage.toFixed(2)} V</p>
-
-            <p><b>Загальний час у повітрі:</b> ${formatTime(totalTimeSec)}</p>
-
-            <p><b>Політ (туди / назад):</b> ${formatTime(flightTimeSecForward)} / ${formatTime(flightTimeSecReturn)}</p>
-
-            ${hoverTimeLine}
-
-            <hr>
-
-            <p><b>V на політ (туди / назад):</b> ${flightVoltageForward.toFixed(2)} V / ${flightVoltageReturn.toFixed(2)} V</p>
-
-            ${hoverVoltageLine}
-
-            <p><b>V робочий (всього витрачено):</b> ${workingVoltage.toFixed(2)} V</p>
-
-
-
-            ${relayHTML}
-
-        </div>
-
-    `;
-
-
-
-
-
-    document.getElementById("shareBtn").style.display = "block";
-
+        if(remainingOneWay2 < 0){
+            document.getElementById("res").innerHTML = `
+                <div class="error" style="animation: fadeInSlide 0.3s ease-out;">❌ АКБ 2-го БПЛА НЕ ВИСТАЧИТЬ</div>
+                <hr>
+                <p>🔋 Максимальна дистанція 2-го БПЛА (1 бік): <b>${maxOneWayDistance2.toFixed(2)} км</b></p>
+                <p>⚠ Перевищення 2-го БПЛА: <b>${Math.abs(remainingOneWay2).toFixed(2)} км</b></p>
+            `;
+            document.getElementById("shareBtn").style.display = "block";
+            return;
+        }
+
+
+        let flightVoltage2 = (secondCrewDistance * config2Forward.vPerKm) + (secondCrewDistance * config2Return.vPerKm);
+       
+        let hoverEnabled2 = document.getElementById("hoverEnabled2").checked;
+        let hoverVoltage2 = 0;
+        let hoverTimeSec2 = 0;
+       
+        if(hoverEnabled2){
+            hoverVoltage2 = workingVoltage2 - flightVoltage2;
+            if(hoverVoltage2 < 0) hoverVoltage2 = 0;
+            hoverTimeSec2 = calculateHoverTime(hoverVoltage2);
+            hoverTimeSec2 *= errorMultiplier;
+        }
+
+
+        let firstDroneToTargetSec = flightTimeSecForward;
+        let secondDroneToTargetSec = (secondCrewDistance * config2Forward.timePerKmSec) * errorMultiplier;
+       
+        let firstDroneRTBSec = firstDroneToTargetSec + hoverTimeSec;
+        let secondLaunchSec = firstDroneRTBSec - secondDroneToTargetSec;
+
+
+        if(secondLaunchSec < 0) secondLaunchSec = 0;
+
+
+        let actualUsedVoltage = hoverEnabled ? workingVoltage : flightVoltage;
+        let voltagePerSec = actualUsedVoltage / totalTimeSec;
+        let secondLaunchVoltage = armVoltage - (voltagePerSec * secondLaunchSec);
+
+
+        if(secondLaunchVoltage < 0) secondLaunchVoltage = 0;
+
+
+        relayHTML = `
+            <div class="relay-box" style="animation: fadeInSlide 0.4s ease-out;">
+                <p class="relay-title">Зміна в повітрі (2-й БПЛА)</p>
+                <p>🎯 Дистанція 2-го екіпажу: <b>${secondCrewDistance.toFixed(2)} км</b></p>
+                <p>⚡ Напруга ARM 2-го БПЛА: <b>${armVoltage2.toFixed(2)} V</b></p>
+                <p>⚙️ Режим 2-го БПЛА: <b>${selectedMode2}</b></p>
+                <p>🕒 Зависання 2-го БПЛА: <b>${hoverEnabled2 ? formatTime(hoverTimeSec2) : "Вимкнено"}</b></p>
+                <p>🚁 Початок вильоту 2-го БПЛА: <b>${formatTime(secondLaunchSec)}</b></p>
+                <p>🔋 Voltage 1-го БПЛА при старті 2-го: <b>${secondLaunchVoltage.toFixed(2)} V</b></p>
+                <p>📡 Вихід 2-го БПЛА на точку: <b>${formatTime(firstDroneRTBSec)}</b></p>
+                <p>↩ Повернення 1-го БПЛА: <b>${formatTime(firstDroneRTBSec)}</b></p>
+            </div>
+        `;
+    }
+
+
+    let droneNameFormat = selectedDrone === "LINZA_D" ? "Linza D v3.0" : (selectedDrone === "LINZA_N" ? "Linza N v3.0" : "ZOOM v3.0");
+
+
+    let hoverTimeLine = selectedDrone === "ZOOM" ? `<p><b>🕒 Зависання:</b> ${hoverEnabled ? formatTime(hoverTimeSec) : "Вимкнено"}</p>` : "";
+    let hoverVoltageLine = selectedDrone === "ZOOM" ? `<p><b>V на зависання:</b> ${hoverEnabled ? hoverVoltage.toFixed(2) + " V" : "Вимкнено"}</p>` : "";
+
+
+    document.getElementById("res").innerHTML = `
+        <div style="animation: fadeInSlide 0.4s ease-out;">
+            <h3 style="color:#ff6a00;">Результати (1-й БПЛА)</h3>
+            <p><b>🚁 Модель БПЛА:</b> ${droneNameFormat}</p>
+            <p><b>💣 Навантаження:</b> ${payloadText} ${weightKeyForward !== "0" ? "(Назад - пустий)" : ""}</p>
+            <p><b>⚙️ Режим:</b> ${mode}</p>
+            <p><b>🔋 Тип АКБ:</b> ${batteryType === "new" ? "Нова АКБ 100%" : "Стара АКБ 80%"}</p>
+            <hr>
+            <p><b>Максимальна дистанція (1 бік):</b> ${maxOneWayDistance.toFixed(2)} км</p>
+            <p><b>🎯 Введена дистанція:</b> ${oneWayDistance.toFixed(2)} км</p>
+            <p><b>Запас до польоту:</b> +${remainingOneWay.toFixed(2)} км</p>
+            <hr>
+            <p><b>Повернення назад при:</b> ${returnVoltage.toFixed(2)} V</p>
+            <p><b>Загальний час у повітрі:</b> ${formatTime(totalTimeSec)}</p>
+            <p><b>Політ (туди / назад):</b> ${formatTime(flightTimeSecForward)} / ${formatTime(flightTimeSecReturn)}</p>
+            ${hoverTimeLine}
+            <hr>
+            <p><b>V на політ (туди / назад):</b> ${flightVoltageForward.toFixed(2)} V / ${flightVoltageReturn.toFixed(2)} V</p>
+            ${hoverVoltageLine}
+            <p><b>V робочий (всього витрачено):</b> ${workingVoltage.toFixed(2)} V</p>
+           
+            ${relayHTML}
+        </div>
+    `;
+
+
+    document.getElementById("shareBtn").style.display = "block";
 }
-
-
-
 
 
 function shareResult(){
-
-    let resultText = document.getElementById("res").innerText;
-
-    if(navigator.share){
-
-        navigator.share({ title: "Калькулятор польоту Результат", text: resultText });
-
-    } else {
-
-        navigator.clipboard.writeText(resultText);
-
-        alert("Результат скопійовано");
-
-    }
-
+    let resultText = document.getElementById("res").innerText;
+    if(navigator.share){
+        navigator.share({ title: "Калькулятор польоту Результат", text: resultText });
+    } else {
+        navigator.clipboard.writeText(resultText);
+        alert("Результат скопійовано");
+    }
 }
-
-
-
 
 
 function formatTime(sec){
-
-    sec = Math.max(0, Math.floor(sec));
-
-    let h = Math.floor(sec / 3600);
-
-    let m = Math.floor((sec % 3600) / 60);
-
-    let s = sec % 60;
-
-    return `${pad(h)}:${pad(m)}:${pad(s)}`;
-
+    sec = Math.max(0, Math.floor(sec));
+    let h = Math.floor(sec / 3600);
+    let m = Math.floor((sec % 3600) / 60);
+    let s = sec % 60;
+    return `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
-
-
-
 
 
 function pad(n){
-
-    return n < 10 ? "0" + n : n;
-
+    return n < 10 ? "0" + n : n;
 }
-
 </script>
 
 
-
-
-
 </body>
-
 </html>
