@@ -211,6 +211,25 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
   color:#ff9a78 !important;
   font-weight:800 !important;
 }
+
+.manual-channel-cell{min-width:0}
+.manual-channel-number{
+  margin-top:6px;
+  text-align:center;
+  color:#a8adb4;
+  font-size:13px;
+  line-height:1;
+}
+#manualFreqZone .manual-freq{
+  min-height:48px;
+  font-size:18px;
+  text-align:center;
+}
+@media(max-width:700px){
+  #manualFreqZone{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:8px !important}
+  #manualFreqZone .manual-freq{font-size:15px;min-height:44px}
+  .manual-channel-number{font-size:12px}
+}
 </style>
 
 <style id="portal-back-style">
@@ -435,12 +454,8 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
             <option value="semi" selected>Напівавтоматичний</option>
             <option value="manual">Ручний</option>
           </select>
-          <div class="label">Ручні частоти (3)</div>
-          <div class="manual-freq-zone" id="manualFreqZone" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:4px">
-            <select class="select manual-freq" id="manualFreq1" style="width:100%"></select>
-            <select class="select manual-freq" id="manualFreq2" style="width:100%"></select>
-            <select class="select manual-freq" id="manualFreq3" style="width:100%"></select>
-          </div>
+          <div class="label" id="manualFreqLabel">Ручні частоти (3)</div>
+          <div class="manual-freq-zone" id="manualFreqZone" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:4px"></div>
         </section>
 
         <section class="card">
@@ -857,9 +872,7 @@ const upperRangeZone=document.getElementById('upperRangeZone');
 const saveRanges=document.getElementById('saveRanges');
 const frequencyMode=document.getElementById('frequencyMode');
 const manualFreqZone=document.getElementById('manualFreqZone');
-const manualFreq1=document.getElementById('manualFreq1');
-const manualFreq2=document.getElementById('manualFreq2');
-const manualFreq3=document.getElementById('manualFreq3');
+const manualFreqLabel=document.getElementById('manualFreqLabel');
 let connectedDrone=null;
 let droneBound=false;
 let bindAttemptCount=0;
@@ -889,7 +902,10 @@ function startSearchRevealSequence(){
   });
 }
 let savedControlRanges={lowMin:410,lowMax:485,highMin:820,highMax:895};
-const manualDefaults=[5080,5540,6005];
+const semiManualDefaults=[5080,5540,6005];
+const manualNineDefaults=[5080,5200,5320,5420,5540,5660,5780,5885,6005];
+let semiManualValues=[...semiManualDefaults];
+let manualNineValues=[...manualNineDefaults];
 const foundDrones=[
   {name:'ZOOM31-032-680',type:'Дрон'},
   {name:'ZOOM31-030-029',type:'Дрон'},
@@ -897,21 +913,79 @@ const foundDrones=[
 ];
 const chooseDroneText='<strong>Виберіть борт, який потрібно підключити.</strong>';
 
+function getSelectableVideoFrequencies(){
+  // Manual selection uses our 47 normal working channels.
+  // If the user explicitly moved one of them to the forbidden list, hide it here too.
+  return normalFrequencies.filter(f=>!excludedFrequencies.has(f));
+}
+
+function saveCurrentManualValues(){
+  if(!manualFreqZone) return;
+  const vals=[...manualFreqZone.querySelectorAll('select.manual-freq')].map(s=>Number(s.value));
+  if(frequencyMode.value==='manual'){
+    if(vals.length===9) manualNineValues=vals;
+  }else{
+    if(vals.length===3) semiManualValues=vals;
+  }
+}
+
 function refreshManualFrequencyOptions(){
-  const selects=[manualFreq1,manualFreq2,manualFreq3];
-  if(selects.some(s=>!s)) return;
-  const previous=selects.map((s,i)=>Number(s.value)||manualDefaults[i]);
-  const available=allFrequencies.filter(f=>!excludedFrequencies.has(f));
-  selects.forEach((sel,i)=>{
-    sel.innerHTML='';
+  if(!manualFreqZone || !frequencyMode) return;
+
+  const isManual=frequencyMode.value==='manual';
+  const count=isManual?9:3;
+  const values=isManual?manualNineValues:semiManualValues;
+  const defaults=isManual?manualNineDefaults:semiManualDefaults;
+  const available=getSelectableVideoFrequencies();
+
+  if(manualFreqLabel){
+    manualFreqLabel.textContent=isManual?'Частоти (9)':'Ручні частоти (3)';
+  }
+
+  manualFreqZone.innerHTML='';
+  manualFreqZone.style.gridTemplateColumns='repeat(3, minmax(0, 1fr))';
+
+  for(let i=0;i<count;i++){
+    const wrap=document.createElement('div');
+    wrap.className='manual-channel-cell';
+
+    const sel=document.createElement('select');
+    sel.className='select manual-freq';
+    sel.id='manualFreq'+(i+1);
+    sel.style.width='100%';
+
     available.forEach(freq=>{
       const opt=document.createElement('option');
-      opt.value=freq; opt.textContent=freq;
+      opt.value=String(freq);
+      opt.textContent=String(freq);
       sel.appendChild(opt);
     });
-    const desired=available.includes(previous[i])?previous[i]:(available.includes(manualDefaults[i])?manualDefaults[i]:available[0]);
+
+    let desired=Number(values[i]);
+    if(!available.includes(desired)){
+      desired=available.includes(defaults[i])?defaults[i]:available[0];
+    }
     if(desired!==undefined) sel.value=String(desired);
-  });
+
+    sel.addEventListener('change',()=>{
+      const v=Number(sel.value);
+      if(isManual) manualNineValues[i]=v;
+      else semiManualValues[i]=v;
+    });
+
+    wrap.appendChild(sel);
+
+    if(isManual){
+      const n=document.createElement('div');
+      n.className='manual-channel-number';
+      n.textContent=String(i+1);
+      wrap.appendChild(n);
+    }
+
+    manualFreqZone.appendChild(wrap);
+  }
+
+  if(currentLang==='en') translateDom(manualFreqZone);
 }
 
 function rangeValuesChanged(){
@@ -972,7 +1046,7 @@ saveRanges.addEventListener('click',()=>{
   saveRanges.classList.remove('show');
   showToast('Діапазони збережено. Для застосування на АС згенеруйте нові ключі.');
 });
-const manualFreqTip='<strong>Ці канали можна вибирати з нашого списку доступних відеоканалів.</strong>';
+const manualFreqTip='<strong>Напівавтоматичний режим:</strong> 3 ручні частоти.<br><br><strong>Ручний режим:</strong> 9 позицій. У кожній позиції можна вибрати будь-який із наших <strong>47 робочих відеоканалів</strong>.';
 manualFreqZone.addEventListener('mouseenter',e=>{manualFreqZone.classList.add('hovered');showTip(manualFreqTip,e.clientX,e.clientY)});
 manualFreqZone.addEventListener('mousemove',e=>showTip(manualFreqTip,e.clientX,e.clientY));
 manualFreqZone.addEventListener('mouseleave',()=>{manualFreqZone.classList.remove('hovered');hideTip()});
@@ -1196,8 +1270,13 @@ document.getElementById('applyTx').addEventListener('click',()=>{
   showToast('Параметри uplink успішно збережено.');
 });
 
-frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — працює за логікою антенної станції <strong>v2.0</strong>: доступно <strong>9 відеоканалів</strong> у трьох піддіапазонах <strong>5.2 / 5.5 / 5.8 GHz</strong>, між якими можна перемикатися під час польоту.',e.clientX,e.clientY));
-frequencyMode.addEventListener('mousemove',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — працює за логікою антенної станції <strong>v2.0</strong>: доступно <strong>9 відеоканалів</strong> у трьох піддіапазонах <strong>5.2 / 5.5 / 5.8 GHz</strong>, між якими можна перемикатися під час польоту.',e.clientX,e.clientY));
+frequencyMode.addEventListener('change',()=>{
+  saveCurrentManualValues();
+  refreshManualFrequencyOptions();
+});
+
+frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — доступно <strong>9 позицій відеоканалів</strong>. Для кожної з 9 позицій можна окремо вибрати будь-який із наших <strong>47 робочих каналів</strong>. Під час польоту можна перемикатися між цими 9 заздалегідь заданими частотами.',e.clientX,e.clientY));
+frequencyMode.addEventListener('mousemove',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — доступно <strong>9 позицій відеоканалів</strong>. Для кожної з 9 позицій можна окремо вибрати будь-який із наших <strong>47 робочих каналів</strong>. Під час польоту можна перемикатися між цими 9 заздалегідь заданими частотами.',e.clientX,e.clientY));
 frequencyMode.addEventListener('mouseleave',hideTip);
 
 document.addEventListener('scroll',hideTip,true);
