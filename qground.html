@@ -271,22 +271,30 @@
 
 /* ===== QGround Report panel ===== */
 .report-hotspot{cursor:pointer}
-.report-hotspot.report-reviewed{
-  background:rgba(255,55,55,.20);
-  box-shadow:
-    inset 0 0 0 2px rgba(255,45,45,.72),
-    0 0 10px rgba(255,45,45,.55),
-    0 0 18px rgba(255,45,45,.28);
-  border-radius:4px;
-}
-.report-hotspot.report-reviewed::after{
+.report-hotspot.report-icon-blue::before{
   content:"";
   position:absolute;
-  inset:-2px;
-  border-radius:5px;
-  border:1px solid rgba(255,70,70,.60);
+  inset:0;
+  background:#fff;
+  z-index:1;
   pointer-events:none;
 }
+.report-hotspot.report-icon-blue::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:78%;
+  height:78%;
+  transform:translate(-50%,-50%);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%232f80ed' d='M8 26h10l24-12v36L18 38H8z'/%3E%3Crect x='5' y='27' width='8' height='10' rx='2' fill='%232f80ed'/%3E%3Cpath d='M18 38l5 13c1 3 5 4 7 2l3-3-7-14z' fill='%232f80ed'/%3E%3C/svg%3E");
+  z-index:2;
+  pointer-events:none;
+}
+.report-hotspot.report-icon-blue .tooltip{z-index:3}
 .report-panel{
   position:absolute;
   top:calc(6.5% + 5mm);
@@ -1018,6 +1026,7 @@ const ALT_HOLD_SRC="AH.jpg";
   const altOverlay=document.getElementById('altStatusOverlay');
   const altError=document.getElementById('altHoldError');
   const reportPanel=document.getElementById('reportPanel');
+  const reportHotspot=document.getElementById('reportHotspot');
   const imageContainer=document.querySelector('.image-container');
   const qgImage=document.getElementById('qgImage');
   let altErrorTimer=null;
@@ -1034,6 +1043,7 @@ const ALT_HOLD_SRC="AH.jpg";
   }
 
   function activateLoiter(){
+    reportHotspot?.classList.remove('report-icon-blue');
     loiter?.classList.add('active');
     altHold?.classList.remove('active');
     altOverlay?.classList.remove('show');
@@ -1044,6 +1054,7 @@ const ALT_HOLD_SRC="AH.jpg";
   }
 
   function activateAltHold(){
+    reportHotspot?.classList.remove('report-icon-blue');
     loiter?.classList.remove('active');
     altHold?.classList.add('active');
     altOverlay?.classList.remove('show');
@@ -1075,6 +1086,9 @@ const ALT_HOLD_SRC="AH.jpg";
     const dismiss=()=>{
       altError.classList.remove('show');
       altError.setAttribute('aria-hidden','true');
+
+      // Після закриття повідомлення значок помилки змінюється на звичайний синій Report/рупор.
+      reportHotspot?.classList.add('report-icon-blue');
     };
     altError.addEventListener('click',dismiss);
     altError.addEventListener('keydown',e=>{
@@ -1185,7 +1199,7 @@ const ALT_HOLD_SRC="AH.jpg";
     syncReportContent();
 
     // Після перегляду журналу значок Report/рупор залишається підсвіченим.
-    hotspot.classList.add('report-reviewed');
+    
 
     const key=activeKey();
     const log=activeLog();
