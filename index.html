@@ -16,8 +16,8 @@ body{min-height:100vh;padding:30px}
 .head{text-align:center;margin-bottom:34px}
 h1{font-size:38px;margin:0 0 8px;font-weight:900}
 .subtitle{font-size:18px;color:var(--muted)}
-.layout{display:grid;grid-template-columns:360px minmax(0,1fr);gap:40px;align-items:start}
-.left{display:flex;flex-direction:column;gap:22px}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr) 320px;gap:28px;align-items:start}
+.left,.right{display:flex;flex-direction:column;gap:22px}
 .tile{
   min-height:320px;background:var(--card);border:1px solid var(--border);
   border-radius:28px;text-decoration:none;color:inherit;display:flex;flex-direction:column;
@@ -42,12 +42,13 @@ h1{font-size:38px;margin:0 0 8px;font-weight:900}
 }
 .qr-title{font-size:36px;line-height:1.15;font-weight:900;margin:0 0 22px}
 .qr-frame{display:inline-flex;padding:16px;border:1px solid var(--border);border-radius:24px;background:#fff}
-.qr-image{display:block;width:min(470px,52vw);height:auto}
+.qr-image{display:block;width:min(470px,40vw);height:auto}
 .qr-note{font-size:21px;color:var(--muted);margin-top:20px;line-height:1.35}
 .qr-url{display:inline-block;margin-top:12px;color:var(--accent);font-size:20px;font-weight:800;text-decoration:none;word-break:break-word}
 .qr-url:hover{text-decoration:underline}
-@media(max-width:1050px){
+@media(max-width:1250px){
   .layout{grid-template-columns:310px minmax(0,1fr);gap:24px}
+  .right{grid-column:1}
   .tile{min-height:285px}
   .qr-title{font-size:30px}
   .qr-image{width:min(400px,50vw)}
@@ -98,6 +99,15 @@ h1{font-size:38px;margin:0 0 8px;font-weight:900}
         sergioovcharenko.github.io/antenna-station-guide/
       </a>
     </section>
+
+    <div class="right">
+      <a class="tile" href="calculator.html">
+        <div class="icon as-icon">КП</div>
+        <div class="title">Калькулятор польоту</div>
+        <div class="desc">Розрахунок дистанції, часу польоту та запасу АКБ</div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
   </div>
 </main>
 </body>
