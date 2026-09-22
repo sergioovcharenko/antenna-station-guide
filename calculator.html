@@ -491,33 +491,11 @@ const DRONE_CONFIG = {
         "3.5": { LOITER: { vPerKm: 0.22, timePerKmSec: 110 }, ALTHOLD: { vPerKm: 0.16, timePerKmSec: 56 } }
     },
     "ZOOM_31": {
-        // Тимчасово скопійовано значення ZOOM v3.0 — їх можна відредагувати окремо.
-       "ZOOM": {
-  "0": {
-    LOITER:  { vPerKm: 0.08, timePerKmSec: 55 },
-    ALTHOLD: { vPerKm: 0.13, timePerKmSec: 41 }
-  },
-
-  "1": {
-    LOITER:  { vPerKm: 0.09, timePerKmSec: 54 },
-    ALTHOLD: { vPerKm: 0.137, timePerKmSec: 45.3 }
-  },
-
-  "2": {
-    LOITER:  { vPerKm: 0.10, timePerKmSec: 53 },
-    ALTHOLD: { vPerKm: 0.143, timePerKmSec: 49.7 }
-  },
-
-  "3": {
-    LOITER:  { vPerKm: 0.11, timePerKmSec: 52 },
-    ALTHOLD: { vPerKm: 0.15, timePerKmSec: 54 }
-  },
-
-  "4": {
-    LOITER:  { vPerKm: 0.12, timePerKmSec: 51 },
-    ALTHOLD: { vPerKm: 0.157, timePerKmSec: 58.3 }
-  }
-}
+        "0": { LOITER: { vPerKm: 0.08, timePerKmSec: 55 }, ALTHOLD: { vPerKm: 0.13, timePerKmSec: 41 } },
+        "1": { LOITER: { vPerKm: 0.09, timePerKmSec: 54 }, ALTHOLD: { vPerKm: 0.137, timePerKmSec: 45.3 } },
+        "2": { LOITER: { vPerKm: 0.10, timePerKmSec: 53 }, ALTHOLD: { vPerKm: 0.143, timePerKmSec: 49.7 } },
+        "3": { LOITER: { vPerKm: 0.11, timePerKmSec: 52 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 54 } },
+        "4": { LOITER: { vPerKm: 0.12, timePerKmSec: 51 }, ALTHOLD: { vPerKm: 0.157, timePerKmSec: 58.3 } }
     },
     "LINZA_D": {
         "0": { LOITER: { vPerKm: 0.12, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.07, timePerKmSec: 40 } },
@@ -629,7 +607,10 @@ function setDrone(model) {
    
     weightContainer.innerHTML = ""; // Очищаємо старі кнопки
    
-    let availableWeights = (model === "ZOOM" || model === "ZOOM_31") ? ["1", "2", "3"] : ["1", "2", "3", "3.5"];
+    let availableWeights =
+        model === "ZOOM" ? ["1", "2", "3"] :
+        model === "ZOOM_31" ? ["1", "2", "3", "4"] :
+        ["1", "2", "3", "3.5"];
    
     if (!availableWeights.includes(currentWeight)) {
         currentWeight = "1";
@@ -778,9 +759,15 @@ function calc(){
     let weightKeyReturn = "0";
 
 
-    const configForward = DRONE_CONFIG[selectedDrone][weightKeyForward][selectedMode];
-    const configReturn = DRONE_CONFIG[selectedDrone][weightKeyReturn][selectedMode];
+    const modelConfig = DRONE_CONFIG[selectedDrone];
+    const configForward = modelConfig?.[weightKeyForward]?.[selectedMode];
+    const configReturn = modelConfig?.[weightKeyReturn]?.[selectedMode];
 
+    if (!configForward || !configReturn) {
+        document.getElementById("res").innerHTML =
+            '<div class="error">❌ Немає значень для вибраної моделі / ваги / режиму</div>';
+        return;
+    }
 
     calculate(armVoltage, oneWayDistance, landVoltage, configForward, configReturn, selectedMode, selectedDrone, payloadText, weightKeyForward, weightKeyReturn);
 }
