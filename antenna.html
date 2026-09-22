@@ -1541,8 +1541,10 @@ function renderConnectedArea(){
   const board=document.createElement('div');
   board.className='connected-board';
 
-  // Компактний вигляд як на еталонному скріншоті.
-  board.innerHTML='<span class="board-dot"></span><span>Дрон</span>';
+  // Після підключення показуємо точну назву борта: тип + серійний номер.
+  // Наприклад: ZOOM31-030-029
+  const boardLabel = connectedDrone.name || 'Дрон';
+  board.innerHTML='<span class="board-dot"></span><span>'+boardLabel+'</span>';
 
   const bind=document.createElement('button');
   bind.className='action-bind';
@@ -1597,11 +1599,10 @@ function renderConnectedArea(){
   gear.addEventListener('mouseenter',e=>showTip('<strong>Відкрити вкладку налаштувань дрона.</strong>',e.clientX,e.clientY));
   gear.addEventListener('mouseleave',hideTip);
 
-  // Блок керування бортом завжди залишається видимим:
-  //   пошук OFF -> Дрон + Прив’язати дрон + ⚙
-  //   пошук ON  -> назва борта + Прив’язати дрон + ⚙
-  // Після успішної прив’язки елементи НЕ зникають.
-  connectedArea.append(board,bind,gear);
+  // Після підключення до борта показуємо:
+  // тип+серійний номер + Прив’язати дрон + Відключити + ⚙
+  // Елементи не зникають після прив’язки.
+  connectedArea.append(board,bind,disconnect,gear);
 }
 function renderDroneSearch(){
   searchToggle.classList.toggle('on',topStatusState.searchEnabled);
