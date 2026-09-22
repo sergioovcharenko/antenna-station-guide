@@ -1055,7 +1055,7 @@ const ALT_HOLD_SRC="AH.jpg";
 
 
 <script>
-/* ===== Report panel behavior v5 ===== */
+/* ===== Report panel behavior v6 ===== */
 (function(){
   const hotspot=document.getElementById('reportHotspot');
   const layer=document.getElementById('reportLayer');
@@ -1088,27 +1088,34 @@ const ALT_HOLD_SRC="AH.jpg";
     timers=[];
   }
 
-  function resetLines(log){
+  function hideAllLines(log){
     log.querySelectorAll('.report-line').forEach(line=>{
-      line.classList.remove('reveal-visible');
-      line.classList.add('reveal-pending');
+      line.style.display='none';
+      line.style.opacity='0';
+    });
+  }
+
+  function showLine(line){
+    line.style.display='block';
+    line.style.opacity='0';
+    requestAnimationFrame(()=>{
+      line.style.transition='opacity .22s ease';
+      line.style.opacity='1';
     });
   }
 
   function showAll(log){
     log.querySelectorAll('.report-line').forEach(line=>{
-      line.classList.remove('reveal-pending');
-      line.classList.add('reveal-visible');
+      line.style.display='block';
+      line.style.opacity='1';
+      line.style.transition='';
     });
   }
 
   function showByColor(log,red){
     log.querySelectorAll('.report-line').forEach(line=>{
       const isRed=line.classList.contains('warning') || line.classList.contains('critical');
-      if(isRed===red){
-        line.classList.remove('reveal-pending');
-        line.classList.add('reveal-visible');
-      }
+      if(isRed===red) showLine(line);
     });
   }
 
@@ -1122,18 +1129,16 @@ const ALT_HOLD_SRC="AH.jpg";
 
   function playOnce(log,key){
     clearTimers();
-    resetLines(log);
+    hideAllLines(log);
 
-    // Через 0.5 с одночасно показуємо всі чорні інформаційні повідомлення.
     timers.push(setTimeout(()=>{
       showByColor(log,false);
     },500));
 
-    // Через 5 с від відкриття одночасно показуємо всі червоні Warning/Critical.
     timers.push(setTimeout(()=>{
       showByColor(log,true);
       played[key]=true;
-      clearTimers();
+      timers=[];
     },5000));
   }
 
@@ -1143,12 +1148,18 @@ const ALT_HOLD_SRC="AH.jpg";
     const key=activeKey();
     const log=activeLog();
 
-    layer.classList.add('show');
-    layer.setAttribute('aria-hidden','false');
-
+    // Важливо: ховаємо рядки ДО того, як саме вікно стане видимим.
+    // Так немає короткого "спалаху" всіх повідомлень.
     if(played[key]){
       showAll(log);
     }else{
+      hideAllLines(log);
+    }
+
+    layer.classList.add('show');
+    layer.setAttribute('aria-hidden','false');
+
+    if(!played[key]){
       playOnce(log,key);
     }
   }
@@ -1187,10 +1198,9 @@ const ALT_HOLD_SRC="AH.jpg";
   if(clearBtn){
     clearBtn.addEventListener('click',e=>{
       e.stopPropagation();
-      const log=activeLog();
       clearTimers();
       played[activeKey()]=true;
-      log.style.visibility='hidden';
+      activeLog().style.visibility='hidden';
     });
   }
 
