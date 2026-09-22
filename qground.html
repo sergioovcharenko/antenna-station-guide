@@ -576,11 +576,15 @@
   visibility:hidden;
   opacity:0;
   position:absolute;
-  left:50%;
-  bottom:calc(100% + 10px);
-  transform:translateX(-50%);
-  width:430px;
-  max-width:42vw;
+
+  /* Підказка тепер з'являється праворуч від конкретного рядка */
+  left:calc(100% + 14px);
+  top:50%;
+  bottom:auto;
+  transform:translateY(-50%);
+
+  width:300px;
+  max-width:30vw;
   padding:13px 15px;
   border-radius:10px;
   background:#151a21;
@@ -591,7 +595,7 @@
   white-space:normal;
   box-shadow:0 12px 30px rgba(0,0,0,.35);
   pointer-events:none;
-  z-index:8;
+  z-index:20;
 }
 .report-issue:hover .report-issue-tip,
 .report-issue:focus .report-issue-tip{
@@ -599,8 +603,20 @@
   opacity:1;
 }
 .report-log.hidden{display:none}
+@media(max-width:900px){
+  .report-issue-tip{
+    width:250px;
+    max-width:30vw;
+    font-size:14px;
+    left:calc(100% + 10px);
+  }
+}
 @media(max-width:700px){
-  .report-issue-tip{width:300px;max-width:58vw;font-size:14px}
+  .report-issue-tip{
+    width:220px;
+    max-width:34vw;
+    font-size:13px;
+  }
 }
 
 /* ===== Report first-open reveal animation ===== */
