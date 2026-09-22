@@ -620,7 +620,7 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
           <div class="manual-freq-zone" id="manualFreqZone" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:4px"></div>
         </section>
 
-        <section class="card">
+        <section class="card" id="forbiddenFrequenciesCard">
           <h2>Заборонені частоти</h2>
           <div class="freqbox">
             <div class="freqgrid" id="freqGrid"></div>
@@ -1093,6 +1093,7 @@ const saveRanges=document.getElementById('saveRanges');
 const frequencyMode=document.getElementById('frequencyMode');
 const manualFreqZone=document.getElementById('manualFreqZone');
 const manualFreqLabel=document.getElementById('manualFreqLabel');
+const forbiddenFrequenciesCard=document.getElementById('forbiddenFrequenciesCard');
 let connectedDrone=null;
 let droneBound=false;
 const receiverChannelDefaults=[1500,1500,1750,1500,0,0,0,0,0,0,1500,0,0,0,0,0];
@@ -1523,9 +1524,17 @@ document.getElementById('applyTx').addEventListener('click',()=>{
   showToast('Параметри uplink успішно збережено.');
 });
 
+function syncFrequencyModeVisibility(){
+  const isManual=frequencyMode && frequencyMode.value==='manual';
+  if(forbiddenFrequenciesCard){
+    forbiddenFrequenciesCard.classList.toggle('hidden',isManual);
+  }
+}
+
 frequencyMode.addEventListener('change',()=>{
   saveCurrentManualValues();
   refreshManualFrequencyOptions();
+  syncFrequencyModeVisibility();
 });
 
 frequencyMode.addEventListener('mouseenter',e=>showTip('<strong>НАПІВАВТОМАТИЧНИЙ РЕЖИМ</strong> — система сканує доступні відеоканали, знаходить вільну частоту та автоматично перемикає відеолінк. Робочий діапазон: <strong>5080–6145 MHz</strong>. У штатному списку використовується <strong>47 робочих каналів</strong>; ненадійні частоти вище 6005 MHz вимкнені за замовчуванням. За потреби можна зафіксувати постійну частоту або вибрати <strong>3 ручні відеоканали</strong>.<br><br><strong>РУЧНИЙ РЕЖИМ</strong> — доступно <strong>9 позицій відеоканалів</strong>. Для кожної з 9 позицій можна окремо вибрати будь-який із наших <strong>47 робочих каналів</strong>. Під час польоту можна перемикатися між цими 9 заздалегідь заданими частотами.',e.clientX,e.clientY));
@@ -1549,6 +1558,7 @@ if(receiverApply){
 }
 renderReceiverChannels();
 updateDronePageModel();
+syncFrequencyModeVisibility();
 
 renderTopStatuses();
 renderDroneSearch();
