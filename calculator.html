@@ -328,6 +328,23 @@ button,input,label,.menu-back{-webkit-tap-highlight-color:transparent;touch-acti
   white-space:normal!important;
 }
 </style>
+<style id="zoom31-layout-fix">
+#btnLinzaD,#btnLinzaN,#btnZoom,#btnZoom31{min-width:0}
+@media (min-width:701px){
+  #calculatorBox > .mode-buttons:first-of-type .mode-btn{
+    flex:1 1 0;
+    font-size:15px;
+    padding-left:8px;
+    padding-right:8px;
+  }
+}
+@media (max-width:700px){
+  #calculatorBox > .mode-buttons:first-of-type .mode-btn{
+    flex:1 1 calc(50% - 4px);
+    min-width:calc(50% - 4px);
+  }
+}
+</style>
 </head>
 
 
@@ -353,6 +370,7 @@ button,input,label,.menu-back{-webkit-tap-highlight-color:transparent;touch-acti
         <button class="mode-btn active" id="btnLinzaD" onclick="setDrone('LINZA_D')">Linza-D v3.0</button>
         <button class="mode-btn" id="btnLinzaN" onclick="setDrone('LINZA_N')">Linza-N v3.0</button>
         <button class="mode-btn" id="btnZoom" onclick="setDrone('ZOOM')">ZOOM v3.0</button>
+        <button class="mode-btn" id="btnZoom31" onclick="setDrone('ZOOM_31')">ZOOM v3.1</button>
     </div>
 
 
@@ -472,6 +490,14 @@ const DRONE_CONFIG = {
         "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 105 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 54  } },
         "3.5": { LOITER: { vPerKm: 0.22, timePerKmSec: 110 }, ALTHOLD: { vPerKm: 0.16, timePerKmSec: 56 } }
     },
+    "ZOOM_31": {
+        // Тимчасово скопійовано значення ZOOM v3.0 — їх можна відредагувати окремо.
+        "0": { LOITER: { vPerKm: 0.15, timePerKmSec: 88 }, ALTHOLD: { vPerKm: 0.13, timePerKmSec: 41 } },
+        "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 92 }, ALTHOLD: { vPerKm: 0.14, timePerKmSec: 45 } },
+        "2": { LOITER: { vPerKm: 0.18, timePerKmSec: 98 }, ALTHOLD: { vPerKm: 0.14, timePerKmSec: 50 } },
+        "3": { LOITER: { vPerKm: 0.20, timePerKmSec: 105 }, ALTHOLD: { vPerKm: 0.15, timePerKmSec: 54 } },
+        "3.5": { LOITER: { vPerKm: 0.22, timePerKmSec: 110 }, ALTHOLD: { vPerKm: 0.16, timePerKmSec: 56 } }
+    },
     "LINZA_D": {
         "0": { LOITER: { vPerKm: 0.12, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.07, timePerKmSec: 40 } },
         "1": { LOITER: { vPerKm: 0.16, timePerKmSec: 57 }, ALTHOLD: { vPerKm: 0.08, timePerKmSec: 44 } },
@@ -558,10 +584,12 @@ function setDrone(model) {
     selectedDrone = model;
    
     document.getElementById("btnZoom").classList.remove("active");
+    document.getElementById("btnZoom31").classList.remove("active");
     document.getElementById("btnLinzaD").classList.remove("active");
     document.getElementById("btnLinzaN").classList.remove("active");
    
     if (model === "ZOOM") document.getElementById("btnZoom").classList.add("active");
+    else if (model === "ZOOM_31") document.getElementById("btnZoom31").classList.add("active");
     else if (model === "LINZA_D") document.getElementById("btnLinzaD").classList.add("active");
     else if (model === "LINZA_N") document.getElementById("btnLinzaN").classList.add("active");
 
@@ -580,7 +608,7 @@ function setDrone(model) {
    
     weightContainer.innerHTML = ""; // Очищаємо старі кнопки
    
-    let availableWeights = (model === "ZOOM") ? ["1", "2", "3"] : ["1", "2", "3", "3.5"];
+    let availableWeights = (model === "ZOOM" || model === "ZOOM_31") ? ["1", "2", "3"] : ["1", "2", "3", "3.5"];
    
     if (!availableWeights.includes(currentWeight)) {
         currentWeight = "1";
@@ -608,7 +636,7 @@ function setDrone(model) {
     // ------------------------------------
 
 
-    if (model === "ZOOM") {
+    if (model === "ZOOM" || model === "ZOOM_31") {
         hoverWrap.style.display = "block";
         shuttleWrap.style.display = "block";
         hoverCheckbox.checked = true;
@@ -894,11 +922,15 @@ function calculate(armVoltage, oneWayDistance, landVoltage, configForward, confi
     }
 
 
-    let droneNameFormat = selectedDrone === "LINZA_D" ? "Linza D v3.0" : (selectedDrone === "LINZA_N" ? "Linza N v3.0" : "ZOOM v3.0");
+    let droneNameFormat =
+        selectedDrone === "LINZA_D" ? "Linza D v3.0" :
+        selectedDrone === "LINZA_N" ? "Linza N v3.0" :
+        selectedDrone === "ZOOM_31" ? "ZOOM v3.1" :
+        "ZOOM v3.0";
 
 
-    let hoverTimeLine = selectedDrone === "ZOOM" ? `<p><b>🕒 Зависання:</b> ${hoverEnabled ? formatTime(hoverTimeSec) : "Вимкнено"}</p>` : "";
-    let hoverVoltageLine = selectedDrone === "ZOOM" ? `<p><b>V на зависання:</b> ${hoverEnabled ? hoverVoltage.toFixed(2) + " V" : "Вимкнено"}</p>` : "";
+    let hoverTimeLine = (selectedDrone === "ZOOM" || selectedDrone === "ZOOM_31") ? `<p><b>🕒 Зависання:</b> ${hoverEnabled ? formatTime(hoverTimeSec) : "Вимкнено"}</p>` : "";
+    let hoverVoltageLine = (selectedDrone === "ZOOM" || selectedDrone === "ZOOM_31") ? `<p><b>V на зависання:</b> ${hoverEnabled ? hoverVoltage.toFixed(2) + " V" : "Вимкнено"}</p>` : "";
 
 
     document.getElementById("res").innerHTML = `
