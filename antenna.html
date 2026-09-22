@@ -667,31 +667,6 @@ button,input,select,.nav,.tab,.freq,.switch{-webkit-tap-highlight-color:transpar
   }
 }
 </style>
-<style id="connected-board-ident-style">
-.connected-board{
-  align-items:center;
-}
-.board-ident{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:2px;
-  line-height:1.15;
-}
-.board-type{
-  font-weight:700;
-  color:#2b3037;
-}
-.board-serial{
-  font-size:12px;
-  color:#8b949e;
-  white-space:nowrap;
-}
-@media(max-width:700px){
-  .board-type{font-size:14px}
-  .board-serial{font-size:11px}
-}
-</style>
 </head>
 <body>
 <a class="global-menu-btn" href="index.html" aria-label="Повернутися до головного меню">← Меню</a>
@@ -1566,17 +1541,8 @@ function renderConnectedArea(){
   const board=document.createElement('div');
   board.className='connected-board';
 
-  // Показуємо тип борта та серійний номер.
-  // Наприклад: ZOOM31-032-680 -> тип ZOOM31, серійний 032-680.
-  const nameParts=String(connectedDrone.name || '').split('-');
-  const boardType=nameParts[0] || connectedDrone.type || 'Дрон';
-  const boardSerial=nameParts.length>1 ? nameParts.slice(1).join('-') : '';
-  board.innerHTML=
-    '<span class="board-dot"></span>' +
-    '<span class="board-ident">' +
-      '<span class="board-type">'+boardType+'</span>' +
-      (boardSerial ? '<span class="board-serial">Серійний: '+boardSerial+'</span>' : '') +
-    '</span>';
+  // Компактний вигляд як на еталонному скріншоті.
+  board.innerHTML='<span class="board-dot"></span><span>Дрон</span>';
 
   const bind=document.createElement('button');
   bind.className='action-bind';
