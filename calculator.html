@@ -565,6 +565,50 @@ input[type="range"]{
 @media(max-width:600px){.menu-back{top:10px;right:10px;padding:8px 12px;font-size:14px}}
 </style>
 
+
+<style id="calculator-fix">
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#0b0d0f;color:#e5e7eb;font-family:Arial,sans-serif}
+body{padding:30px;display:flex;flex-direction:column}
+.box{max-width:550px;width:100%;margin:auto;background:#15181c;padding:25px;border-radius:18px;border:1px solid #2b3138;animation:fadeInSlide .5s ease-out;position:relative}
+@keyframes fadeInSlide{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
+.header h2{text-align:center;color:#ff6a00;margin:0;line-height:1.4}
+.warning-box{background:#2a0d0d;border:1px solid #ff3b3b;color:#ff7b7b;padding:16px;border-radius:14px;margin-bottom:22px;line-height:1.6}
+label{display:flex;align-items:center;margin-top:15px;margin-bottom:5px;color:#ff7b1a;font-weight:bold;font-size:15px;text-transform:uppercase}
+.voltage-warning{color:#ff4d4d;font-size:12px;margin-left:10px;display:none;text-transform:none}
+input[type="text"]{width:100%;padding:12px;font-size:18px;border-radius:10px;background:#222831;color:white;outline:none;border:1px solid #323b46;transition:all .3s ease}
+input[type="text"]:focus{border-color:#ff6a00;box-shadow:0 0 12px rgba(255,106,0,.4);background:#1c2229}
+.input-hint{margin-top:6px;font-size:13px;color:#9ca3af}
+.mode-buttons{display:flex;gap:10px;margin-top:10px}
+.mode-btn{flex:1;padding:12px 10px;border-radius:12px;background:#222831;color:#d1d5db;font-size:16px;font-weight:bold;cursor:pointer;border:1px solid #323b46;transition:all .2s ease;text-align:center}
+.mode-btn.active{background:#ff6a00;color:white;box-shadow:0 0 10px rgba(255,106,0,.3)}
+button.calc-btn{width:100%;padding:15px;margin-top:22px;background:#ff6a00;color:white;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;transition:all .3s ease}
+button.calc-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,106,0,.4)}
+button.calc-btn:disabled{background:#2b3138!important;color:#6b7280!important;cursor:not-allowed;border:1px solid #323b46;opacity:.6;box-shadow:none;transform:none}
+.share-btn{background:#009dff!important}
+.share-btn:hover:not(:disabled){box-shadow:0 0 15px rgba(0,157,255,.4)}
+.result{margin-top:25px;background:#1b2027;padding:22px;border-radius:14px;border:1px solid #323b46}
+.result p{margin:12px 0;font-size:18px}
+.error{color:#ff4d4d;font-size:20px;text-align:center;font-weight:bold}
+.checkbox-wrap{margin-top:20px;background:#1b2027;border:1px solid #323b46;padding:14px;border-radius:12px}
+.checkbox-wrap label{margin:0;display:flex;align-items:center;gap:12px;color:#00d26a;cursor:pointer;font-size:16px;text-transform:none}
+.checkbox-wrap input[type="checkbox"],.checkbox-wrap input[type="radio"]{width:20px;height:20px;margin:0;transform:scale(1.2);accent-color:#00d26a}
+.relay-box{background:#112018;border:1px solid #1f7a4d;padding:16px;border-radius:14px;margin-top:18px}
+.relay-title{color:#00d26a;font-size:20px;font-weight:bold}
+input[type="range"]{width:100%;margin-top:8px}
+#secondCrewBox{display:none}
+.fixed-logo{position:fixed;top:20px;left:20px;width:150px;height:auto;z-index:1000}
+.menu-back{position:fixed;top:18px;right:18px;z-index:1200;padding:10px 16px;border-radius:12px;background:#222831;border:1px solid #323b46;color:#fff;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.menu-back:hover{border-color:#ff6a00;color:#ff8a3d}
+@media(max-width:600px){
+ body{padding:80px 14px 20px}
+ .fixed-logo{width:90px;top:10px;left:10px}
+ .menu-back{top:10px;right:10px;padding:8px 12px;font-size:14px}
+ .box{padding:18px;border-radius:16px}
+ .mode-buttons{gap:7px}
+ .mode-btn{font-size:14px;padding:11px 6px}
+}
+</style>
 </head>
 
 
