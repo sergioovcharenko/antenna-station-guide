@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -660,6 +660,63 @@
 }
 </style>
 
+<style id="responsive-20260922">
+/* ===== Responsive QGround: phone + tablet ===== */
+html{-webkit-text-size-adjust:100%;background:#2c2c2c}
+body{box-sizing:border-box}
+button,.hotspot,.home-btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (max-width:1100px){
+  body{padding:12px 10px 24px;overflow-x:hidden}
+  .home-btn{position:sticky;top:8px;left:8px;width:max-content;margin:0 0 10px;z-index:10001;min-height:44px}
+  .flight-mode-panel{
+    position:static;width:min(100%,520px);margin:0 auto 12px;
+    display:grid;grid-template-columns:1fr 1fr;gap:10px
+  }
+  .flight-mode-btn{min-height:52px;font-size:18px}
+  .image-container{width:min(100%,1200px);max-width:100%;margin:0 auto}
+  .tooltip{font-size:18px!important;max-width:min(520px,70vw);padding:12px 14px}
+  .q-menu-backdrop{padding:14px}
+  .report-panel{font-size:clamp(14px,1.8vw,20px)}
+}
+@media (max-width:700px){
+  body{padding:8px 6px 18px}
+  .home-btn{top:6px;left:6px;margin-bottom:8px;padding:9px 11px;font-size:13px}
+  .flight-mode-panel{width:100%;gap:7px;margin-bottom:8px}
+  .flight-mode-btn{min-height:46px;border-radius:10px;font-size:15px}
+  .image-container{
+    width:100%;max-width:100%;
+    overflow:visible;
+  }
+  .image-container img{width:100%;height:auto;border-radius:6px}
+  .hotspot{border-width:1px}
+  .tooltip{
+    position:fixed!important;left:10px!important;right:10px!important;bottom:12px!important;top:auto!important;
+    width:auto!important;max-width:none!important;transform:none!important;margin:0!important;
+    font-size:16px!important;line-height:1.4;padding:13px 14px;border-radius:10px;
+    z-index:30000!important
+  }
+  .tooltip::after{display:none!important}
+  .q-menu-backdrop{padding:8px}
+  .q-menu-panel{width:min(340px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow:auto}
+  .q-menu-head{grid-template-columns:1fr 74px}
+  .q-menu-title{font-size:18px}
+  .q-menu-body{padding:14px}
+  .q-menu-item{min-height:56px;font-size:16px;grid-template-columns:48px 1fr}
+  .report-panel{
+    top:7%;left:6px;right:6px;bottom:6px;padding:14px 12px 54px;border-radius:12px;
+    font-size:13px;line-height:1.38
+  }
+  .report-line{white-space:normal;overflow-wrap:anywhere}
+  .report-clear{width:44px;height:44px;right:10px;bottom:8px}
+  .althold-error{width:calc(100% - 20px);padding:10px 12px;font-size:13px}
+  .alt-status-overlay{left:13%;width:auto;max-width:42%;font-size:11px;gap:4px}
+  .alt-status-overlay .alt-warning-icon{width:20px;height:20px;flex-basis:20px}
+}
+@media (max-width:520px) and (orientation:portrait){
+  .image-container{margin-top:2px}
+  .hotspot:focus{outline:2px solid #ff5c2a;outline-offset:1px}
+}
+</style>
 </head>
 <body>
 <a class="home-btn" href="index.html">← На головну</a>
