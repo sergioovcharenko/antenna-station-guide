@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Калькулятор польоту</title>
 <style>
 body{
@@ -275,6 +275,49 @@ input[type="range"]{
         top: 10px;
         left: 10px;
     }
+}
+</style>
+<style id="responsive-20260922">
+/* ===== Responsive calculator: phone + tablet ===== */
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{overflow-x:hidden}
+button,input,label,.menu-back{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (max-width:1100px){
+  body{padding:76px 20px 40px;align-items:center}
+  .box{width:min(700px,100%);max-width:700px;margin:0 auto;padding:26px}
+  .fixed-logo{width:120px;top:14px;left:14px}
+  .menu-back{top:14px;right:14px;min-height:44px;display:flex;align-items:center}
+  .header h2{font-size:27px;margin-bottom:20px}
+  .mode-btn{min-height:52px}
+  input[type="text"]{min-height:52px}
+}
+@media (max-width:700px){
+  body{padding:66px 10px 24px}
+  .box{width:100%;padding:16px 13px;border-radius:15px}
+  .fixed-logo{width:92px;top:10px;left:10px}
+  .menu-back{top:8px;right:8px;min-height:40px;padding:8px 11px;font-size:13px}
+  .header h2{font-size:23px;margin:2px 0 16px}
+  .warning-box{margin-top:12px!important;padding:13px;font-size:13px;line-height:1.48;border-radius:12px}
+  label{font-size:13px;margin-top:14px;margin-bottom:6px;line-height:1.25}
+  .voltage-warning{font-size:11px;margin-left:6px}
+  .mode-buttons{gap:7px;flex-wrap:wrap}
+  .mode-btn{min-width:calc(33.333% - 5px);min-height:48px;padding:10px 7px;font-size:13px;line-height:1.15}
+  input[type="text"]{min-height:48px;padding:11px 12px;font-size:17px;border-radius:9px}
+  .input-hint{font-size:12px;margin-top:5px}
+  .checkbox-wrap{padding:12px;margin-top:14px}
+  .checkbox-wrap label{font-size:14px}
+  .checkbox-wrap input[type="checkbox"],.checkbox-wrap input[type="radio"]{width:18px;height:18px;transform:scale(1.08)}
+  #payloadBox{padding:12px!important}
+  button.calc-btn{min-height:50px;padding:12px;margin-top:16px;font-size:16px}
+  .result{padding:15px;margin-top:18px;border-radius:12px}
+  .result p{font-size:15px;margin:10px 0;line-height:1.45;overflow-wrap:anywhere}
+  .result h3{font-size:19px}
+  .relay-box{padding:13px}
+  .relay-title{font-size:17px}
+}
+@media (max-width:390px){
+  .mode-btn{font-size:12px;padding-left:5px;padding-right:5px}
+  .warning-box{font-size:12.5px}
 }
 </style>
 </head>
