@@ -1055,7 +1055,7 @@ const ALT_HOLD_SRC="AH.jpg";
 
 
 <script>
-/* ===== Report panel behavior v7 ===== */
+/* ===== Report panel behavior v8 ===== */
 (function(){
   const hotspot=document.getElementById('reportHotspot');
   const layer=document.getElementById('reportLayer');
@@ -1121,39 +1121,28 @@ const ALT_HOLD_SRC="AH.jpg";
     altHoldLog.style.visibility='visible';
   }
 
-  function playLinesSequential(lines,startDelay,stepDelay,onDone){
-    if(!lines.length){
-      if(onDone) onDone();
-      return;
-    }
-
-    lines.forEach((line,index)=>{
-      timers.push(setTimeout(()=>{
-        showLine(line);
-        if(index===lines.length-1 && onDone) onDone();
-      }, startDelay + (index*stepDelay)));
-    });
-  }
-
   function playOnce(log,key){
     clearTimers();
     hideAllLines(log);
 
-    const allLines=[...log.querySelectorAll('.report-line')];
-    const blackLines=allLines.filter(line =>
-      !(line.classList.contains('warning') || line.classList.contains('critical'))
-    );
-    const redLines=allLines.filter(line =>
-      line.classList.contains('warning') || line.classList.contains('critical')
-    );
+    const lines=[...log.querySelectorAll('.report-line')];
+    let elapsed=0;
 
-    // Чорні: перший через 0.5 с, потім по одному кожні 0.5 с.
-    playLinesSequential(blackLines,500,500);
+    lines.forEach((line,index)=>{
+      const isRed=line.classList.contains('warning') || line.classList.contains('critical');
 
-    // Червоні: перший через 5 с, потім по одному кожні 5 с.
-    playLinesSequential(redLines,5000,5000,()=>{
-      played[key]=true;
-      timers=[];
+      // Зберігаємо реальний порядок журналу:
+      // чорний рядок додає 0.5 с, червоний — 5 с.
+      elapsed += isRed ? 5000 : 500;
+
+      timers.push(setTimeout(()=>{
+        showLine(line);
+
+        if(index===lines.length-1){
+          played[key]=true;
+          timers=[];
+        }
+      },elapsed));
     });
   }
 
