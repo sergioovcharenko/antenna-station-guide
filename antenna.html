@@ -1599,16 +1599,11 @@ function renderConnectedArea(){
   gear.addEventListener('mouseenter',e=>showTip('<strong>Відкрити вкладку налаштувань дрона.</strong>',e.clientX,e.clientY));
   gear.addEventListener('mouseleave',hideTip);
 
-  // До прив’язки:
+  // Блок керування бортом завжди залишається видимим:
   //   пошук OFF -> Дрон + Прив’язати дрон + ⚙
   //   пошук ON  -> назва борта + Прив’язати дрон + ⚙
-  // Після успішної прив’язки:
-  //   залишається тільки Відключити.
-  if(droneBound){
-    connectedArea.append(disconnect);
-  }else{
-    connectedArea.append(board,bind,gear);
-  }
+  // Після успішної прив’язки елементи НЕ зникають.
+  connectedArea.append(board,bind,gear);
 }
 function renderDroneSearch(){
   searchToggle.classList.toggle('on',topStatusState.searchEnabled);
