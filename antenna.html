@@ -1401,57 +1401,78 @@ bindStatusHover(statusSearch,()=>topStatusState.searchEnabled?searchEnabledText:
 function renderConnectedArea(){
   connectedArea.innerHTML='';
   if(!connectedDrone) return;
+
   const board=document.createElement('div');
   board.className='connected-board';
-  board.innerHTML='<span class="board-dot"></span><span>'+connectedDrone.name+'</span>';
+
+  // Коли пошук вимкнений — компактний вигляд як на еталонному скріншоті.
+  // Коли пошук увімкнений — показуємо назву знайденого борта.
+  const boardLabel=topStatusState.searchEnabled ? connectedDrone.name : 'Дрон';
+  board.innerHTML='<span class="board-dot"></span><span>'+boardLabel+'</span>';
+
   const bind=document.createElement('button');
   bind.className='action-bind';
   bind.textContent='Прив’язати дрон';
+
   const disconnect=document.createElement('button');
   disconnect.className='action-lite';
   disconnect.textContent='Відключити';
+
   const gear=document.createElement('button');
   gear.className='gear-btn';
   gear.textContent='⚙';
+
   bind.addEventListener('click',()=>{
     bindAttemptCount++;
 
-    // Демонстраційна логіка:
-    // 1-ша спроба завжди помилка, 2-га завжди успішна,
-    // далі результат випадковий (приблизно 25% помилок).
     const shouldFail =
       bindAttemptCount===1 ||
       (bindAttemptCount>2 && Math.random()<0.25);
 
     if(shouldFail){
       droneBound=false;
-      
       showToast("Key's are not recorded. Повторіть спробу",'error');
+      renderConnectedArea();
       return;
     }
 
     droneBound=true;
-    
     showToast('Прив’язку дрона виконано успішно. Перезавантажте дрон, щоб застосувати зміни.');
+    renderConnectedArea();
   });
+
   disconnect.addEventListener('click',()=>{
     connectedDrone=null;
     droneBound=false;
     topStatusState.droneConnected=false;
     connectHint.classList.remove('hidden');
-    
-    
-    
+
     renderTopStatuses();
     renderConnectedArea();
     renderDroneSearch();
   });
+
   gear.addEventListener('click',()=>openPage('drone'));
-  [bind,disconnect,gear].forEach(btn=>{
-    btn.addEventListener('mouseenter',e=>showTip(btn===bind?'<strong>Прив’язати вибраний борт до антенної станції.</strong>':btn===disconnect?'<strong>Від’єднати поточний борт.</strong>':'<strong>Відкрити вкладку налаштувань дрона.</strong>',e.clientX,e.clientY));
-    btn.addEventListener('mouseleave',hideTip);
-  });
-  connectedArea.append(board,bind,disconnect,gear);
+
+  bind.addEventListener('mouseenter',e=>showTip('<strong>Прив’язати вибраний борт до антенної станції.</strong>',e.clientX,e.clientY));
+  bind.addEventListener('mouseleave',hideTip);
+
+  disconnect.addEventListener('mouseenter',e=>showTip('<strong>Від’єднати поточний борт.</strong>',e.clientX,e.clientY));
+  disconnect.addEventListener('mouseleave',hideTip);
+
+  gear.addEventListener('mouseenter',e=>showTip('<strong>Відкрити вкладку налаштувань дрона.</strong>',e.clientX,e.clientY));
+  gear.addEventListener('mouseleave',hideTip);
+
+  // До прив’язки:
+  //   пошук OFF -> Дрон + Прив’язати дрон + ⚙
+  //   пошук ON  -> назва борта + Прив’язати дрон + ⚙
+  // Після успішної прив’язки:
+  //   залишається тільки Відключити.
+  if(droneBound){
+    connectedArea.append(disconnect);
+  }else{
+    connectedArea.append(board,bind,gear);
+  }
 }
 function renderDroneSearch(){
   searchToggle.classList.toggle('on',topStatusState.searchEnabled);
@@ -1513,6 +1534,7 @@ function toggleSearch(){
     searchRevealCount=0;
     renderDroneSearch();
   }
+  renderConnectedArea();
 }
 searchToggle.addEventListener('click',toggleSearch);
 searchToggle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSearch();}});
