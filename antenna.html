@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -530,6 +530,80 @@ button,.connect-btn,.action-bind,.action-lite,.range-save,.gen,.apply,.tab{font-
     right:10px!important;bottom:10px!important;
     padding:10px 13px!important;font-size:13px!important;
   }
+}
+</style>
+<style id="responsive-20260922">
+/* ===== Responsive antenna station: phone + tablet ===== */
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{overflow-x:hidden}
+button,input,select,.nav,.tab,.freq,.switch{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (max-width:1100px){
+  .top{height:auto;min-height:70px;flex-wrap:wrap;align-items:center;padding:8px 12px;gap:8px}
+  .brand{width:auto;height:54px;border-right:0;padding:0 10px;font-size:17px;flex:0 0 auto}
+  .status{order:3;width:100%;padding:4px 0 2px;gap:6px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .status::-webkit-scrollbar{display:none}
+  .status-item,.warn{flex:0 0 auto;padding:8px 10px;font-size:13px}
+  .lang{margin-left:auto;padding-right:0;gap:4px}
+  .lang-btn{min-width:48px;min-height:44px;padding:10px 12px}
+  .body{display:block}
+  .side{
+    width:100%;min-height:0;padding:8px 12px;background:#fff;
+    display:flex;gap:8px;overflow-x:auto;position:sticky;top:0;z-index:80;
+    border-bottom:1px solid #e6e9ed;box-shadow:0 4px 12px rgba(0,0,0,.04);
+    scrollbar-width:none
+  }
+  .side::-webkit-scrollbar{display:none}
+  .nav{flex:0 0 auto;margin:0;padding:12px 14px;font-size:15px;white-space:nowrap;min-height:44px}
+  .content{padding:20px 20px 72px}
+  h1{font-size:29px}
+  .page-subtitle{font-size:17px;margin-bottom:28px}
+  .card{padding:22px;margin-bottom:24px}
+  .freqgrid{grid-template-columns:repeat(4,minmax(90px,1fr));max-height:none}
+  .freq{min-height:54px;height:auto;font-size:17px}
+  .version-wrap,.overview-grid{grid-template-columns:1fr 1fr}
+  .portal-back{bottom:12px!important;right:12px!important}
+}
+@media (max-width:760px){
+  .top{padding:6px 8px}
+  .brand{font-size:15px;padding:0 6px}
+  .wifi-icon{width:28px;height:28px;flex-basis:28px}
+  .brand span{max-width:150px}
+  .status{padding-top:2px}
+  .status-item,.warn{font-size:12px;padding:7px 8px}
+  .lang-btn{min-width:44px;min-height:40px;padding:8px 9px;font-size:13px}
+  .side{padding:7px 8px;gap:6px}
+  .nav{padding:10px 12px;font-size:14px}
+  .content{padding:14px 10px 78px}
+  h1{font-size:25px;margin:10px 0 8px}
+  h2{font-size:19px}
+  .page-subtitle{font-size:15px;margin-bottom:20px}
+  .card{padding:16px 14px;border-radius:14px;margin-bottom:18px}
+  .search-card{padding:18px 14px}
+  .search-toggle-row{gap:12px;flex-wrap:wrap}
+  .switch{transform:scale(.9);transform-origin:left center}
+  .switch-label{font-size:16px}
+  .drone-list{grid-template-columns:1fr!important}
+  .freqbox{padding:10px}
+  .freqgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .freq{min-height:50px;font-size:16px}
+  .tag{font-size:15px}
+  .tag span,.tag b{padding:10px 11px}
+  .range-grid,.version-wrap,.overview-grid,.drone-list{grid-template-columns:1fr!important}
+  .range-values{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto;gap:6px!important;align-items:center}
+  .range-input{width:100%!important;min-width:0!important;font-size:16px!important}
+  .select{width:100%;min-height:48px}
+  .antenna-head{gap:14px}
+  .tabs{width:100%;overflow-x:auto}
+  .tab{flex:1 0 auto;padding:12px 14px;font-size:16px;text-align:center}
+  .version-card,.overview-card{padding:18px}
+  .big-value{font-size:23px}
+  .overview-card .line{font-size:17px}
+  .setting-row{align-items:flex-start;gap:12px}
+  .gen,.apply,.connect-btn,.action-bind,.action-lite{min-height:48px;font-size:16px;padding:13px 16px}
+  .tooltip{max-width:calc(100vw - 24px);font-size:16px;padding:14px 16px}
+  .toast{left:10px;right:10px;top:10px;width:auto;padding:18px}
+  .toast .msg{font-size:17px}
+  .portal-back{right:8px!important;bottom:8px!important;padding:10px 12px!important}
 }
 </style>
 </head>
